@@ -21,9 +21,9 @@ reddit.read_only = False
 subs = []
 
 
-# fill the list with the top subreddits in descending order of subscriber numbers
-for subreddit in reddit.subreddits.popular(limit=None):
-    subs.append(subreddit.display_name)
+# # fill the list with the top subreddits in descending order of subscriber numbers
+# for subreddit in reddit.subreddits.popular(limit=None):
+#     subs.append(subreddit.display_name)
 
 # define a class that has a method in its constructor to build ordered lists of mods, comments, and commentors
 class Sub:
@@ -79,6 +79,9 @@ class Sub:
 # example code to build a sub object from the subreddit display name 'cork' i think this is county cork in ireland
 cork = Sub('cork')
 
-# you can interact with this object with its accessor methids for mods, samples, and authors
+# you can interact with this object with its accessor methids for mods, samples, and author
 
-print(cork.samples)
+cork_samples = cork.samples()
+
+for i in cork_samples:
+    print (i)
