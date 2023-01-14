@@ -1,10 +1,17 @@
 import praw
 import time
+import json
+
+keysJSON = open('keys.json')
+# the reddit at the end filters for just the reddit keys, its not mandatory, you could grab the whole file.
+# but this cuts down on the typing
+keys = json.loads(keysJSON.read())['reddit']
+keysJSON.close()
 
 reddit = praw.Reddit(
-    client_id="dQiJXQTyBUWnddTM9lVOww",
-    client_secret="yt74A2M71o98K0uH0A-MUIMdoDA6gw",
-    password="n.uscJV;4E_3XnJ",
+    client_id = keys['client_id'],
+    client_secret = keys['client_secret'],
+    password = keys['password'],
     user_agent="web:mhs-crawler-bot:v1 (by /u/mhs-crawler-bot)",
     username="mhs-crawler-bot",
 )
@@ -31,7 +38,7 @@ class Sub:
     def __init__(self, display_name):
         self.name = display_name
         self.mhs_rating = 0.0
-        self.__mods_list = []        
+        self.__mods_list = []
         self.__sub = reddit.subreddit(display_name)
         self.__posts = self.__sub.top(time_filter="week", limit=None)
         self.__sample_list = []
@@ -43,7 +50,7 @@ class Sub:
     def __build_mods(self):
         for mod in self.__sub.moderator():
             self.__mods_list.append(mod.name)
-    
+
     # constructor function to build comments list
     def __build_content(self):
         for post in self.__posts:
@@ -67,14 +74,17 @@ class Sub:
                 break
             else:
                 continue
- 
+
     # Access functions
     def mods(self):
         return self.__mods_list
+
     def samples(self):
         return self.__sample_list
+
     def authors(self):
         return self.__author_list
+
 
 # example code to build a sub object from the subreddit display name 'cork' i think this is county cork in ireland
 cork = Sub('cork')
@@ -84,4 +94,4 @@ cork = Sub('cork')
 cork_samples = cork.samples()
 
 for i in cork_samples:
-    print (i)
+    print(i)
