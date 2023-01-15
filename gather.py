@@ -53,7 +53,7 @@ class Sub:
     def __init__(self, display_name, url, apikey, praw_object, inference=True, forest_width=10, per_post_n=100, comments_n=1000, chunk_size=50):
         # public members
         self.name = display_name
-        self.mhs_rating = 0.0
+        self.mhs_score = 0.0
         # private members
         self.__mods_list = []
         self.__sub = praw_object.subreddit(display_name)
@@ -162,31 +162,38 @@ class Sub:
         self.__stats[1] = arr.max()
         mean = arr.mean()
         self.__stats[2] = mean
-        self.mhs_rating = mean
+        self.mhs_score = mean
         self.__stats[3] = arr.std()
 
     # defines a convenience function to run inference after the object already exists or if it was created with inference=False
     def infer(self):
+        """Convenience method to carry out inference on the Sub after it has been constructed with inference=False"""
         self.__get_mhs_ratings(self.__chunksize)
         self.__build_stats()
 
     # Access functions
     def mods(self):
+        """Returns the list of moderators"""
         return self.__mods_list
 
     def samples(self):
+        """Returns the list of text samples gathered"""
         return self.__sample_list
 
     def authors(self):
+        """Returns the list of comment authors"""
         return self.__author_list
     
     def stats(self):
+        """Returns an array of descriptive stats: [min, max, mean, std]"""
         return self.__stats
     
     def author_set(self):
+        """Returns a python set of authors"""
         return self.__author_set
 
     def mod_set(self):
+        """Returns a python set of moderators"""
         return self.__mod_set
 
 # example code to build a sub object from the subreddit display name 'cork' i think this is county cork in ireland
