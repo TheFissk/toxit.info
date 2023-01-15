@@ -3,6 +3,10 @@ import json
 import numpy as np
 import requests
 
+# TODO: Need a class or function for the object describing the matrix of relationships between subs, maybe a sparse matrix
+# TODO: Need a class or function to handle pushing the data into a database
+
+
 class Sub:
     """
     Class object representing a subreddit
