@@ -3,6 +3,7 @@ import json
 import numpy as np
 import requests
 
+# imports the classes.py file from this repo
 from classes import Sub
 
 # fetch the secrets from the keyfile
@@ -31,7 +32,10 @@ reddit.read_only = False
 # example code to build a sub object from the subreddit display name 'cork' i think this is county cork in ireland
 cork = Sub('cork', api_url, api_key, reddit, inference=False)
 
-# you can interact with this object with its accessor methids for mods, samples, and author
-print(cork.stats())
+# you can interact with this object with its accessor methids for sets, lists and stats
 cork.infer()
+
+# stats are [min, max, mean, std]
 print(cork.stats())
+
+
