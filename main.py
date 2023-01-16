@@ -2,6 +2,7 @@ import praw
 import json
 import numpy as np
 import requests
+import time
 
 # imports the classes.py file from this repo
 from classes import Sub
@@ -29,13 +30,30 @@ reddit = praw.Reddit(
 # set readonly mode
 reddit.read_only = False
 
-# example code to build a sub object from the subreddit display name 'cork' i think this is county cork in ireland
-cork = Sub('cork', api_url, api_key, reddit, inference=False)
+def jaccard_index(A, B):
+    """A function that returns the Jaccard similarity index for a given two sets:  
+    
+    |AnB| / |AuB|
+    
+    A -- set - required, a python set object
+    B -- set - required, a python set object
+    """
+    return len( A.intersection(B) ) / len( A.union(B) )
 
-# you can interact with this object with its accessor methids for sets, lists and stats
-cork.infer()
+# demonstrate the set similarity measure function above
 
-# stats are [min, max, mean, std]
-print(cork.stats())
-
-
+s = time.time()
+sampleA = Sub('AskReddit', api_url, api_key, reddit, inference=False, comments_n=1000, forest_width=1, per_post_n=1000)
+sampleB = Sub('AmItheAsshole', api_url, api_key, reddit, inference=False, comments_n=1000, forest_width=1, per_post_n=1000)
+e = time.time()
+print('Fetch Time: '+str(e-s))
+print ('sampleA - Author Set Cardinality: '+str(len(sampleA.author_set())))
+print ('sample A - Author List Length: '+str(len(sampleA.authors())))
+print ('sampleB - Author Set Cardinality: '+str(len(sampleB.author_set())))
+print ('sampleB - Author List Length: '+str(len(sampleB.authors())))
+s = time.time()
+setA = sampleA.author_set()
+setB = sampleB.author_set()
+print ('Jaccard Similarity: '+ str(jaccard_index(setA, setB)))
+e = time.time()
+print('Jaccard Time: '+str(e-s))
