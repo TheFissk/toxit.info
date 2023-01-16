@@ -2,6 +2,7 @@ import praw
 import json
 import numpy as np
 import requests
+from tqdm import tqdm
 
 # TODO: Need a class or function for the object describing the matrix of relationships between subs, maybe a sparse matrix
 # TODO: Need a class or function to handle pushing the data into a database
@@ -61,26 +62,25 @@ class Sub:
     # constructor function to build comments list
     def __build_content(self):
         for post in self.__posts:
+            if len(self.__sample_list) >= self.__comments_n:
+                break
             post_comment_count = 0
             post.comments.replace_more(limit=self.__forest_width)
             for comment in post.comments.list():
-                try:
-                    post_comment_count += 1
+                if post_comment_count >= self.__per_post_n:
+                    break
+               
+                try:                    
                     self.__sample_list.append(comment.body)
                 except AttributeError:
-                    self.__sample_list.append('NULL')
+                    self.__sample_list.append('empty_string')
                 try:
                     self.__author_list.append(comment.author.name)
                 except AttributeError:
-                    self.__author_list.append('NULL')
-                if len(self.__sample_list) >= self.__comments_n or post_comment_count >= self.__per_post_n:
-                    break
-                else:
-                    continue
-            if len(self.__sample_list) >= self.__comments_n:
-                break
-            else:
-                continue
+                    self.__author_list.append('empty_string')
+ 
+                post_comment_count += 1
+
      
     # defines a funtion to clean text in the strings from weird chars
     def __sanitize(self):
@@ -113,7 +113,7 @@ class Sub:
 
     # defines a function that carries out inference on chunks of N samples
     def __get_mhs_ratings(self, N):
-        for chunk in self.__chunker(self.__sample_list, N):
+        for chunk in tqdm (self.__chunker(self.__sample_list, N), total= len(self.__sample_list)/self.__chunksize, desc='Inference: '+ self.name):
             while True:
                 try:
                     response = self.__request_inferance(chunk, self.__apikey, self.__url)
@@ -122,6 +122,7 @@ class Sub:
                     # could add a logging call here for the error 'e'
                     continue
                 break
+            pass
         return list(self.__flatten(self.__results_list))
 
     # defines a function to build unordered sets from author and mod list members
@@ -153,6 +154,10 @@ class Sub:
     def samples(self):
         """Returns the list of text samples gathered"""
         return self.__sample_list
+    
+    def results(self):
+        """Returns the list of inference results"""
+        return self.__results_list
 
     def authors(self):
         """Returns the list of comment authors"""
