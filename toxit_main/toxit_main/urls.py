@@ -17,6 +17,7 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
+    # path('', include('toxit.urls')), # no url redirect instead of /toxit/
     path('toxit/', include('toxit.urls')),
     path('admin/', admin.site.urls),
 ]
