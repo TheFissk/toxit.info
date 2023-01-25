@@ -40,13 +40,32 @@ def jaccard_index(A, B):
     """
     return len( A.intersection(B) ) / len( A.union(B) )
 
+
+# TODO: Actually build one function per class that tests the class 
+
+
 # demonstrate the set similarity measure function above
+A = time.time()
 
 s = time.time()
-sampleA = Sub('AskReddit', api_url, api_key, reddit, inference=False, comments_n=1000, forest_width=1, per_post_n=1000, chunk_size=100)
-sampleB = Sub('AmItheAsshole', api_url, api_key, reddit, inference=False, comments_n=1000, forest_width=1, per_post_n=1000, chunk_size=100)
+sampleA = Sub('AskReddit', api_url, api_key, reddit, scope='week', 
+                                                min_words=20, 
+                                                inference=False, 
+                                                forest_width=10, 
+                                                per_post_n=100, 
+                                                comments_n=500, 
+                                                chunk_size=100
+                                            )
+sampleB = Sub('ukraine', api_url, api_key, reddit, scope='week', 
+                                                min_words=20, 
+                                                inference=False, 
+                                                forest_width=10, 
+                                                per_post_n=100, 
+                                                comments_n=500, 
+                                                chunk_size=100
+                                            )
 e = time.time()
-print('Fetch Time: '+str(e-s))
+print('Fetch Time: '+str((e-s)/2))
 print ('sampleA - Author Set Cardinality: '+str(len(sampleA.author_set())))
 print ('sampleA - Author List Length: '+str(len(sampleA.authors())))
 print ('sampleB - Author Set Cardinality: '+str(len(sampleB.author_set())))
@@ -57,7 +76,7 @@ s = time.time()
 sampleA.infer()
 sampleB.infer()
 e = time.time()
-print('Inference Time: '+str(e-s))
+print('Inference Time: '+str((e-s)/2))
 print('sampleA - Results List Length: '+str(len(sampleA.results())))
 print ('sampleB - Results List Length: '+str(len(sampleB.results())))
 s = time.time()
@@ -70,3 +89,7 @@ print('Sample A Collection Date :'+ str(sampleA.date()))
 print(sampleA.stats)
 print('Sample B Collection Date :'+ str(sampleB.date()))
 print(sampleB.stats)
+
+B = time.time()
+
+print('RTT : '+str((B-A)/2))

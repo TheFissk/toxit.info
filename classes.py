@@ -4,6 +4,8 @@ import numpy as np
 import requests
 from tqdm import tqdm
 import datetime
+import re
+
 
 # TODO: Need a class or function for the object describing the matrix of relationships between subs, maybe a sparse matrix
 # TODO: Need a class or function to handle pushing the data into a database
@@ -18,35 +20,41 @@ class Sub:
     url -- str - required, the url of the api endpoint for inference
     apikey -- str - required, the aipkey for the endpoint
     praw_object -- object - required, the praw reddit object
+    scope -- str - defaults to 'week', sets the scope of collection ['hour', 'day', 'week', 'month', 'year', 'all']
+    min_words -- int - defaults to 20, the minimum words to collect as a comment
     inference -- bool - defaults to True, build with inference or not
     forest_width -- int - defaults to 10, the number of 'more comments' to traverse in the comment forest
     per_post_n -- int - default to 100, the max number of comments to gather from a single post
     comments_n -- int - defaults to 1000, the max number of comments in total to gather
-    chunk_size -- int - defaults to 50, the number of samples to infer in each request to the api
+    chunk_size -- int - defaults to 100, the number of samples to infer in each request to the api
 
     """
     # defines a constructor
-    def __init__(self, display_name, url, apikey, praw_object, inference=True, forest_width=10, per_post_n=100, comments_n=1000, chunk_size=50):
-        # private members
-        self.__results = []
-        self.__stats = {}
+    def __init__(self, display_name, url, apikey, praw_object, scope='week', min_words=20, inference=True, forest_width=10, per_post_n=100, comments_n=1000, chunk_size=100):
+        # private parameter members
+        self.__scope = scope
+        self.__min_words = min_words
         self.__name = display_name
-        self.__date = datetime.datetime.now()
-        self.__mods_list = []
-        self.__sub = praw_object.subreddit(display_name)
-        self.__posts = self.__sub.top(time_filter="week", limit=None)
         self.__url = url
         self.__apikey = apikey
         self.__forest_width = forest_width
         self.__per_post_n = per_post_n
         self.__comments_n = comments_n
         self.__chunksize = chunk_size
-        self.__sample_list = []
+        # private 
+        # TODO: add display_name, date, sub_url, sub_id, logo_url to an __info dict member      
+        self.__date = datetime.datetime.now()
+        self.__sub = praw_object.subreddit(display_name)
+        self.__posts = self.__sub.top(time_filter=self.__scope, limit=None)
+        self.__stats = {}
+        self.__mods_list = []
         self.__author_list = []
-        self.__nested_results_list = []   
-        self.__mod_set = {}
-        self.__author_set = {}
         self.__comment_list = []
+        self.__mod_set = {}
+        self.__author_set = {}        
+        self.__sample_list = []        
+        self.__nested_results_list = []   
+        self.__results = []      
         # constructors and sanitizers
         self.__fetch_mods()
         self.__fetch_content()
@@ -74,11 +82,13 @@ class Sub:
             for comment in comments:
                 if comment_tick >= self.__per_post_n: 
                     break
-                if comment.author is not None:
+                if comment.author is not None and self.__count_words(comment.body) > self.__min_words:
                     t.update(1)
                     data = {
                         'body': self.__sanitize(comment.body),
-                        'author': comment.author.name
+                        'author': comment.author.name,
+                        'permalink': comment.permalink
+                        # TODO: add more data to collect here and test the collection time difference, if it is low then collect more
                     }
                     self.__comment_list.append(data)
                     if len(self.__comment_list) == self.__comments_n:
@@ -89,7 +99,7 @@ class Sub:
                 break
             post_tick += 1
 
-       # defines a function to build lists from a dict
+    # defines a function to build lists from a dict
     def __build_lists(self):
         for data in self.__comment_list:
             self.__sample_list.append(data['body'])
@@ -138,6 +148,10 @@ class Sub:
                     continue
                 break
             pass
+    
+    # defines a funtion to count words
+    def __count_words(self, sentence):
+        return len(re.findall(r'\w+', sentence))
 
     # defines a function to build unordered sets from author and mod list members
     def __build_sets(self):
@@ -163,7 +177,6 @@ class Sub:
         self.__build_stats()
 
     # Access functions
-
     def name(self):
         """Returns the display name of the subreddit"""
         return self.__name
