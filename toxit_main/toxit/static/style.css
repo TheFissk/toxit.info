@@ -10,49 +10,43 @@ body {
 
 #menuIcon {
     fill: white;
-    height: 38px;
-    width: 38px;
     margin: 10px;
-    cursor: pointer;
-    z-index: 100; !important;
-    position: fixed;
 }
-#menuIcon:hover {
+
+.icon:hover {
   background-color: rgb(212, 212, 212);
 }
-
-
+.icon {
+    height: 38px;
+    width: 38px;
+    cursor: pointer;
+    position: sticky;
+    fill: white;
+}
 #sidebar {
+
     width: 0px;
     height: 100vh;
     background-color: black;
     position: fixed;
     top: 0;
     left: 0;
-    z-index: 2;
     overflow: auto;
     transition: width 0.5s ease;
-    white-space: nowrap;
 }
 
 .sidebar-tab {
-  fill: white;
-  margin-left: 50px;
-  position: sticky;
-  display: flex;
-  padding: 1em;
-  align-items: right;
-  cursor: pointer;
-}
 
+}
+flex-container {
+  display: flex;
+  justify-content: space-between;
+}
 .sidebar-text {
   text-decoration: none;
   color: white;
-  display: flex;
-  padding: 1em;
-  align-items: center;
-  cursor: pointer;
-  font-size: 1em;
+  height:100px;
+  width: 250px;
 }
 .sidebar-tab:hover {
   background-color: gray;
