@@ -4,5 +4,5 @@ from . import views
 
 app_name = 'toxit'
 urlpatterns = [
-    path('', views.sidebar, name='sidebar'),
+    path('', views.index, name='index'),
 ]
