@@ -17,3 +17,6 @@ function toggleMenu(){
         document.getElementById("sidebar").style.width = "250px"
     }
 }
+function dataTab(){
+
+}
