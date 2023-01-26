@@ -8,5 +8,6 @@
       - models are reduced to just node and edge for testing
       - VisJs is installed 
  - [ ] get VisJS to display data from database
+ - [ ] get Edge model to validate against reversed pairs 
  - [ ] create side menu using template engine
  - [ ] integrate side menu into main view
