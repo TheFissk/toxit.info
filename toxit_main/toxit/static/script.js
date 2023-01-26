@@ -17,6 +17,21 @@ function toggleMenu(){
         document.getElementById("sidebar").style.width = "250px"
     }
 }
-function dataTab(){
-
+function openTab(event, tabName)
+    {
+//    update content
+    var content = document.getElementsByClassName("content");
+    var i;
+    for (i = 0; i < content.length; i++)
+    {
+        content[i].style.display = "none";
+    }
+    document.getElementById(tabName).style.display = "block";
+// highlight tab
+    tabs = document.getElementsByClassName("tab");
+    for (i = 0; i < tabs.length; i++)
+    {
+        tabs[i].className = tabs[i].className.replace(" active", "");
+    }
+    evt.currentTarget.className += " active";
 }

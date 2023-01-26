@@ -13,7 +13,7 @@ body {
     margin: 10px;
 }
 
-.icon:hover {
+.icon2:hover {
   background-color: rgb(212, 212, 212);
 }
 .icon {
@@ -35,9 +35,6 @@ body {
     transition: width 0.5s ease;
 }
 
-.sidebar-tab {
-
-}
 flex-container {
   display: flex;
   justify-content: space-between;
@@ -48,6 +45,18 @@ flex-container {
   height:100px;
   width: 250px;
 }
-.sidebar-tab:hover {
+.tab.active {
   background-color: gray;
+}
+.tab {
+  background-color: none;
+}
+.content.active {
+  display: block;
+  padding: 6px 12px;
+  border: 1px solid #ccc;
+  border-top: none;
+}
+.content {
+  display: none;
 }
