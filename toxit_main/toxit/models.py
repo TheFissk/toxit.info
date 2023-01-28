@@ -40,7 +40,11 @@ TODO:
 - Freeze this code and push from gather service into test db using these classes
 - Run test queries and iterate
 
-LAST: Docstrings
+LAST: 
+- Docstrings
+- Database Wipe
+- Push to Prod Database
+- Lock ORM Models
 
 '''
 
