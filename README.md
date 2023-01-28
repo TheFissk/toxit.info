@@ -1,4 +1,13 @@
 # Front End Development 
 
-### Description 
-For now this is a basic outline of our project. Currently this is using SQLite3 for the DB since it is native to Django and will work well with the test development servers we can host on our local machines. 
+### Front End - To Do:
+ - [x] create toxit django app
+ - [x] install VisJS 
+ - [x] get VisJS working in Djano
+ - [x] get toxit app to boiler plate stage 
+      - models are reduced to just node and edge for testing
+      - VisJs is installed 
+ - [ ] get VisJS to display data from database
+ - [ ] get Edge model to validate against reversed pairs 
+ - [ ] create side menu using template engine
+ - [ ] integrate side menu into main view
