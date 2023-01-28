@@ -17,34 +17,75 @@
     </style>
   </head>
   <body>
+    <div id="menu-go-here">
+      <!-- https://bbbootstrap.com/snippets/sidebar-menu-sub-menus-and-toggle-button-27928347 -->
+    </div>
+    <div id="test-buttons">
+      <input type="radio" id="radio_sim" checked=false name="arc_weight" value="shared_mod_sim">
+      <label for="radio_sim">similarty</label>
+      <input type="radio" id="radio_count" checked=true name="arc_weight" value="shared_mod_count">
+      <label for="radio_count">count</label>
+    </div>
     <div id="mynetwork"></div>
-    <script type="text/javascript">
-      // create an array with nodes
-      var nodes = new vis.DataSet([
-        { id: 1, label: "Node 1" },
-        { id: 2, label: "Node 2" },
-        { id: 3, label: "Node 3" },
-        { id: 4, label: "Node 4" },
-        { id: 5, label: "Node 5" },
-      ]);
-
-      // create an array with edges
-      var edges = new vis.DataSet([
-        { from: 1, to: 3 },
-        { from: 1, to: 2 },
-        { from: 2, to: 4 },
-        { from: 2, to: 5 },
-        { from: 3, to: 3 },
-      ]);
-
-      // create a network
-      var container = document.getElementById("mynetwork");
-      var data = {
-        nodes: nodes,
-        edges: edges,
-      };
-      var options = {};
-      var network = new vis.Network(container, data, options);
-    </script>
   </body>
 </html>
+
+<footer>
+  <script type="text/javascript">
+    document.getElementById("radio_sim").addEventListener("click", setEdgeArcWeight);
+    document.getElementById("radio_count").addEventListener("click", setEdgeArcWeight);
+
+    // create an array with nodes
+    var nodes = new vis.DataSet([
+      {% for node in nodes %}
+        { id: {{ node.id }}, label: "{{ node.subreddit_name }}" },
+      {% endfor %}
+    ]);
+
+    // create an array with edges
+    var edges = new vis.DataSet([
+      {% for edge in edges %}
+        { {{ edge.get_vis_edge }} , label: "{{ edge.shared_mod_sim }}", font: { align: "middle" } },
+      {% endfor %}
+    ]);
+
+    // arc weight = similarity 
+    var edges_sim = new vis.DataSet([
+      {% for edge in edges %}
+        { {{ edge.get_vis_edge }} , label: "{{ edge.shared_mod_sim }}", font: { align: "middle" } },
+      {% endfor %}
+    ]);
+
+    // arc weight = count
+    var edges_count = new vis.DataSet([
+      {% for edge in edges %}
+        { {{ edge.get_vis_edge }} , label: "{{ edge.shared_mod_count }}", font: { align: "middle" } },
+      {% endfor %}
+    ]);
+
+    // create a network
+    var container = document.getElementById("mynetwork");
+    var data = {
+      nodes: nodes,
+      edges: edges_count  ,
+    };
+    var options = {};
+    var network = new vis.Network(container, data, options);
+
+    function setEdgeArcWeight() {
+      if(document.getElementById('radio_sim').checked) {
+        data = {
+          nodes: nodes,
+          edges: edges_sim,
+        };
+      }else if(document.getElementById('radio_count').checked) {
+        data = {
+          nodes: nodes,
+          edges: edges_count,
+        };
+      }
+
+      network.setData( data );
+    }
+  </script>
+</footer>
