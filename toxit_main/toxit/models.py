@@ -30,14 +30,31 @@ class Edge(models.Model):
 
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+'''
+TODO:
+
+- Check ERD for correctness, https://drawsql.app/teams/kyllo-brooks-digital-services/diagrams/reddit-mhs-erd-2 
+- Update all classes to ERD spec
+- Some classes will need unique pairs or triples
+- Test Queries need to be written before testing is done 'test_queries.py' should be created
+- Freeze this code and push from gather service into test db using these classes
+- Run test queries and iterate
+
+LAST: Docstrings
+
+'''
 
 class Subreddit(models.Model):
+
     custom_id = models.CharField(primary_key=True, max_length=20, unique=True)
     display_name = models.CharField(max_length=200)
 
+
 class Subreddit_mod(models.Model):
+
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE)
     username = models.CharField(max_length=20)
+
 
 class Inference_task(models.Model):
     TIME_SCALES = [
@@ -58,6 +75,7 @@ class Inference_task(models.Model):
 
 
 class Subreddit_result(models.Model):
+
     inference_task = models.ForeignKey(Inference_task, on_delete=models.CASCADE)
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE)
     min = models.FloatField()
@@ -65,12 +83,15 @@ class Subreddit_result(models.Model):
     mean = models.FloatField()
     std = models.FloatField()
 
+
 class Comment_author(models.Model):
+
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE)
     username = models.CharField(max_length=20)
 
 
 class Comment_result(models.Model):
+
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE)
     comment_author = models.ForeignKey(Comment_author, on_delete=models.CASCADE)
     body = models.CharField(max_length=1000)
