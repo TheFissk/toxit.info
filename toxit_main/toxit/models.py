@@ -43,7 +43,8 @@ TODO:
 LAST: 
 - Docstrings
 - Database Wipe
-- Push to Prod Database
+- Prod Migration
+- Push Data to prod
 - Lock ORM Models
 
 '''
