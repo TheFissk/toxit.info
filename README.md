@@ -7,7 +7,8 @@
  - [x] get toxit app to boiler plate stage 
       - models are reduced to just node and edge for testing
       - VisJs is installed 
- - [ ] get VisJS to display data from database
- - [ ] get Edge model to validate against reversed pairs 
+ - [x] get VisJS to display data from database
+ - [ ]  ~~get Edge model to validate against reversed pairs ~~ put on hold
+       - doubling edges may allow for label at each node connection point
  - [ ] create side menu using template engine
  - [ ] integrate side menu into main view
