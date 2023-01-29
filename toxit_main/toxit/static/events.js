@@ -1,1 +1,1 @@
-document.getElementById("menuIcon").addEventListener("click", toggleMenu, false);
+//document.getElementById("menuIcon").addEventListener("click", toggleMenu, false);
