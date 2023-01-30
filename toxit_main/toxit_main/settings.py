@@ -86,7 +86,7 @@ if os.getenv('DEVPROXY') == 'True':
         'PASSWORD': 'vC}DTT#q-4`H_|rU',
         'HOST': 'localhost',
         'PORT': '5432',
-    }
+        }
     }   
 else:
     DATABASES = {
