@@ -151,3 +151,4 @@ class comment_result(models.Model):
 
 #     def __str__(self):
 #         return str("from: " + self.start_node.subreddit_name + ", to: " + self.end_node.subreddit_name)
+
