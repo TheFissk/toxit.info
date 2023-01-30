@@ -52,7 +52,7 @@ LAST:
 class Subreddit(models.Model):
 
     custom_id = models.CharField(primary_key=True, max_length=20, unique=True)
-    display_name = models.CharField(max_length=200)
+    display_name = models.CharField(max_length=32)
 
 
 class Subreddit_mod(models.Model):
@@ -89,15 +89,14 @@ class Subreddit_result(models.Model):
     std = models.FloatField()
 
 
-class Comment_author(models.Model):
-
-    subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE)
-    username = models.CharField(max_length=20)
-
-
 class Comment_result(models.Model):
 
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE)
     comment_author = models.ForeignKey(Comment_author, on_delete=models.CASCADE)
     body = models.CharField(max_length=1000)
     score = models.FloatField()
+
+# class Comment_author(models.Model):
+
+#     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE)
+#     username = models.CharField(max_length=20)
