@@ -1,16 +1,13 @@
-# START OF BACK END TEAM MODELS
-
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
 '''
 DONE:
 - Check ERD for correctness, https://drawsql.app/teams/kyllo-brooks-digital-services/diagrams/reddit-mhs-erd-2
-
-TODO:
 - Update all classes to ERD spec
-- Test migrations
+- Test migrations (PASSED in SqLite)
 - Queries to push to the database should serve as adequate testing
 - Freeze this code and push from gather service into test db using these classes
+TODO:
 - Run test queries and iterate
 
 LAST: 
@@ -19,7 +16,6 @@ LAST:
 - Prod Migration
 - Push Data to prod
 - Lock ORM Models
-
 '''
 
 class Subreddit(models.Model):
@@ -66,7 +62,7 @@ class Inference_task(models.Model):
                                     help_text="The status of the task")
 
     def __str__(self):
-        if (self.start_time):
+        if (self.start_sched):
             return f"Inference job scheduled: {self.start_sched}"
  
 
@@ -108,42 +104,6 @@ class Comment_result(models.Model):
     mhs_score = models.FloatField(default=0, help_text='The mhs inference score of the sample')
     comment_body = models.TextField(help_text='The comment sample')
     username = models.CharField(max_length=32, help_text='The username of the commentor')
-    edited = models.BinaryField(default=False, help_text='True if the comment has been edited')
 
     def __str__(self):
         return f"Post By: {self.username} in: {self.subreddit.display_name}.\nScore: {self.mhs_score}.\nText: {self.comment_body}"
-
-# class comment_author(models.Model):
-#     username = models.CharField(max_length=32,)
-#     subreddit_result = models.ForeignKey(
-#         subreddit_result, on_delete=models.CASCADE)
-
-#     def __str__(self):
-#         return self.username
-
-# Not how I would solve this problem
-# class Node(models.Model):
-#     subreddit_name = models.CharField(max_length=24) # regex = r"^([a-z0-9][_a-z0-9]{2,20})$"\n
-#     toxicity_score = models.FloatField(default=0)
-
-#     def __str__(self):
-#         return self.subreddit_name
-
-
-# class Edge(models.Model):
-#     start_node = models.ForeignKey('Node', on_delete=models.CASCADE, related_name="start", help_text="Origin of edge")
-#     end_node = models.ForeignKey('Node', on_delete=models.CASCADE, related_name="end", help_text="Destination of edge")
-#     shared_mod_count = models.PositiveIntegerField(default=0, help_text="Arc weight representing the number of shared moderators between subreddits.")
-#     shared_mod_sim = models.FloatField(default=0, help_text="Arc weight representing some magic stats number with a fancy name.")
-
-#     class Meta:
-#         unique_together = ('start_node', 'end_node')
-
-#     def validate_unique(self, exclude=None):
-#         if self.start_node == self.end_node:
-#             raise ValidationError("Node cannot refer to self.")
-#         super(Edge, self).validate_unique(exclude=exclude)
-
-#     def __str__(self):
-#         return str("from: " + self.start_node.subreddit_name + ", to: " + self.end_node.subreddit_name)
-

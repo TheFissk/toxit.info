@@ -75,26 +75,17 @@ WSGI_APPLICATION = 'toxit_main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# Allows you to toggle if you are using the cloud SQL proxy using an environment variable
-if os.getenv('DEVPROXY') == 'True':
-    DATABASES = {
+DATABASES = {
     'default': {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-        'NAME': 'mhs-test',
-        'USER': 'django',
-        'PASSWORD': 'vC}DTT#q-4`H_|rU',
+        'NAME': 'mhs-init',
+        'USER': 'agent',
+        'PASSWORD': 'Tempa$$',
         'HOST': 'localhost',
         'PORT': '5432',
-        }
-    }   
-else:
-    DATABASES = {
-        'default': {
-            'ENGINE': 'django.db.backends.sqlite3',
-            'NAME': BASE_DIR / 'db.sqlite3',
-        }
     }
+    } 
 
 
 
