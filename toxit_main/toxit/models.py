@@ -19,6 +19,8 @@ LAST:
 '''
 
 class Subreddit(models.Model):
+    class Meta:
+        db_table = 'toxit_subreddit'
     custom_id = models.CharField(primary_key=True, max_length=20, unique=True,
                                     help_text="Custom key from reddit")
     display_name = models.CharField(max_length=32,
@@ -29,6 +31,8 @@ class Subreddit(models.Model):
 
 
 class Inference_task(models.Model):
+    class Meta:
+        db_table = 'toxit_inference_task'
     TIME_SCALES =   [
                     ('hour', 'This Hour'),
                     ('day', 'Today'),
@@ -67,6 +71,8 @@ class Inference_task(models.Model):
  
 
 class Subreddit_result(models.Model):
+    class Meta:
+        db_table = 'toxit_subreddit_result'
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE,
                                     help_text="The subreddit that was analyzed")
     inference_task = models.ForeignKey(Inference_task, on_delete=models.CASCADE,
@@ -88,6 +94,8 @@ class Subreddit_result(models.Model):
 
 
 class Subreddit_mod(models.Model):
+    class Meta:
+        db_table = 'toxit_subreddit_mod'
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE)
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE,
                                     help_text="The collection that the user was a moderator during")
@@ -98,6 +106,8 @@ class Subreddit_mod(models.Model):
 
 
 class Comment_result(models.Model):
+    class Meta:
+        db_table = 'toxit_comment_result'
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE)
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE)
     permalink = models.TextField(help_text='The permalink to the comment sample')
