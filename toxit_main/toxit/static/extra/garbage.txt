@@ -1,0 +1,13 @@
+
+
+nav ul ul li a:hover{
+  color: #FC5404 !important;
+  background: #1e1e1e!important;
+}
+
+a:hover{
+  color: #FC5404 !important;
+}
+nav ul li a:hover{
+  background: #1e1e1e;
+}

@@ -19,14 +19,17 @@ class Edge(models.Model):
     class Meta:
         unique_together = ['start_node', 'end_node']
 
+
+
+
     def validate_unique(self, exclude=None):
         if self.start_node == self.end_node:
             raise ValidationError("Node cannot refer to self.")
         super(Edge, self).validate_unique(exclude=exclude)
-
-    def validate_reverse(self, exclude=None):
+    # def validate_reverse(self, exclude=None):
         test1 = Node.objects.get(pk=self.start_node.id)
         test2 = Node.objects.get(pk=self.end_node.id)
+
         if Edge.objects.filter(start_node=test2, end_node=test1):
             raise ValidationError("Reversed edge already exists.")
         super(Edge, self).validate_reverse(exclude=exclude)
