@@ -6,6 +6,10 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
+:root {
+    --menuSize: 20%;
+}
+
 body{
   background-color: #eee;
 }
@@ -20,16 +24,15 @@ body{
     border-radius: 3px;
     cursor: pointer;
     z-index: 100;
+    transition: left 0.4s ease;
 }
 .btn.click{
-  left: 260px;
-    transition: left 0.4s ease;
+  left: calc(var(--menuSize) + 2em);
 }
 .btn span{
     color: white;
     font-size: 15px;
     line-height: 36px;
-
 }
 .btn.click span:before{
   content: '\f00d';
@@ -37,18 +40,28 @@ body{
 }
 .sidebar{
   position: fixed;
-  width: 20%;
-  height: 100%;
+  width: calc(var(--menuSize));
+  height: 100vh;
   left: -100%;
   background: #1b1b1b;
-  transition: left 0.4s ease;
   z-index: 100;
   overflow-wrap: anywhere;
-}
+  transition: left 0.4s ease;
+  /*scrolling feature*/
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+  overflow: -moz-scrollbars-none;
+  overflow-x: none;
+ }
+.sidebar::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+  }
+
 .sidebar.show{
   left: 0px;
 }
-.sidebar .text{
+ .sidebar .text{
   color: white;
   font-size: 19px;
   font-weight: 600;
@@ -154,7 +167,7 @@ nav ul li.active a{
   background-color: red;
   cursor: col-resize;
   position: absolute;
+  top: 0px;
   right: -5px;
-  top: 0;
   z-index: 101;
 }
