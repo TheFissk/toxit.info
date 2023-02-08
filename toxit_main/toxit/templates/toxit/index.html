@@ -15,21 +15,22 @@
 
       }
       body { height:100vh; }
+      :root {
+        --menuOffset: 10%;
+      }
     </style>
   </head>
   <body >
-<!--    <div id="menu-go-here">-->
-      <!-- https://bbbootstrap.com/snippets/sidebar-menu-sub-menus-and-toggle-button-27928347 -->
+
+
       {% include "toxit/sidebar.html" %}
-<!--    </div>-->
     <div id="mynetwork"></div>
   </body>
 </html>
 
 <footer>
   <script type="text/javascript">
-    document.getElementById("radio_sim").addEventListener("click", setEdgeArcWeight);
-    document.getElementById("radio_count").addEventListener("click", setEdgeArcWeight);
+
 
     // create an array with nodes
     var nodes = new vis.DataSet([

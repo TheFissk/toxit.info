@@ -19,7 +19,7 @@ body{
     background: #1b1b1b;
     border-radius: 3px;
     cursor: pointer;
-
+    z-index: 100;
 }
 .btn.click{
   left: 260px;
@@ -37,12 +37,13 @@ body{
 }
 .sidebar{
   position: fixed;
-  width: 250px;
+  width: 20%;
   height: 100%;
-  left: -250px;
+  left: -100%;
   background: #1b1b1b;
   transition: left 0.4s ease;
   z-index: 100;
+  overflow-wrap: anywhere;
 }
 .sidebar.show{
   left: 0px;
@@ -146,4 +147,14 @@ nav ul li.active a{
     color: #FC5404;
     background: #1e1e1e;
     border-left-color: #FC5404;
+}
+.resizeHandle {
+  width: 1em;
+  height: 100%;
+  background-color: red;
+  cursor: col-resize;
+  position: absolute;
+  right: -5px;
+  top: 0;
+  z-index: 101;
 }
