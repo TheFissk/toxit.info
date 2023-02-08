@@ -90,7 +90,7 @@ class Subreddit_result(models.Model):
     edges = models.JSONField(help_text="The edges for this subreddit")
 
     def __str__(self):
-        return f"Results for {self.subreddit} collected on {self.inference_task.start_time}"
+        return f"Results for {self.subreddit} collected on {self.inference_task.start_sched}"
 
 
 class Subreddit_mod(models.Model):
