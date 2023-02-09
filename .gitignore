@@ -1,4 +1,6 @@
 keys.json
 *.ipynb
 __pycache__/
-cloud_sql_proxy*
+cloud_sql_proxy/
+sql_conn
+connect.sh

@@ -2,72 +2,48 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-    <title>Network</title>
-    <script type="text/javascript" src="{% static '\node_modules\vis-network\dist\vis-network.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'index.css' %}">
-  </head>
-  <body >
-      {% include "toxit/sidebar.html" %}
-    <div id="mynetwork"></div>
-  </body>
+
+<head>
+  <title>Network</title>
+  <script type="text/javascript" src="{% static '\node_modules\vis-network\dist\vis-network.js' %}"></script>
+  <style type="text/css">
+    #mynetwork {
+      width: 100%;
+      height: 100%;
+    }
+
+    body {
+      height: 100vh;
+    }
+  </style>
+</head>
+
+<body>
+  <div id="mynetwork"></div>
+</body>
+
 </html>
 
 <footer>
   <script type="text/javascript">
-
-
     // create an array with nodes
     var nodes = new vis.DataSet([
-      {% for node in nodes %}
-        { id: {{ node.id }}, label: "{{ node.subreddit_name }}" },
+      {% for sub in subs %}
+        { id: {{ sub.id }}, label: "{{ sub.subreddit }}" },
       {% endfor %}
     ]);
 
     // create an array with edges
-    var edges = new vis.DataSet([
-      {% for edge in edges %}
-        { {{ edge.get_vis_edge }} , label: "{{ edge.shared_mod_sim }}", font: { align: "middle" } },
-      {% endfor %}
-    ]);
-
-    // arc weight = similarity 
-    var edges_sim = new vis.DataSet([
-      {% for edge in edges %}
-        { {{ edge.get_vis_edge }} , label: "{{ edge.shared_mod_sim }}", font: { align: "middle" } },
-      {% endfor %}
-    ]);
-
-    // arc weight = count
-    var edges_count = new vis.DataSet([
-      {% for edge in edges %}
-        { {{ edge.get_vis_edge }} , label: "{{ edge.shared_mod_count }}", font: { align: "middle" } },
-      {% endfor %}
-    ]);
+    var edges = new vis.DataSet([ ]);
 
     // create a network
     var container = document.getElementById("mynetwork");
     var data = {
       nodes: nodes,
-      edges: edges_count  ,
+      edges: edges,
     };
+
     var options = {};
     var network = new vis.Network(container, data, options);
-
-    function setEdgeArcWeight() {
-      if(document.getElementById('radio_sim').checked) {
-        data = {
-          nodes: nodes,
-          edges: edges_sim,
-        };
-      }else if(document.getElementById('radio_count').checked) {
-        data = {
-          nodes: nodes,
-          edges: edges_count,
-        };
-      }
-
-      network.setData( data );
-    }
   </script>
 </footer>
