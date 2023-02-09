@@ -6,8 +6,6 @@
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
-
-
 body{
   background-color: var(--node-bkg-color);
   transition: background-color 0.5s, color 0.5s;

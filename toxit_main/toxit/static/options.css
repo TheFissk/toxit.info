@@ -14,10 +14,7 @@ body {
     --node-bkg-color:#ffffff;
     --button-color:#faee05;
 }
-
-
 /*light/dark mode toggle*/
-
 .checkbox {
 	opacity: 0;
 	position: absolute;
