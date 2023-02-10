@@ -1,0 +1,58 @@
+
+
+
+/*Light/dark mode colors*/
+body.dark {
+    --text-color: #000000;
+    --bkg-color: #ffffff;
+    --node-bkg-color:#000000;
+    --button-color:#000000;
+}
+body {
+    --text-color: #ffffff;
+    --bkg-color: #000000;
+    --node-bkg-color:#ffffff;
+    --button-color:#faee05;
+}
+/*light/dark mode toggle*/
+.checkbox {
+	opacity: 0;
+	position: absolute;
+}
+
+.label {
+	background-color:  var(--button-color);
+	border-radius: 50px;
+	cursor: pointer;
+	display: flex;
+	align-items: center;
+	justify-content: space-between;
+	padding: 5px;
+	position: relative;
+	height: 26px;
+	width: 50px;
+	transform: scale(1.5);
+
+}
+
+.checkbox:checked + .label .ball {
+	transform: translateX(24px);
+}
+.label .ball {
+	background-color: #fff;
+	border-radius: 50%;
+	position: absolute;
+	top: 2px;
+	left: 2px;
+	height: 22px;
+	width: 22px;
+	transform: translateX(0px);
+	transition: transform 0.2s linear;
+}
+.fa-moon {
+	color: #f1c40f;
+}
+
+.fa-sun {
+	color: #f39c12;
+}
