@@ -9,4 +9,4 @@ cloud_sql_proxy
 cloud_sql_proxy.exe
 cloud_sql_proxy_x64
 cloud_sql_proxy_x64.exe
-Toxit Web App (Django)
+*.code-workspace
