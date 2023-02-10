@@ -9,6 +9,7 @@ DONE:
 - Freeze this code and push from gather service into test db using these classes
 TODO:
 - Run test queries and iterate
+- Create model functions for and to support edge tables
 
 LAST: 
 - Docstrings
@@ -33,6 +34,7 @@ class Subreddit(models.Model):
 class Inference_task(models.Model):
     class Meta:
         db_table = 'toxit_inference_task'
+
     TIME_SCALES =   [
                     ('hour', 'This Hour'),
                     ('day', 'Today'),
@@ -41,6 +43,7 @@ class Inference_task(models.Model):
                     ('year', 'This Year'),
                     ('all', 'All Time')
                     ]
+
     STATUS_TYPES = [
                     ('0', 'Scheduled'),
                     ('1', 'In Progress'),
@@ -48,6 +51,7 @@ class Inference_task(models.Model):
                     ('3', 'Error'),
                     ('4', 'Cancelled')
                     ]
+
     start_sched = models.DateTimeField(help_text='Requested start time')
     
     time_scale = models.CharField(max_length=5, choices=TIME_SCALES,
@@ -64,6 +68,9 @@ class Inference_task(models.Model):
                                     help_text="A set of the subreddits to be harvested")
     status = models.PositiveSmallIntegerField(choices=STATUS_TYPES,
                                     help_text="The status of the task")
+
+    def get_subreddits_for_inference_task(self):
+        return Subreddit_result.objects.filter(inference_task=self)
 
     def __str__(self):
         if (self.start_sched):
@@ -88,6 +95,27 @@ class Subreddit_result(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True,
                                     help_text="The time when the data was collected")
     edges = models.JSONField(help_text="The edges for this subreddit")
+
+    # stored like this {"mods": {"revancedapp": 1, "FFBraveExvius": 1}, "authors": {}}
+
+    def display_raw_json(request):
+        subreddit_result = Subreddit_Result.objects.get(pk=1)
+        edges_json = subreddit_result.edges
+        
+        return JsonResponse(edges_json, safe=False)
+
+    def get_unique_edge_pairs(subreddits):
+        edge_pairs = []
+        for sub in subreddits:
+            edges = sub.edges
+            for edge in edges:
+                from_node = edge['from']
+                to_node = edge['to']
+                # Check if the edge pair already exists in the list or its reverse
+                if (from_node, to_node) not in edge_pairs and (to_node, from_node) not in edge_pairs:
+                    edge_pairs.append((from_node, to_node))
+        return edge_pairs
+
 
     def __str__(self):
         return f"Results for {self.subreddit} collected on {self.inference_task.start_sched}"

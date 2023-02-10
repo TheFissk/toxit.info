@@ -28,13 +28,23 @@
   <script type="text/javascript">
     // create an array with nodes
     var nodes = new vis.DataSet([
+      /*
+        This is a multi-line comment in JavaScript.
+        You can write multiple lines of text within the comment block.
+      */
       {% for sub in subs %}
-        { id: {{ sub.id }}, label: "{{ sub.subreddit }}" },
+        // Use an empty string as the default value for `sub.edges` if it is not defined or empty
+        // Replace 'old_text' with 'new_text' in the `sub.edges` value 
+        { id: {{ sub.id }}, label: "{{ sub.subreddit|default:'failed to load.'|safe }}" },
       {% endfor %}
     ]);
 
     // create an array with edges
-    var edges = new vis.DataSet([ ]);
+    var edges = new vis.DataSet([
+      {% for edge in edges %}
+        { from: "{{ edge.from }}", to: "{{ edge.to }}" },
+      {% endfor %}
+    ]);
 
     // create a network
     var container = document.getElementById("mynetwork");
@@ -43,7 +53,12 @@
       edges: edges,
     };
 
-    var options = {};
+    var options = {
+      nodes:{
+        shape: "box",
+        margin: 10,
+      }
+    };
     var network = new vis.Network(container, data, options);
   </script>
 </footer>
