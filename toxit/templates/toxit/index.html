@@ -28,10 +28,6 @@
   <script type="text/javascript">
     // create an array with nodes
     var nodes = new vis.DataSet([
-      /*
-        This is a multi-line comment in JavaScript.
-        You can write multiple lines of text within the comment block.
-      */
       {% for sub in subs %}
         // Use an empty string as the default value for `sub.edges` if it is not defined or empty
         // Replace 'old_text' with 'new_text' in the `sub.edges` value 
@@ -41,13 +37,14 @@
 
     // create an array with edges
     var edges = new vis.DataSet([
-      {% for edge in edges %}
-        { from: "{{ edge.from }}", to: "{{ edge.to }}" },
-      {% endfor %}
+      //{% for edge in edges %}
+        //{ from: "{{ edge.from }}", to: "{{ edge.to }}" },
+      //{% endfor %}
     ]);
 
     // create a network
     var container = document.getElementById("mynetwork");
+    
     var data = {
       nodes: nodes,
       edges: edges,
