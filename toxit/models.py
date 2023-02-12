@@ -81,6 +81,21 @@ class Inference_task(models.Model):
     def get_subreddits_for_inference_task(self):
         return Subreddit_result.objects.filter(inference_task=self)
 
+    def get_unique_edge_pairs(self):
+        edge_pairs = []
+        
+        subreddit_list = self.get_subreddits_for_inference_task
+        
+        for sub in subreddit_list:
+            edges = sub.edges
+            for edge in edges:
+                from_node = edge['from']
+                to_node = edge['to']
+                # Check if the edge pair already exists in the list or its reverse
+                if (from_node, to_node) not in edge_pairs and (to_node, from_node) not in edge_pairs:
+                    edge_pairs.append((from_node, to_node))
+        return edge_pairs
+
     def __str__(self):
         if (self.start_sched):
             return f"Inference job scheduled: {self.start_sched}"
@@ -113,20 +128,6 @@ class Subreddit_result(models.Model):
 
     edges = models.JSONField(
         help_text="The edges for this subreddit")
-
-
-    def get_unique_edge_pairs(subreddits):
-        edge_pairs = []
-        for sub in subreddits:
-            edges = sub.edges
-            for edge in edges:
-                from_node = edge['from']
-                to_node = edge['to']
-                # Check if the edge pair already exists in the list or its reverse
-                if (from_node, to_node) not in edge_pairs and (to_node, from_node) not in edge_pairs:
-                    edge_pairs.append((from_node, to_node))
-        return edge_pairs
-
 
     def __str__(self):
         return f"Results for {self.subreddit} collected on {self.inference_task.start_sched}"

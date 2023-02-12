@@ -9,9 +9,11 @@ def index(request):
 
     IT = Inference_task.objects.get(pk=21)
     Subreddits = IT.get_subreddits_for_inference_task
+    EdgeTable = IT.get_unique_edge_pairs
 
     context = {
         'subs': Subreddits,
+        'test123': EdgeTable,
     }
 
     return render(request, 'toxit/index.html', context)
