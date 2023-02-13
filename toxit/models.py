@@ -83,7 +83,8 @@ class Inference_task(models.Model):
     def get_subreddits_for_inference_task(self):
         return Subreddit_result.objects.filter(inference_task=self)
 
-    def get_unique_edge_pairs(self) -> tuple[list[tuple], list[tuple]]:
+    # def get_unique_edge_pairs(self) -> tuple[list[tuple], list[tuple]]:
+    def get_unique_edge_pairs(self) -> tuple:
         """
         Returns the edge pairs for these nodes as a list of tuples. 
 
