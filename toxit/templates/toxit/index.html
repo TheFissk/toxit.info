@@ -2,26 +2,27 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <title>Network</title>
+    <script
+      type="text/javascript"
+      src="{% static '\node_modules\vis-network\dist\vis-network.js' %}"
+    ></script>
+    <style type="text/css">
+      #mynetwork {
+        width: 100%;
+        height: 100%;
+      }
 
-<head>
-  <title>Network</title>
-  <script type="text/javascript" src="{% static '\node_modules\vis-network\dist\vis-network.js' %}"></script>
-  <style type="text/css">
-    #mynetwork {
-      width: 100%;
-      height: 100%;
-    }
+      body {
+        height: 100vh;
+      }
+    </style>
+  </head>
 
-    body {
-      height: 100vh;
-    }
-  </style>
-</head>
-
-<body>
-  <div id="mynetwork"></div>
-</body>
-
+  <body>
+    <div id="mynetwork"></div>
+  </body>
 </html>
 
 <footer>
@@ -29,26 +30,23 @@
     // create an array with nodes
     var nodes = new vis.DataSet([
       // Use an empty string as the default value for `sub.edges` if it is not defined or empty
-      // Replace 'old_text' with 'new_text' in the `sub.edges` value 
+      // Replace 'old_text' with 'new_text' in the `sub.edges` value
       {% for sub in subs %}
-        { id: {{ sub.id }}, label: "{{ sub.subreddit|default:'failed to load.'|safe }}" },
+        { id: "{{ sub.subreddit }}", label: "{{ sub.subreddit|default:'failed to load.'|safe }}" },
       {% endfor %}
     ]);
-
     // var edgeTable = {{ edgeTable|safe }};
 
     // create an array with edges
     var edges = new vis.DataSet([
       {% for edge in edge_data %}
-        { from: "{{ edge.from_Sub }}", to: "{{ edge.to_Sub }}", label: "{{ edge.label }}"},
+        { from: "{{ edge.from_Sub }}", to: "{{ edge.to_Sub }}", width: "{{ edge.label }}"},
       {% endfor %}
     ]);
 
-
-
     // create a network
     var container = document.getElementById("mynetwork");
-    
+
     var data = {
       nodes: nodes,
       edges: edges,
