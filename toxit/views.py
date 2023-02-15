@@ -7,7 +7,7 @@ from .models import Subreddit_result, Inference_task
 def index(request):
     template = loader.get_template('toxit/index.html')
 
-    IT = Inference_task.objects.get(pk=19)
+    IT = Inference_task.objects.get(pk=1)
     Subreddits = Subreddit_result.objects.filter(inference_task=IT)
 
     context = {
