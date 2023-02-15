@@ -117,3 +117,27 @@ class Comment_result(models.Model):
 
     def __str__(self):
         return f"Post By: {self.username} in: {self.subreddit.display_name}.\nScore: {self.mhs_score}.\nText: {self.comment_body}"
+
+
+class Author_edge(models.Model):
+    class Meta:
+        db_table = 'toxit_author_edge'
+    from_sub = models.ForeignKey(Subreddit_result, related_name='auth_from_sub', on_delete=models.CASCADE)
+    to_sub = models.ForeignKey(Subreddit_result, related_name='auth_to_sub', on_delete=models.CASCADE)
+    inference_task = models.ForeignKey(Inference_task, on_delete=models.CASCADE)
+    weight = models.PositiveSmallIntegerField(help_text="The weight of the edge")
+
+    def __str__(self):
+        return f"Authors in common between {self.from_sub} and {self.to_sub} = {self.weight}"
+
+
+class Mod_edge(models.Model):
+    class Meta:
+        db_table = 'toxit_mod_edge'    
+    from_sub = models.ForeignKey(Subreddit_result, related_name='mod_from_sub', on_delete=models.CASCADE)
+    to_sub = models.ForeignKey(Subreddit_result, related_name='mod_to_sub', on_delete=models.CASCADE)
+    inference_task = models.ForeignKey(Inference_task, on_delete=models.CASCADE)
+    weight = models.PositiveSmallIntegerField(help_text="The weight of the edge")
+ 
+    def __str__(self):
+        return f"Mods in common between {self.from_sub} and {self.to_sub} = {self.weight}"
