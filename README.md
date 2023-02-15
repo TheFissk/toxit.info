@@ -1,10 +1,12 @@
-# Front End Development 
+# Development 
 
-### Front End - To Do:
- - [ ] segment current index into templates 
- - [ ] create side menu using template engine
+### In Progress:
+ - [ ] loading bar
+ - [ ] segment static networkGraph portion into static file and bring in through template networkGraph
  - [ ] integrate side menu into main view
- - [ ]  ~~get Edge model to validate against reversed pairs~~ put on hold
+ - [x] segment current index into templates 
+ - [z] create side menu using template engine
+ - [x]  ~~get Edge model to validate against reversed pairs~~ put on hold
        - doubling edges may allow for label at each node connection point
  - [x] create toxit django app
  - [x] install VisJS 
