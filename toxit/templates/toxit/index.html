@@ -2,48 +2,23 @@
 
 <!DOCTYPE html>
 <html lang="en">
+  <head>
+    <link rel="shortcut icon" type="image/png" href="{% static '\images\logo\favicon.ico' %}"/>
+    <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'networkGraph/networkGraph.css' %}">
 
-<head>
-  <title>Network</title>
-  <script type="text/javascript" src="{% static '\node_modules\vis-network\dist\vis-network.js' %}"></script>
-  <style type="text/css">
-    #mynetwork {
-      width: 100%;
-      height: 100%;
-    }
+    <title>Network</title>
+  </head>
 
-    body {
-      height: 100vh;
-    }
-  </style>
-</head>
+  <body>
+    <div id="mynetwork"></div>
 
-<body>
-  <div id="mynetwork"></div>
-</body>
-
+    <footer>
+      <!-- to included app-template dependent js -->
+      <script type="text/javascript">
+        console.log("loading networkGraph.js ...");
+        {% include "networkGraph/networkGraph.js" %} 
+      </script>
+    </footer>
+  </body>
 </html>
-
-<footer>
-  <script type="text/javascript">
-    // create an array with nodes
-    var nodes = new vis.DataSet([
-      {% for sub in subs %}
-        { id: {{ sub.id }}, label: "{{ sub.subreddit }}" },
-      {% endfor %}
-    ]);
-
-    // create an array with edges
-    var edges = new vis.DataSet([ ]);
-
-    // create a network
-    var container = document.getElementById("mynetwork");
-    var data = {
-      nodes: nodes,
-      edges: edges,
-    };
-
-    var options = {};
-    var network = new vis.Network(container, data, options);
-  </script>
-</footer>
