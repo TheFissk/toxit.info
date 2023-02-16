@@ -1,5 +1,3 @@
-{% load static %}
-
 console.log("networkGraph.js loaded!");
 
 // dyanmic javascript portion for networkGraph.s that requires the template engine
@@ -12,6 +10,7 @@ var nodes = new vis.DataSet([
         { id: "{{ sub.subreddit }}", label: "{{ sub.subreddit|default:'failed to load.'|safe }}" },
     {% endfor %}
 ]);
+
 // var edgeTable = {{ edgeTable|safe }};
 
 // create an array with edges
@@ -20,13 +19,3 @@ var edges = new vis.DataSet([
         { from: "{{ edge.from_Sub }}", to: "{{ edge.to_Sub }}", width: "{{ edge.label }}"},
     {% endfor %}
 ]);
-
-// Load static JavaScript file at the end of the file
-var xhr = new XMLHttpRequest();
-xhr.open("GET", "{% static 'networkGraph/networkGraph.js' %}", true);
-xhr.onreadystatechange = function() {
-    if (this.readyState === 4 && this.status === 200) {
-        eval(this.responseText);
-    }
-};
-xhr.send();
