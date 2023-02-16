@@ -21,5 +21,12 @@ var edges = new vis.DataSet([
     {% endfor %}
 ]);
 
-// load static component of networkGraph.js
-async src="{% static 'networkGraph/networkGraph.js' %}"
+// Load static JavaScript file at the end of the file
+var xhr = new XMLHttpRequest();
+xhr.open("GET", "{% static 'networkGraph/networkGraph.js' %}", true);
+xhr.onreadystatechange = function() {
+    if (this.readyState === 4 && this.status === 200) {
+        eval(this.responseText);
+    }
+};
+xhr.send();
