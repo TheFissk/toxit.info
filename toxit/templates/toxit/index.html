@@ -5,7 +5,7 @@
   <head>
     <link rel="shortcut icon" type="image/png" href="{% static '\logo\favicon.ico' %}"/>
     <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css.css' %}">
+    <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
 
     <title>Network</title>
   </head>
@@ -14,7 +14,7 @@
     <div id="mynetwork"></div>
 
     <footer>
-      <script type="text/javascript"> {% include "networkGraph/subreddit-graph-data.js.js" %} </script>
+      <script type="text/javascript"> {% include "networkGraph/subreddit-graph-data.js" %} </script>
       <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
     </footer>
   </body>
