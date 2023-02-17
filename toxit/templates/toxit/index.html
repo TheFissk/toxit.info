@@ -3,7 +3,7 @@
 <!DOCTYPE html>
 <html lang="en">
   <head>
-    <link rel="shortcut icon" type="image/png" href="{% static '\logo\favicon.ico' %}"/>
+    <link rel="shortcut icon" type="image/png" href="{% static '/logo/favicon.ico' %}"/>
     <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
     <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
 
@@ -11,11 +11,14 @@
   </head>
 
   <body>
-    <div id="mynetwork"></div>
+    <h1>{% block test %}Is Django trash?{% endblock %}</h1>
+
+    {% block content %}
+    {% endblock %}
 
     <footer>
-      <script type="text/javascript"> {% include "networkGraph/subreddit-graph-data.js" %} </script>
-      <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
+      <!-- <script type="text/javascript"> {% include "toxit/networkGraph/subreddit-graph-data.js" %} </script> -->
+      <!-- <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script> -->
     </footer>
   </body>
 </html>
