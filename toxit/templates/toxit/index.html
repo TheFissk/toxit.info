@@ -6,13 +6,13 @@
     <link rel="shortcut icon" type="image/png" href="{% static '\logo\favicon.ico' %}"/>
     <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
     <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
-
+    <link rel="stylesheet" href="{% static 'index.css' %}">
     <title>Network</title>
   </head>
 
   <body>
-    <div id="mynetwork"></div>
-
+    <div id="mynetwork" style = "position: fixed;"></div>
+      {% include "toxit/sidebar.html" %}
     <footer>
       <script type="text/javascript"> {% include "networkGraph/subreddit-graph-data.js" %} </script>
       <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
