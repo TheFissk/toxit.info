@@ -70,13 +70,13 @@ class Inference_task(models.Model):
     status = models.PositiveSmallIntegerField(choices=STATUS_TYPES,
                                     help_text="The status of the task")
     
-    def get_subreddit_node(self):
+    def get_subreddits_for_inference_task(self):
         return Subreddit_result.objects.filter(inference_task=self)
     
-    def get_subreddit_mod_edges(self):
+    def get_mod_edges_for_inference_task(self):
         return Author_edge.objects.filter(inference_task=self)
     
-    def get_subreddit_author_edges(self):
+    def get_author_edges_for_inference_task(self):
         return Mod_edge.objects.filter(inference_task=self)
 
     def __str__(self):
