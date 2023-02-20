@@ -27,8 +27,11 @@ def index(request):
     snapshot_id = request.GET.get('snapshot_id')
     snapshot = get_object_or_404(Inference_task, id=snapshot_id) if snapshot_id else Inference_task.objects.first()
 
+    Snapshots = Inference_task.objects.all()
+
     context = {
         'snapshot': snapshot,
+        'Snapshots': Snapshots,
     }
 
     return render(request, 'toxit/index.html', context)
