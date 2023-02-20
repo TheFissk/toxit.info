@@ -24,13 +24,13 @@ def index(request):
     template = loader.get_template('toxit/index.html')
 
     # all 
-    Snapshots = Inference_task.objects.all()
+    iTasks = Inference_task.objects.all()
 
     # Get the selected snapshot
-    snapshot_id = Inference_task.objects.first()
+    selected = Inference_task.objects.first()
 
     context = {
-        'Snapshots': Snapshots,
+        'iTasks': iTasks,
     }
 
     return render(request, 'toxit/index.html', context)

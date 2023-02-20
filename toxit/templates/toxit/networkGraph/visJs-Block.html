@@ -1,8 +1,8 @@
 <h1>Snapshot selection</h1>
-<form method="get" action="{{ snapshot.id }}">
+<form method="get" action="{% url 'toxit:index' %}">
     <select id="snapshot-select" name="snapshot_id">
-        {% for snapshot in Snapshots %}
-            <option value="{{ snapshot.id }}" {% if snapshot.id == selected_snapshot.id %}selected{% endif %}>Snapshot: {{ snapshot.id }}</option>
+        {% for task in iTasks %}
+            <option value="{{ task.id }}" {% if selected == task %}selected{% endif %}>Snapshot: {{ task.id }}</option>
         {% endfor %}
     </select>
     <input type="submit" value="Submit">
