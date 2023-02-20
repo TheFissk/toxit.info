@@ -1,0 +1,42 @@
+<h1>Snapshot selection</h1>
+<select id="snapshot-select">
+    {% for snapshot in Snapshots %}
+        <option value="{{ snapshot.id }}">{{ snapshot }}</option>
+    {% endfor %}
+</select>
+<br><br>
+<h1>Data</h1>
+<div id="data-container">
+    <!-- Data will be loaded here -->
+</div>
+
+<script>
+    const snapshotSelect = document.getElementById('snapshot-select');
+    const dataContainer = document.getElementById('data-container');
+
+    function loadSnapshotData(snapId) {
+        const xhr = new XMLHttpRequest();
+        xhr.onreadystatechange = function() {
+            if (this.readyState == 4 && this.status == 200) {
+                const data = JSON.parse(xhr.responseText);
+                dataContainer.innerHTML = `
+                    <select>${data.t0Options}</select>
+                    <select>${data.t1Options}</select>
+                    <select>${data.t2Options}</select>
+                `;
+            }
+        };
+        xhr.open('GET', `/update_data/${snapId}/`);
+        xhr.send();
+    }
+
+    // Load initial snapshot data
+    const initialSnapId = snapshotSelect.value;
+    loadSnapshotData(initialSnapId);
+
+    // Load data for selected snapshot when snapshot selection is changed
+    snapshotSelect.addEventListener('change', function() {
+        const snapId = this.value;
+        loadSnapshotData(snapId);
+    });
+</script>
