@@ -12,10 +12,10 @@ def update_data(request, snapshot_id):
     subreddit_results = snapshot.get_subreddits_for_inference_task()
 
     # Prepare the data to be returned
-    t0_options = [(result.subreddit.name, result.subreddit.name) for result in subreddit_results]
-    t1_options = [(result.subreddit.name, result.min_result) for result in subreddit_results if result.min_result is not None]
-    t2_options = [(result.subreddit.name, result.max_result) for result in subreddit_results if result.max_result is not None]
-    data = {'t0Options': t0_options, 't1Options': t1_options, 't2Options': t2_options}
+    nodes_subr = [(result.subreddit.name, result.subreddit.name) for result in subreddit_results]
+    edges_mods = [(result.subreddit.name, result.min_result) for result in subreddit_results if result.min_result is not None]
+    edges_auth = [(result.subreddit.name, result.max_result) for result in subreddit_results if result.max_result is not None]
+    data = {'nodes_': nodes_subr, 'edges_m': edges_mods, 'edges_a': edges_auth}
 
     # Return the data as a JSON response
     return JsonResponse(data)
@@ -23,11 +23,12 @@ def update_data(request, snapshot_id):
 def index(request):
     template = loader.get_template('toxit/index.html')
 
-    # Fetch all Inference_task objects and their related Subreddit_result objects
-    I_t = Inference_task.objects.prefetch_related('subreddit_result_set').all()
+    # Get the selected snapshot
+    snapshot_id = request.GET.get('snapshot_id')
+    snapshot = get_object_or_404(Inference_task, id=snapshot_id) if snapshot_id else Inference_task.objects.first()
 
     context = {
-        'Snapshots': I_t,
+        'snapshot': snapshot,
     }
 
     return render(request, 'toxit/index.html', context)

@@ -1,19 +1,40 @@
 <h1>Snapshot selection</h1>
-<select id="snapshot-select">
-    {% for snapshot in Snapshots %}
-        <option value="{{ snapshot.id }}">Snapshot: {{ snapshot.id }}</option>
-    {% endfor %}
-</select>
+<form method="get" action="{% url 'toxit:index' %}">
+    <select id="snapshot-select" name="snapshot_id">
+        {% for snapshot in Snapshots %}
+            <option value="{{ snapshot.id }}" {% if snapshot.id == selected_snapshot.id %}selected{% endif %}>Snapshot: {{ snapshot.id }}</option>
+        {% endfor %}
+    </select>
+    <input type="submit" value="Submit">
+</form>
+
 <br><br>
+
 <h1>Data</h1>
 <div id="data-container">
     <!-- Data will be loaded here -->
-    {% for snapshot in Snapshots %}
-        <h2>Snapshot: {{ snapshot.id }}</h2>
-        <ul>
-            {% for subreddit_result in snapshot.subreddit_result_set.all %}
-                <li>Subreddit result ID: {{ subreddit_result.id }}</li>
-            {% endfor %}
-        </ul>
-    {% endfor %}
 </div>
+
+<script type="text/javascript">
+    // Define the function to be called when the snapshot is changed
+    function onSnapshotChange() {
+        // Get the selected snapshot ID
+        var snapshotId = document.getElementById("snapshot-select").value;
+        
+        // Make the AJAX call to get the data for the selected snapshot
+        var xhr = new XMLHttpRequest();
+        xhr.open("GET", "/update_data/" + snapshotId );
+        xhr.onload = function () {
+            // Parse the JSON response and update the graph
+            var data = JSON.parse(xhr.response);
+            updateGraph(data);
+        };
+        xhr.send();
+    }
+
+    // Add the snapshot change event listener to the select dropdown
+    document.getElementById("snapshot-select").addEventListener("change", onSnapshotChange);
+
+    // Trigger the event listener to update the graph with the initial snapshot
+    onSnapshotChange();
+</script>

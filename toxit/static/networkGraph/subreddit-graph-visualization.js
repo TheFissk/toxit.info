@@ -3,7 +3,7 @@ var container = document.getElementById("mynetwork");
 
 var data = {
     nodes: nodes,
-    edges: edges,
+    edges: m_edges,
 };
 
 var options = {
@@ -13,4 +13,4 @@ var options = {
     }
 };
 
-var network = new vis.Network(container, data, options);
+// var network = new vis.Network(container, data, options);

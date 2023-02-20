@@ -11,11 +11,19 @@ var nodes = new vis.DataSet([
     {% endfor %}
 ]);
 
-// var edgeTable = {{ edgeTable|safe }};
-
 // create an array with edges
-var edges = new vis.DataSet([
-    {% for edge in edge_data %}
+var m_edges = new vis.DataSet([
+    {% for edge in edge_m %}
         { from: "{{ edge.from_Sub }}", to: "{{ edge.to_Sub }}", width: "{{ edge.label }}"},
     {% endfor %}
 ]);
+
+var a_edges = new vis.DataSet([
+    {% for edge in edge_a %}
+        { from: "{{ edge.from_Sub }}", to: "{{ edge.to_Sub }}", width: "{{ edge.label }}"},
+    {% endfor %}
+]);
+
+// var test0 = nodes_;
+// var test1 = edges_m;
+// var test2 = edges_a;
