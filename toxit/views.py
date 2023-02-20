@@ -12,10 +12,10 @@ def update_data(request, snapshot_id):
     subreddit_results = snapshot.get_subreddits_for_inference_task()
 
     # Prepare the data to be returned
-    nodes_subr = [(result.subreddit.name, result.subreddit.name) for result in subreddit_results]
-    edges_mods = [(result.subreddit.name, result.min_result) for result in subreddit_results if result.min_result is not None]
-    edges_auth = [(result.subreddit.name, result.max_result) for result in subreddit_results if result.max_result is not None]
-    data = {'nodes_': nodes_subr, 'edges_m': edges_mods, 'edges_a': edges_auth}
+    sub_nodes_context = [(result.subreddit.name, result.subreddit.name) for result in subreddit_results]
+    mod_edges_context = [(result.subreddit.name, result.min_result) for result in subreddit_results if result.min_result is not None]
+    autor_edges_context = [(result.subreddit.name, result.max_result) for result in subreddit_results if result.max_result is not None]
+    data = {'sub_nodes_context': sub_nodes_context, 'mod_edges_context': mod_edges_context, 'autor_edges_context': autor_edges_context}
 
     # Return the data as a JSON response
     return JsonResponse(data)
@@ -23,14 +23,13 @@ def update_data(request, snapshot_id):
 def index(request):
     template = loader.get_template('toxit/index.html')
 
-    # Get the selected snapshot
-    snapshot_id = request.GET.get('snapshot_id')
-    snapshot = get_object_or_404(Inference_task, id=snapshot_id) if snapshot_id else Inference_task.objects.first()
-
+    # all 
     Snapshots = Inference_task.objects.all()
 
+    # Get the selected snapshot
+    snapshot_id = Inference_task.objects.first()
+
     context = {
-        'snapshot': snapshot,
         'Snapshots': Snapshots,
     }
 

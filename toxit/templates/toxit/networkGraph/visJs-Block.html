@@ -1,5 +1,5 @@
 <h1>Snapshot selection</h1>
-<form method="get" action="{% url 'toxit:index' %}">
+<form method="get" action="{{ snapshot.id }}">
     <select id="snapshot-select" name="snapshot_id">
         {% for snapshot in Snapshots %}
             <option value="{{ snapshot.id }}" {% if snapshot.id == selected_snapshot.id %}selected{% endif %}>Snapshot: {{ snapshot.id }}</option>
@@ -13,28 +13,23 @@
 <h1>Data</h1>
 <div id="data-container">
     <!-- Data will be loaded here -->
+    <ul>
+        {% for node in sub_nodes_context %}
+            <li> <!-- node stuff goes here --> </li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for mod in mod_edges_context %}
+            <li> <!-- mod stuff goes here; .to_sub and .from_sub --> </li>
+        {% endfor %}
+    </ul>
+    <ul>
+        {% for author in autor_edges_context %}
+            <li> <!-- author stuff goes here; .to_sub and .from_sub --> </li>
+        {% endfor %}
+    </ul>
 </div>
 
 <script type="text/javascript">
-    // Define the function to be called when the snapshot is changed
-    function onSnapshotChange() {
-        // Get the selected snapshot ID
-        var snapshotId = document.getElementById("snapshot-select").value;
-        
-        // Make the AJAX call to get the data for the selected snapshot
-        var xhr = new XMLHttpRequest();
-        xhr.open("GET", "/update_data/" + snapshotId );
-        xhr.onload = function () {
-            // Parse the JSON response and update the graph
-            var data = JSON.parse(xhr.response);
-            updateGraph(data);
-        };
-        xhr.send();
-    }
-
-    // Add the snapshot change event listener to the select dropdown
-    document.getElementById("snapshot-select").addEventListener("change", onSnapshotChange);
-
-    // Trigger the event listener to update the graph with the initial snapshot
-    onSnapshotChange();
+    // ajax goes here
 </script>
