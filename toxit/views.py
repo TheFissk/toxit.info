@@ -14,9 +14,9 @@ def update_data(request, snapshot_id):
     fetched_authors = snapshot.get_author_edges_for_inference_task()
 
     # Prepare the data to be returned
-    sub_nodes_context = [(result.subreddit.name, result.subreddit.name) for result in fetched_subs]
-    mod_edges_context = [(result.subreddit.name, result.min_result) for result in fetched_mods]
-    author_edges_context = [(result.subreddit.name, result.max_result) for result in fetched_authors]
+    sub_nodes_context = [(result.subreddit_result) for result in fetched_subs]
+    mod_edges_context = [(result.mod_edge.from_sub, result.mod_edge.to_sub) for result in fetched_mods]
+    author_edges_context = [(result.author_edge.from_sub, result.author_edge.to_sub) for result in fetched_authors]
     data = {'sub_nodes_context': sub_nodes_context, 'mod_edges_context': mod_edges_context, 'autor_edges_context': author_edges_context}
 
     # Return the data as a JSON response
@@ -33,7 +33,6 @@ def index(request):
 
     context = {
         'iTasks': iTasks,
-        'selected': selected,
     }
 
     return render(request, 'toxit/index.html', context)

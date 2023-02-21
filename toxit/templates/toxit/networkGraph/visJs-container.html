@@ -16,8 +16,6 @@
 <script type="text/javascript">
     // create an array with nodes
     var sub_nodes = new vis.DataSet([
-        // Use an empty string as the default value for `sub.edges` if it is not defined or empty
-        // Replace 'old_text' with 'new_text' in the `sub.edges` value
         {% for sub in sub_nodes_context %}
             { id: "{{ sub.subreddit }}", label: "{{ sub.subreddit|default:'failed to load.'|safe }}" },
         {% endfor %}
@@ -52,6 +50,4 @@
     };
 
     var network = new vis.Network(container, data, options);
-
-    // ajax goes here
 </script>
