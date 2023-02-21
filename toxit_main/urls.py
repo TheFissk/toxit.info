@@ -17,5 +17,4 @@ urlpatterns = [
     path('', include('toxit.urls', namespace='toxit_no_url')), # no url redirect instead of /toxit/
     path('toxit/', include('toxit.urls', namespace='toxit')),  # namespace necessary to keep each unique and prevent W005 error
     path('admin/', admin.site.urls),
-    path('toxit/', include('toxit.urls')),
 ]
