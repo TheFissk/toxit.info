@@ -1,16 +1,16 @@
-// create a network
-var container = document.getElementById("mynetwork");
+// // create a network
+// var container = document.getElementById("Toxit-SubredditGraph");
 
-var data = {
-    nodes: nodes,
-    edges: edges,
-};
+// var data = {
+//     nodes: sub_nodes,
+//     edges: mod_edges,
+// };
 
-var options = {
-    nodes:{
-        shape: "box",
-        margin: 10,
-    }
-};
+// var options = {
+//     nodes:{
+//         shape: "box",
+//         margin: 10,
+//     }
+// };
 
-var network = new vis.Network(container, data, options);
+// var network = new vis.Network(container, data, options);
