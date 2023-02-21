@@ -12,13 +12,16 @@
       <title>Network</title>
   </head>
   <body>
+
     <div id="mynetwork" style = "position: fixed;"></div>
-      {% include "toxit/sidebar/sidebar.html" %}
-      <!-- visJs Block -->
-      {% include "toxit/networkGraph/visJs-container.html" %}
-      {% include "toxit/sidebar.html" %}
+    <div style = "position: fixed;">
+        {% include "toxit/networkGraph/visJs-container.html" %}
+    </div>
+    <div style = "position: fixed;">
+        {% include "toxit/sidebar/sidebar.html" %}
+    </div>
+
     <footer>
-      <script type="text/javascript"> {% include "networkGraph/subreddit-graph-data.js" %} </script>
       <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
     </footer>
   </body>
