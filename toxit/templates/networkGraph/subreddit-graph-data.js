@@ -19,3 +19,4 @@ var edges = new vis.DataSet([
         { from: "{{ edge.from_Sub }}", to: "{{ edge.to_Sub }}", width: "{{ edge.label }}"},
     {% endfor %}
 ]);
+
