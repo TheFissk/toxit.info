@@ -2,7 +2,7 @@
 
 ### In Progress:
  - [ ] loading bar
- - [ ] segment static networkGraph portion into static file and bring in through template networkGraph
+ - [x] segment static networkGraph portion into static file and bring in through template networkGraph
  - [ ] integrate side menu into main view
  - [x] segment current index into templates 
  - [z] create side menu using template engine
