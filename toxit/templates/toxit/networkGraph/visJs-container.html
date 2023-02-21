@@ -1,7 +1,7 @@
 <h1>Snapshot selection</h1>
 <select id="snapshot-select" name="snapshot_id">
     {% for task in iTasks %}
-        <option value="{{ task.id }}" {% if selected == task %}selected{% endif %}>Snapshot: {{ task.id }}</option>
+        <option value="{{ task.id }}">Snapshot: {{ task.id }}</option>
     {% endfor %}
 </select>
 
@@ -26,11 +26,31 @@
     };
 
     var options = {
-        nodes:{
-            shape: "box",
-            margin: 10,
-        }
-    };
+        nodes: {
+          shape: "circle",
+          margin: 10,
+          size: 16,
+        },
+        layout: {
+          randomSeed: 69,
+        },
+        physics: {
+          forceAtlas2Based: {
+            gravitationalConstant: -26,
+            centralGravity: 0.005,
+            springLength: 230,
+            springConstant: 0.18,
+          },
+          maxVelocity: 146,
+          solver: "forceAtlas2Based",
+          timestep: 0.35,
+          stabilization: {
+            enabled: true,
+            iterations: 2000,
+            updateInterval: 25,
+          },
+        },
+      };
 
     var network = new vis.Network(container, data, options);
 
