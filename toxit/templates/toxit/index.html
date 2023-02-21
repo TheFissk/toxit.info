@@ -2,23 +2,21 @@
 
 <!DOCTYPE html>
 <html lang="en">
-  <head>
-      <link rel="shortcut icon" type="image/png" href="{% static '/logo/favicon.ico' %}"/>
-      <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
-      <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
-      <link rel="stylesheet" href="{% static 'index.css' %}">
-      
-      <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-      <title>Network</title>
-  </head>
-  <body>
-    <div id="mynetwork" style = "position: fixed;"></div>
-      <!-- visJs Block -->
-      {% include "toxit/networkGraph/visJs-container.html" %}
-      {% include "toxit/sidebar.html" %}
-    <footer>
-      <script type="text/javascript"> {% include "networkGraph/subreddit-graph-data.js" %} </script>
-      <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
-    </footer>
-  </body>
+<head>
+    <link rel="shortcut icon" type="image/png" href="{% static '/logo/favicon.ico' %}"/>
+    <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
+    <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
+    <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <title>Network</title>
+</head>
+
+<body>
+    <!-- visJs Block -->
+    {% include "toxit/networkGraph/visJs-container.html" %}
+</body>
+
+<footer>
+    <script type="text/javascript"> {% include "toxit/networkGraph/subreddit-graph-data.js" %} </script>
+    <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
+</footer>
 </html>
