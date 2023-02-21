@@ -1,6 +1,9 @@
-#Toxit-SubredditGraph {
-    width: 100%;
-    height: 100%;
+#Toxit-SubredditGraph, canvas, .vis-network {
+    width: 100vh !important;
+    height: 100vh !important;
+    position: absolute;
+    min-height: 100vh;
+    min-width: 100vh;
   }
 
   body {

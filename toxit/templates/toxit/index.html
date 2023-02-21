@@ -1,7 +1,5 @@
 {% load static %}
 
-{% load static %}
-
 <!DOCTYPE html>
 <html lang="en">
 <head>
@@ -22,11 +20,12 @@
 <body>
 <!--Free debug buttons to test any function-->
 <!--    <div style = "position: fixed; z-index: 10000;">-->
-<!--      <input id="mybutton" />-->
+<!--      <button id="mybutton"> Toggle Edges</button>-->
 <!--      <input id="mybutton2" />-->
-<!--    </div>  -->
+<!--    </div>-->
     <!-- visJs Block -->
-    <div style = "position: fixed;">
+
+    <div style = "position: fixed; width: 100vh; height: 100vh;">
     {% include "toxit/networkGraph/visJs-container.html" %}
     </div>
     <div style = "position: fixed;">
