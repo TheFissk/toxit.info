@@ -15,8 +15,8 @@ def update_data(request, snapshot_id):
 
     # Prepare the data to be returned
     sub_nodes_context = [{'id': result.subreddit.custom_id, 'label': result.subreddit.display_name}for result in fetched_subs]
-    mod_edges_context = [(result.from_sub.subreddit.custom_id, result.to_sub.subreddit.custom_id) for result in fetched_mods]
-    author_edges_context = [(result.from_sub.subreddit.custom_id, result.to_sub.subreddit.custom_id) for result in fetched_authors]
+    mod_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id} for result in fetched_mods]
+    author_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id} for result in fetched_authors]
     data = {
         'sub_nodes_context': sub_nodes_context,
         'mod_edges_context': mod_edges_context,
