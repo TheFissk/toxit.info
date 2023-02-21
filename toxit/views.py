@@ -17,10 +17,11 @@ def update_data(request, snapshot_id):
     sub_nodes_context = [(result.subreddit_result) for result in fetched_subs]
     mod_edges_context = [(result.mod_edge.from_sub, result.mod_edge.to_sub) for result in fetched_mods]
     author_edges_context = [(result.author_edge.from_sub, result.author_edge.to_sub) for result in fetched_authors]
-    data = {'sub_nodes_context': sub_nodes_context, 'mod_edges_context': mod_edges_context, 'autor_edges_context': author_edges_context}
+    data = {'sub_nodes_context': sub_nodes_context, 'mod_edges_context': mod_edges_context, 'author_edges_context': author_edges_context}  # fix the typo here
 
     # Return the data as a JSON response
     return JsonResponse(data)
+
 
 def index(request):
     template = loader.get_template('toxit/index.html')
@@ -33,6 +34,7 @@ def index(request):
 
     context = {
         'iTasks': iTasks,
+        'selected': selected,  # Add selected to the context dictionary
     }
 
     return render(request, 'toxit/index.html', context)

@@ -14,26 +14,9 @@
 </div>
 
 <script type="text/javascript">
-    // create an array with nodes
-    var sub_nodes = new vis.DataSet([
-        {% for sub in sub_nodes_context %}
-            { id: "{{ sub.subreddit }}", label: "{{ sub.subreddit|default:'failed to load.'|safe }}" },
-        {% endfor %}
-    ]);
-
-    // create an array with mod edges
-    var mod_edges = new vis.DataSet([
-        {% for edge in mod_edges_context %}
-            { to: {{ edge.to_sub }}, from: {{ edge.from_sub }} },
-        {% endfor %}
-    ]);
-
-    // create an array with author edges
-    var author_edges = new vis.DataSet([
-        {% for edge in author_edges_context %}
-            { to: {{ edge.to_sub }}, from: {{ edge.from_sub }} },
-        {% endfor %}
-    ]);
+    var sub_nodes = new vis.DataSet();
+    var mod_edges = new vis.DataSet();
+    var author_edges = new vis.DataSet();
 
     var container = document.getElementById("Toxit-SubredditGraph");
 
@@ -50,4 +33,29 @@
     };
 
     var network = new vis.Network(container, data, options);
+
+    // Add event listener to snapshot-select select tag
+    document.getElementById('snapshot-select').addEventListener('change', function() {
+        var snapshot_id = this.value;
+        var url = '/update_data/' + snapshot_id + '/';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Clear the existing data
+                sub_nodes.clear();
+                mod_edges.clear();
+                author_edges.clear();
+
+                // Add the new data
+                sub_nodes.add(data.sub_nodes_context);
+                mod_edges.add(data.mod_edges_context);
+                author_edges.add(data.author_edges_context);
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    });
 </script>
