@@ -14,10 +14,14 @@ def update_data(request, snapshot_id):
     fetched_authors = snapshot.get_author_edges_for_inference_task()
 
     # Prepare the data to be returned
-    sub_nodes_context = [(result.subreddit.display_name) for result in fetched_subs]
-    mod_edges_context = [(result.Mod_edge.from_sub, result.Mod_edge.to_sub) for result in fetched_mods]
-    author_edges_context = [(result.Author_edge.from_sub, result.Author_edge.to_sub) for result in fetched_authors]
-    data = {'sub_nodes_context': sub_nodes_context, 'mod_edges_context': mod_edges_context, 'author_edges_context': author_edges_context}  # fix the typo here
+    sub_nodes_context = [{'id': result.subreddit.custom_id, 'label': result.subreddit.display_name}for result in fetched_subs]
+    mod_edges_context = [(result.from_sub.subreddit.custom_id, result.to_sub.subreddit.custom_id) for result in fetched_mods]
+    author_edges_context = [(result.from_sub.subreddit.custom_id, result.to_sub.subreddit.custom_id) for result in fetched_authors]
+    data = {
+        'sub_nodes_context': sub_nodes_context,
+        'mod_edges_context': mod_edges_context,
+        'author_edges_context': author_edges_context,
+    }
 
     # Return the data as a JSON response
     return JsonResponse(data)
@@ -33,21 +37,21 @@ def index(request):
     selected = Inference_task.objects.first()
 
     # Get the Subreddit_results for the selected snapshot
-    fetched_subs = selected.get_subreddits_for_inference_task()
-    fetched_mods = selected.get_mod_edges_for_inference_task()
-    fetched_authors = selected.get_author_edges_for_inference_task()
+    # fetched_subs = selected.get_subreddits_for_inference_task()
+    # fetched_mods = selected.get_mod_edges_for_inference_task()
+    # fetched_authors = selected.get_author_edges_for_inference_task()
 
     # Prepare the data to be returned
-    sub_nodes_context = [(result.subreddit.display_name) for result in fetched_subs]
-    mod_edges_context = [(result.from_sub, result.to_sub) for result in fetched_mods]
-    author_edges_context = [(result.from_sub, result.to_sub) for result in fetched_authors]
+    # sub_nodes_context = [(result.subreddit.display_name) for result in fetched_subs]
+    # mod_edges_context = [(result.from_sub, result.to_sub) for result in fetched_mods]
+    # author_edges_context = [(result.from_sub, result.to_sub) for result in fetched_authors]
 
     context = {
         'iTasks': iTasks,
         'selected': selected,
-        'sub_nodes_context': sub_nodes_context,
-        'mod_edges_context': mod_edges_context,
-        'author_edges_context': author_edges_context,
+        # 'sub_nodes_context': sub_nodes_context,
+        # 'mod_edges_context': mod_edges_context,
+        # 'author_edges_context': author_edges_context,
     }
 
     return render(request, 'toxit/index.html', context)
