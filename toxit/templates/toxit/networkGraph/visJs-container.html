@@ -1,0 +1,98 @@
+<h1>Snapshot selection</h1>
+<select id="snapshot-select" name="snapshot_id">
+    {% for task in iTasks %}
+        <option value="{{ task.id }}">Snapshot: {{ task.id }}</option>
+    {% endfor %}
+</select>
+
+<br>
+
+<h1>VisJS</h1>
+
+<!-- Data will be displayed here -->
+<div id="Toxit-SubredditGraph">
+</div>
+
+<script type="text/javascript">
+    var sub_nodes = new vis.DataSet();
+    var mod_edges = new vis.DataSet();
+    var author_edges = new vis.DataSet();
+
+    var container = document.getElementById("Toxit-SubredditGraph");
+
+    var data = {
+        nodes: sub_nodes,
+        edges: mod_edges,
+    };
+
+    var options = {
+        nodes: {
+          shape: "circle",
+          margin: 10,
+          size: 16,
+        },
+        layout: {
+          randomSeed: 69, /* nice */
+        },
+        physics: {
+          forceAtlas2Based: {
+            gravitationalConstant: -38,
+            centralGravity: 0.005,
+            springLength: 230,
+            springConstant: 0.18,
+          },
+          maxVelocity: 146,
+          solver: "forceAtlas2Based",
+          timestep: 0.35,
+          stabilization: {
+            enabled: true,
+            iterations: 2000,
+            updateInterval: 25,
+          },
+        },
+      };
+
+    var network = new vis.Network(container, data, options);
+
+    // Add event listener to snapshot-select select tag
+    document.getElementById('snapshot-select').addEventListener('change', function() {
+        var snapshot_id = this.value;
+        var url = '/update_data/' + snapshot_id + '/';
+        $.ajax({
+            url: url,
+            type: 'GET',
+            dataType: 'json',
+            success: function(data) {
+                // Clear the existing data
+                sub_nodes.clear();
+                mod_edges.clear();
+                author_edges.clear();
+
+                // Add the new data
+                sub_nodes.add(data.sub_nodes_context);
+                mod_edges.add(data.mod_edges_context);
+                author_edges.add(data.author_edges_context);
+            },
+            error: function(xhr, status, error) {
+                console.log('Error:', error);
+            }
+        });
+    });
+
+<!--    document.getElementById('mybutton').addEventListener('click', toggleEdges);-->
+<!--    let isModEdge = true;-->
+<!--    function toggleEdges(){-->
+<!--        data.edges.clear();-->
+<!--        if (isModEdge)-->
+<!--        {-->
+<!--            data.edges.add(author_edges);-->
+<!--            isModEdge = false;-->
+<!--            console.log("author");-->
+<!--        }else-->
+<!--        {-->
+<!--            data.edges.add(mod_edges);-->
+<!--            isModEdge = true;-->
+<!--            console.log("mod");-->
+<!--        }-->
+<!--    }-->
+</script>

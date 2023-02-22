@@ -3,6 +3,8 @@ let sidebar = document.getElementsByClassName("sidebar");
 let handle = document.getElementsByClassName("resizeHandle");
 let button = document.getElementsByClassName("btn");
 let isResizing = false;
+//Initialize --menuSize
+document.documentElement.style.setProperty("--menuSize", "20vw");
 
 handle[0].addEventListener("mousedown", function(e) {
   isResizing = true;
@@ -38,6 +40,20 @@ sidebar[0].addEventListener("scroll", function() {
 });
 
 
+//Sidebar Hamburger Button
+$('.btn').click(function(){
+           $(this).toggleClass("click");
+           $('.sidebar').toggleClass("show");
+         });
 
-//    document.getElementById("radio_sim").addEventListener("click", setEdgeArcWeight);
-//    document.getElementById("radio_count").addEventListener("click", setEdgeArcWeight);
+//Sidebar Tab Title
+$('.sidebar ul li a').click(function(){
+    var id = $(this).attr('id');
+    $('nav ul li ul.item-show-'+id).toggleClass("show");
+    $('nav ul li #'+id+' span').toggleClass("rotate");
+
+});
+
+$('nav ul li').click(function(){
+ $(this).addClass("active").siblings().removeClass("active");
+});
