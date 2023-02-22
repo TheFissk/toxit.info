@@ -215,27 +215,38 @@ document.addEventListener('DOMContentLoaded', function() {
      var nodes = null;
       var edges = null;
       var network = null;
+        var DIR = 'img/refresh-cl/';
 
-      var DIR = 'img/refresh-cl/';
-        var thisName = "CUSTOM";
-        var toxicity = 0.725;
+
+
+        var toxicity_results = new vis.DataSet();
+            toxicity_results.add({id: 1, toxicity: 0.5});
+            toxicity_results.add({id: 2, toxicity: 1.0});
+            toxicity_results.add({id: 3, toxicity: -0.5});
+            toxicity_results.add({id: 4, toxicity: -1.0});
+            toxicity_results.add({id: 5, toxicity: 0.75});
+//            var toxicity = toxicity_results.get(1);
+        toxicity_results.forEach(function(item) {
       var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="65">' +
-          '<rect x="0" y="0" width="100%" height="100%" fill="hsl(' +(60 - 60 * toxicity)+', 100%, 50%)" stroke-width="2" stroke="black" ></rect>' +
+          '<rect x="0" y="0" width="100%" height="100%" fill="hsl(' +(60 - 60 * item.toxicity)+', 100%, 50%)" stroke-width="2" stroke="black" ></rect>' +
           '<foreignObject x="0" y="20%" width="100%" height="100%">' +
               '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial; font-size:30px; text-align: center; ">' +
-              "Toxicity: " + toxicity +
+              "Toxicity: " + item.toxicity +
               '</div>' +
           '</foreignObject>' +
           '</svg>';
 
 
-      var url = "data:image/svg+xml;charset=utf-8,"+ encodeURIComponent(svg);
-
+            var url = "data:image/svg+xml;charset=utf-8,"+ encodeURIComponent(svg);
+            nodes.update({id: item.id, label: nodes.get(item.id).label, image: url, shape: 'image'});
+        });
 // Create a data table with nodes.
             nodes = [];
 
             // Create a data table with links.
             edges = [];
+
+
 
             nodes.push({id: 1, label: 'Get HTML', image: url, shape: 'image'});
             nodes.push({id: 2, label: 'Using SVG', image: url, shape: 'image'});
