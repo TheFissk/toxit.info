@@ -15,10 +15,29 @@ def update_data(request, snapshot_id):
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
     # Prepare the data to be returned
-    sub_nodes_context = [{'id': result.subreddit.custom_id, 'label': result.subreddit.display_name} for result in queried_subs]
-    mod_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id, 'label': result.weight, 'title': 'Weight: ' + str(result.weight)} for result in queried_mods]
-    author_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id} for result in queried_authors]
+    sub_nodes_context = [
+        {
+            'id': result.subreddit.custom_id, 
+            'label': result.subreddit.display_name
+        } for result in queried_subs
+    ]
+    mod_edges_context = [
+        {
+            'from': result.from_sub.subreddit.custom_id,
+            'to': result.to_sub.subreddit.custom_id,
+            'label': str(result.weight),
+        } for result in queried_mods
+    ]
+    author_edges_context = [
+        {
+            'from': result.from_sub.subreddit.custom_id, 
+            'to': result.to_sub.subreddit.custom_id
+        } for result in queried_authors
+    ]
     
+    # debug print
+    print(mod_edges_context)  # add this line to log the mod_edges_context list
+
     data = {
         'sub_nodes_context': sub_nodes_context,
         'mod_edges_context': mod_edges_context,

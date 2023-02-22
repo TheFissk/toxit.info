@@ -28,13 +28,13 @@ var options = {
             to: {enabled: true, scaleFactor:1, type:'arrow'},
             from: {enabled: true, scaleFactor:1, type:'arrow'},
         },
-        edgeLabel: {
+        label: {
             enabled: true,
             minSpace: 20,
             align: 'middle',
             fontStyle: 'bold'
         }
-    },
+      },      
     layout: {
       randomSeed: 69,
     },
