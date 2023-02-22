@@ -1,4 +1,5 @@
 from django.http import HttpResponse, JsonResponse
+from tqdm import tqdm
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
@@ -13,28 +14,28 @@ def update_data(request, snapshot_id):
     queried_subs = snapshot.get_subreddits_for_inference_task()
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
-
+    print("snapshots")
     # Prepare the data to be returned
+
     sub_nodes_context = [
         {
-            'id': result.subreddit.custom_id, 
+            'id': result.id, 
             'label': result.subreddit.display_name
-        } for result in queried_subs
+        } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]
     mod_edges_context = [
         {
-            'from': result.from_sub.subreddit.custom_id,
-            'to': result.to_sub.subreddit.custom_id,
+            'from': result.from_sub_id,
+            'to': result.to_sub_id,
             'label': str(result.weight),
-        } for result in queried_mods
+        } for result in tqdm(queried_mods, desc='Mod Edges')
     ]
     author_edges_context = [
         {
-            'from': result.from_sub.subreddit.custom_id, 
-            'to': result.to_sub.subreddit.custom_id
-        } for result in queried_authors
+            'from': result.from_sub_id,
+            'to': result.to_sub_id,
+        } for result in tqdm(queried_authors, desc='Author Edges')
     ]
-    
     # debug print
     print(mod_edges_context)  # add this line to log the mod_edges_context list
 
