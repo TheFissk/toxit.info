@@ -14,7 +14,6 @@ def update_data(request, snapshot_id):
     queried_subs = snapshot.get_subreddits_for_inference_task()
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
-    print("snapshots")
     # Prepare the data to be returned
 
     sub_nodes_context = [
@@ -37,7 +36,7 @@ def update_data(request, snapshot_id):
         } for result in tqdm(queried_authors, desc='Author Edges')
     ]
     # debug print
-    print(mod_edges_context)  # add this line to log the mod_edges_context list
+    # print(mod_edges_context)  # add this line to log the mod_edges_context list
 
     data = {
         'sub_nodes_context': sub_nodes_context,

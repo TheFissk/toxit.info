@@ -71,7 +71,7 @@ class Inference_task(models.Model):
                                     help_text="The status of the task")
     
     def get_subreddits_for_inference_task(self):
-        return Subreddit_result.objects.filter(inference_task=self)
+        return Subreddit_result.objects.filter(inference_task=self).select_related('subreddit')
     
     def get_mod_edges_for_inference_task(self):
         return Mod_edge.objects.filter(inference_task=self)
