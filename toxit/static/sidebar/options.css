@@ -13,6 +13,8 @@ body {
     --bkg-color: #000000;
     --node-bkg-color:#ffffff;
     --button-color:#faee05;
+    --node-bkg-img: url(/static/img/background.jpg) ;
+
 }
 /*light/dark mode toggle*/
 .checkbox {
