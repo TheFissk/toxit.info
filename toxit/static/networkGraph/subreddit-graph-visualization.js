@@ -217,13 +217,10 @@ document.addEventListener('DOMContentLoaded', function() {
       var network = null;
 
       var DIR = 'img/refresh-cl/';
-      var LENGTH_MAIN = 150;
-      var LENGTH_SUB = 50;
         var thisName = "CUSTOM";
         var toxicity = 0.725;
-//<circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="red" />
       var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="65">' +
-          '<rect x="0" y="0" width="100%" height="100%" fill="hsl(' +(60 - 60 * toxicity)+', 100%, 50%)" stroke-width="20" stroke="#ffffff" ></rect>' +
+          '<rect x="0" y="0" width="100%" height="100%" fill="hsl(' +(60 - 60 * toxicity)+', 100%, 50%)" stroke-width="2" stroke="black" ></rect>' +
           '<foreignObject x="0" y="20%" width="100%" height="100%">' +
               '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial; font-size:30px; text-align: center; ">' +
               "Toxicity: " + toxicity +
