@@ -1,9 +1,16 @@
+/* all the relevant CSS for the network graph related page content */
+body {
+  margin: 0.5rem;
+  display: block;
+  height: 95vh;
+}
+
 #snapshot-selection-wrapper {
   display: block;
   position: fixed;
   top: 0;
   right: 0;
-  z-index: 420;
+  z-index: 420; /* makes selection clickable */
   float: right;
   margin-right: 0.5rem;
 }
@@ -13,10 +20,26 @@
   height: 100%;
 }
 
-#Toxit-SubredditGraph {}
+#Toxit-SubredditGraph {
+  height: 100%;
+}
 
-body {
+.loader {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #3498db;
+  border-radius: 50%;
+  width: 30px;
+  height: 30px;
+  animation: spin 2s linear infinite;
+  display: none; /* Hide the loader by default */
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  z-index: 666; /* ensures clickable */
   margin: 0.5rem;
-  display: block;
-  height: 95vh;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
 }

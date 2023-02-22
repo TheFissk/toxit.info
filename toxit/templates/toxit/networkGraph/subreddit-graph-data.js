@@ -50,28 +50,39 @@ var network = new vis.Network(container, data, options);
 
 // Define a function to update the graph data
 function updateGraphData(snapshot_id) {
-  var url = '/update_data/' + snapshot_id + '/';
-  $.ajax({
-    url: url,
-    type: 'GET',
-    dataType: 'json',
-    success: function(data) {
-      // Clear the existing data
-      sub_nodes.clear();
-      mod_edges.clear();
-      author_edges.clear();
-
-      // Add the new data
-      sub_nodes.add(data.sub_nodes_context);
-      mod_edges.add(data.mod_edges_context);
-      author_edges.add(data.author_edges_context);
-    },
-    error: function(xhr, status, error) {
-      console.log('Error:', error);
-    }
-  });
-}
-
+    var url = '/update_data/' + snapshot_id + '/';
+    var $loader = $('#loader'); // the loader element, replace with your own
+  
+    // show the loader while the data is being fetched
+    $loader.show();
+  
+    $.ajax({
+      url: url,
+      type: 'GET',
+      dataType: 'json',
+      success: function(data) {
+        // hide the loader once the data has been loaded
+        $loader.hide();
+  
+        // Clear the existing data
+        sub_nodes.clear();
+        mod_edges.clear();
+        author_edges.clear();
+  
+        // Add the new data
+        sub_nodes.add(data.sub_nodes_context);
+        mod_edges.add(data.mod_edges_context);
+        author_edges.add(data.author_edges_context);
+      },
+      error: function(xhr, status, error) {
+        // hide the loader in case of an error
+        $loader.hide();
+  
+        console.log('Error:', error);
+      }
+    });
+  }
+  
 // Call the function to update the graph data for the first choice on page load
 var firstChoiceValue = $('#snapshot-select option:first').val();
 updateGraphData(firstChoiceValue);
