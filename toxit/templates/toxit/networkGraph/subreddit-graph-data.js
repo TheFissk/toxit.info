@@ -18,25 +18,19 @@ var options = {
       size: 16,
     },
     edges: {
-        labelHighlightBold: true,
-        font: {
-            size: 14,
-            align: 'middle'
-        },
-        fontColor: '#000000',
-        arrows: {
-            to: {enabled: true, scaleFactor:1, type:'arrow'},
-            from: {enabled: true, scaleFactor:1, type:'arrow'},
-        },
-        label: {
-            enabled: true,
-            minSpace: 20,
-            align: 'middle',
-            fontStyle: 'bold'
-        }
-      },      
-    layout: {
-      randomSeed: 69,
+      font: {
+        size: 14,
+        align: 'middle'
+      },
+      hoverWidth: 0.5,
+      selectionWidth: 1,
+      width: 0.15,
+      smooth: {
+        type: 'continuous'
+      },
+      arrows: {
+        to: {enabled: true, scaleFactor: 0.5}
+      }
     },
     physics: {
       solver: "forceAtlas2Based",
@@ -48,21 +42,13 @@ var options = {
         updateInterval: 25,
       },
       forceAtlas2Based: {
-        gravitationalConstant: -30,
+        gravitationalConstant: -69, /* nice */
         centralGravity: 0.01,
-        springLength: 250,
-        springConstant: 0.05,
+        springLength: 420,
+        springConstant: 0.01,
       },
     },
-    clustering: {
-      enabled: true,
-      clusterNodeProperties: {
-        borderWidth: 2,
-        shape: "box",
-        font: { size: 20 },
-      },
-    },
-  };  
+  };    
 
 var network = new vis.Network(container, data, options);
 
