@@ -220,10 +220,10 @@ document.addEventListener('DOMContentLoaded', function() {
       var LENGTH_MAIN = 150;
       var LENGTH_SUB = 50;
         var thisName = "CUSTOM";
-        var toxicity = 0.5;
+        var toxicity = 0.7;
 
       var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="390" height="65">' +
-          '<rect x="0" y="0" width="100%" height="100%" fill="rgba(' +(toxicity * 255)+',' +(toxicity * -255)+',120,1)" stroke-width="20" stroke="#ffffff" ></rect>' +
+          '<rect x="0" y="0" width="100%" height="100%" fill="hsl(' +(60 - 60 * toxicity)+', 100%, 50%)" stroke-width="20" stroke="#ffffff" ></rect>' +
           '<foreignObject x="15" y="10" width="100%" height="100%">' +
           '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial; font-size:30px">' +
           ' <em>I</em> am' +
