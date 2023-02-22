@@ -220,17 +220,14 @@ document.addEventListener('DOMContentLoaded', function() {
       var LENGTH_MAIN = 150;
       var LENGTH_SUB = 50;
         var thisName = "CUSTOM";
-        var toxicity = 0.7;
-
-      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="390" height="65">' +
+        var toxicity = 0.725;
+//<circle cx="50" cy="50" r="40" stroke="black" stroke-width="2" fill="red" />
+      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="65">' +
           '<rect x="0" y="0" width="100%" height="100%" fill="hsl(' +(60 - 60 * toxicity)+', 100%, 50%)" stroke-width="20" stroke="#ffffff" ></rect>' +
-          '<foreignObject x="15" y="10" width="100%" height="100%">' +
-          '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial; font-size:30px">' +
-          ' <em>I</em> am' +
-          '<span style="color:white; text-shadow:0 0 20px #000000;">' +
-            ' HTML in SVG!</span>' +
-            thisName +
-          '</div>' +
+          '<foreignObject x="0" y="20%" width="100%" height="100%">' +
+              '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial; font-size:30px; text-align: center; ">' +
+              "Toxicity: " + toxicity +
+              '</div>' +
           '</foreignObject>' +
           '</svg>';
 
