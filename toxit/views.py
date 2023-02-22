@@ -16,7 +16,7 @@ def update_data(request, snapshot_id):
 
     # Prepare the data to be returned
     sub_nodes_context = [{'id': result.subreddit.custom_id, 'label': result.subreddit.display_name} for result in queried_subs]
-    mod_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id} for result in queried_mods]
+    mod_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id, 'label': result.weight, 'title': 'Weight: ' + str(result.weight)} for result in queried_mods]
     author_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id} for result in queried_authors]
     
     data = {

@@ -17,6 +17,24 @@ var options = {
       margin: 10,
       size: 16,
     },
+    edges: {
+        labelHighlightBold: true,
+        font: {
+            size: 14,
+            align: 'middle'
+        },
+        fontColor: '#000000',
+        arrows: {
+            to: {enabled: true, scaleFactor:1, type:'arrow'},
+            from: {enabled: true, scaleFactor:1, type:'arrow'},
+        },
+        edgeLabel: {
+            enabled: true,
+            minSpace: 20,
+            align: 'middle',
+            fontStyle: 'bold'
+        }
+    },
     layout: {
       randomSeed: 69,
     },
