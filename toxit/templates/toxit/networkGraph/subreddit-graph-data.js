@@ -16,6 +16,9 @@ var options = {
     shape: "circle",
     margin: 10,
     size: 16,
+    shapeProperties: {
+      interpolation: false    // 'true' for intensive zooming
+    },
   },
   edges: {
     font: {
@@ -29,6 +32,9 @@ var options = {
       type: 'continuous'
     },
   },
+  layout: {
+    improvedLayout:false
+  },
   physics: {
     solver: "forceAtlas2Based",
     maxVelocity: 50,
@@ -41,8 +47,8 @@ var options = {
     forceAtlas2Based: {
       gravitationalConstant: -69, /* nice */
       centralGravity: 0.01,
-      springLength: 420,
-      springConstant: 0.01,
+      springLength: 42069,
+      springConstant: 0.001,
     },
   },
 };

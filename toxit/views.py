@@ -35,8 +35,6 @@ def update_data(request, snapshot_id):
             'to': result.to_sub_id,
         } for result in tqdm(queried_authors, desc='Author Edges')
     ]
-    # debug print
-    # print(mod_edges_context)  # add this line to log the mod_edges_context list
 
     data = {
         'sub_nodes_context': sub_nodes_context,
