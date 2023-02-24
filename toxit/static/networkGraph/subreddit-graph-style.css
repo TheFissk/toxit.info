@@ -25,19 +25,41 @@ body {
 }
 
 .loader {
-  border: 5px solid #f3f3f3;
-  border-top: 5px solid #3498db;
-  border-radius: 50%;
-  width: 30px;
-  height: 30px;
-  animation: spin 2s linear infinite;
-  display: none; /* Hide the loader by default */
   position: fixed;
   bottom: 0;
   right: 0;
-  z-index: 666; /* ensures clickable */
+  width: 2.5rem;
+  height: 2.5rem;
+  z-index: 666;
   margin: 0.5rem;
-}
+  cursor: pointer;
+  }
+  
+  .loader .spinner {
+  border: 0.5rem solid #787878;
+  border-top: 0.5rem solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+  display: inline-block;
+  }
+  
+  .loader:hover::after {
+    content: 'X';
+    font-size: 3.5rem;
+    font-family: cursive;
+    color: red;
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
+  }
 
 @keyframes spin {
   0% { transform: rotate(0deg); }

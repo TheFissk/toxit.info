@@ -67,6 +67,12 @@ var updateGraphData = (function() {
     controller.abort();
     controller = new AbortController();
 
+     // add event listener to loader element to cancel fetch request
+     $loader.click(function() {
+      controller.abort();
+      $loader.hide();
+    });
+
     // show the loader while the data is being fetched
     $loader.show();
 
