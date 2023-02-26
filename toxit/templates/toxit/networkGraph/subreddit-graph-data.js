@@ -134,3 +134,11 @@ $('input[type=radio][name=edge-weight]').change(function() {
   // Update the network with the new edges
   network.setData(data);
 });
+
+network.on('click', function(event) {
+  var node = event.nodes[0];
+  if (node) {
+    var data = sub_nodes.get(node);
+    alert('Subreddit: ' + data.label + '\nDescription: ' + data.title);
+  }
+});
