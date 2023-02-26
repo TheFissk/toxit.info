@@ -7,7 +7,9 @@
     <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
     <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
-    <title>Network</title>
+
+    <!-- idk what this is, is it all side bar stuff? -->
+
     <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
@@ -15,32 +17,31 @@
     <link rel="stylesheet" href="{% static 'index.css' %}">
     <link rel="stylesheet" href="{% static 'sidebar/options.css' %}">
     <link rel="stylesheet" href="{% static 'sidebar/sidebar.css' %}">
+
+    <!-- are we using all this ? -->
+
+    <title>Network</title>
 </head>
 
 <body>
-<!--Free debug buttons to test any function-->
-<!--    <div style = "position: fixed; z-index: 10000;">-->
-<!--      <button id="mybutton"> Toggle Edges</button>-->
-<!--      <input id="mybutton2" />-->
-<!--    </div>-->
     <!-- visJs Block -->
-
-    <div style = "position: fixed; width: 100vh; height: 100vh;">
     {% include "toxit/networkGraph/visJs-container.html" %}
-    </div>
-    <div style = "position: fixed;">
+
+    <div style = "position: fixed;"> <!-- we should use the style sheet for this -->
         {% include "toxit/sidebar/sidebar.html" %}
     </div>
 </body>
 
 <footer>
+    <!-- VisJS Network -->
     <script type="text/javascript"> {% include "toxit/networkGraph/subreddit-graph-data.js" %} </script>
     <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
-<!--    sidebar-->
-        <script src="{% static 'sidebar/sidebarEvents.js' %}"></script>
-        <script src="{% static 'sidebar/options.js' %}"></script>
+    <!--    sidebar-->
+    <script src="{% static 'sidebar/sidebarEvents.js' %}"></script>
+    <script src="{% static 'sidebar/options.js' %}"></script>
 </footer>
 </html>
+
 
 
 
