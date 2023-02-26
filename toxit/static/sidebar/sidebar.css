@@ -1,0 +1,181 @@
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+
+*{
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+body{
+  background-color: var(--node-bkg-color);
+  transition: background-color 0.5s, color 0.5s;
+}
+.btn{
+  position: absolute;
+    top: 10px;
+    left: 45px;
+    height: 37px;
+    width: 37px;
+    text-align: center;
+    background-color: var(--bkg-color);
+    transition: background-color 0.5s, color 0.5s;
+    border-radius: 3px;
+    cursor: pointer;
+    z-index: 100;
+    transition: left 0.5s ease;
+}
+.btn.click{
+  left: calc(var(--menuSize) + 2em);
+}
+.btn span{
+    color: var(--text-color);
+    transition: background-color 0.5s, color 0.5s;
+    font-size: 15px;
+    line-height: 36px;
+}
+.btn.click span:before{
+  content: '\f00d';
+
+}
+.sidebar{
+  position: fixed;
+  width: calc(var(--menuSize));
+  height: 100vh;
+  left: -100%;
+  background-color: var(--bkg-color);
+  transition: background-color 0.5s, color 0.5s;
+  z-index: 100;
+  overflow-wrap: anywhere;
+  transition: left 0.5s ease;
+  /*scrolling feature*/
+  -ms-overflow-style: none; /* for Internet Explorer, Edge */
+  scrollbar-width: none; /* for Firefox */
+  overflow-y: scroll;
+  overflow: -moz-scrollbars-none;
+  overflow-x: none;
+ }
+.sidebar::-webkit-scrollbar {
+  display: none; /* for Chrome, Safari, and Opera */
+  }
+
+.sidebar.show{
+  left: 0px;
+}
+ .sidebar .text{
+  color: var(--text-color);
+  transition: background-color 0.5s, color 0.5s;
+  font-size: 19px;
+  font-weight: 600;
+  line-height: 65px;
+  text-align: center;
+  background-color: var(--bkg-color);
+  letter-spacing: 1px;
+}
+nav ul{
+  background-color: var(--bkg-color);
+  transition: background-color 0.5s, color 0.5s;
+  height: 100%;
+  width: 100%;
+  list-style: none;
+  padding-left: 10px;
+}
+nav ul li{
+  line-height: 50px;
+  border-top: 1px solid rgba(255,255,255,0.1);
+}
+nav ul li:last-child{
+  border-bottom: 1px solid rgba(255,255,255,0.05);
+}
+nav ul li a{
+  position: relative;
+  color: var(--text-color);
+  transition: background-color 0.5s, color 0.5s;
+  font-size: 13px;
+  padding-left: 14px;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+  border-left: 3px solid transparent;
+  text-decoration: none;
+}
+
+.feat-show{
+  transition: all 0.5s;
+}
+
+nav ul li.active ul{
+ transition: all 0.5s;
+}
+nav ul ul{
+  position: static;
+  display: none;
+}
+
+nav ul.show{
+  display: block;
+  transition: all 0.5s;
+}
+
+nav ul ul li{
+  line-height: 42px;
+  border-top: none;
+}
+nav ul ul li{
+  font-size: 12px;
+  color: var(--text-color);
+  transition: background-color 0.5s, color 0.5s;
+  padding-left:1%;
+  padding-right:1%;
+}
+nav ul li.active ul li{
+  color: var(--text-color);
+  background-color: var(--bkg-color);
+  transition: background-color 0.5s, color 0.5s;
+  border-left-color: transparent;
+
+}
+
+a:hover{
+  color: #FC5404;
+}
+
+
+nav ul li a span{
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  transition: transform 0.5s;
+}
+nav ul li a span.rotate{
+  transform: translateY(-50%) rotate(-180deg);
+}
+.content{
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%,-50%);
+  color: var(--text-color);
+  transition: background-color 0.5s, color 0.5s;
+  z-index: -1;
+  text-align: center;
+}
+nav ul li.active a{
+    color: #FC5404;
+    background-color: var(--bkg-color);
+    transition: background-color 0.5s, color 0.5s;
+    border-left-color: #FC5404;
+}
+.resizeHandle {
+  width: 1em;
+  height: 100%;
+  background-color: red;
+  cursor: col-resize;
+  position: absolute;
+  top: 0px;
+  right: -5px;
+  z-index: 101;
+}

@@ -1,5 +1,3 @@
-var displayMods = Boolean(true); 
-
 var sub_nodes = new vis.DataSet();
 var mod_edges = new vis.DataSet();
 var author_edges = new vis.DataSet();
