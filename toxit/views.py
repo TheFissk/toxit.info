@@ -1,4 +1,5 @@
 from django.http import HttpResponse, JsonResponse
+from tqdm import tqdm
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
@@ -14,11 +15,32 @@ def update_data(request, snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-    # Prepare the data to be returned
-    sub_nodes_context = [{'id': result.subreddit.custom_id, 'label': result.subreddit.display_name} for result in queried_subs]
-    mod_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id} for result in queried_mods]
-    author_edges_context = [{'from': result.from_sub.subreddit.custom_id, 'to': result.to_sub.subreddit.custom_id} for result in queried_authors]
-    
+    # if you get any errors make sure tqdm is installed 
+    sub_nodes_context = [
+        {
+            'id': result.id, 
+            'label': result.subreddit.display_name,
+            'title': f'Min: {result.min_result}, Max: {result.max_result}, Mean: {result.mean_result}, Std: {result.std_result}',
+        } for result in tqdm(queried_subs, desc='Sub Nodes')
+    ]
+
+    print(sub_nodes_context)
+
+    mod_edges_context = [
+        {
+            'from': result.from_sub_id,
+            'to': result.to_sub_id,
+            'label': str(result.weight),
+        } for result in tqdm(queried_mods, desc='Mod Edges')
+    ]
+    author_edges_context = [
+        {
+            'from': result.from_sub_id,
+            'to': result.to_sub_id,
+            'label': str(result.weight),
+        } for result in tqdm(queried_authors, desc='Author Edges')
+    ]
+
     data = {
         'sub_nodes_context': sub_nodes_context,
         'mod_edges_context': mod_edges_context,

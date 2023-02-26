@@ -1,11 +1,100 @@
+
+/* all the relevant CSS for the network graph related page content */
+
 #Toxit-SubredditGraph, canvas, .vis-network {
-    width: 100vh !important;
-    height: 100vh !important;
+  width: 100vh !important;
+  height: 100vh !important;
+  position: absolute;
+  min-height: 100vh;
+  min-width: 100vh;
+}
+
+#snapshot-select {
+  margin-top: 0.2rem;
+}
+
+#snapshot-selection-wrapper h1 {
+  margin-bottom: 0;
+}
+
+#snapshot-selection-wrapper {
+  display: block;
+  position: fixed;
+  top: 0;
+  right: 0;
+  z-index: 420; /* makes selection clickable */
+  float: right;
+  text-align: right;
+  margin-right: 0.5rem;
+}
+
+#snapshot-selection-wrapper select {
+  float: right;
+  height: 100%;
+}
+
+#Toxit-SubredditGraph {
+  height: 100%;
+}
+
+.loader {
+  position: fixed;
+  bottom: 0;
+  right: 0;
+  width: 2.5rem;
+  height: 2.5rem;
+  z-index: 666;
+  margin: 0.5rem;
+  cursor: pointer;
+  }
+  
+  .loader .spinner {
+  border: 0.5rem solid #787878;
+  border-top: 0.5rem solid #3498db;
+  border-radius: 50%;
+  animation: spin 2s linear infinite;
+  height: -webkit-fill-available;
+  width: -webkit-fill-available;
+  display: inline-block;
+  }
+  
+  .loader:hover::after {
+    content: 'X';
+    font-size: 3.5rem;
+    font-family: cursive;
+    color: red;
     position: absolute;
-    min-height: 100vh;
-    min-width: 100vh;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 90%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    z-index: 1;
   }
 
-  body {
-    height: 100vh;
-  }
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* this might be needed to get stupid tool tips working for nodes */
+/* ::ng-deep div.vis-tooltip {
+  position: absolute;
+  visibility: hidden;
+  padding: 5px;
+  white-space: nowrap;
+  color: #000000;
+  background-color: #f5f4ed;
+
+  -moz-border-radius: 3px;
+  -webkit-border-radius: 3px;
+  border-radius: 3px;
+  border: 1px solid #808074;
+
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+
+  z-index: 5;
+} */
