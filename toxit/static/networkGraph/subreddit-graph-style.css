@@ -5,6 +5,14 @@ body {
   height: 95vh;
 }
 
+#snapshot-select {
+  margin-top: 0.2rem;
+}
+
+#snapshot-selection-wrapper h1 {
+  margin-bottom: 0;
+}
+
 #snapshot-selection-wrapper {
   display: block;
   position: fixed;
@@ -12,6 +20,7 @@ body {
   right: 0;
   z-index: 420; /* makes selection clickable */
   float: right;
+  text-align: right;
   margin-right: 0.5rem;
 }
 

@@ -1,6 +1,10 @@
 <!-- Select Menu Wrapper -->
 <div id="snapshot-selection-wrapper">
   <h1>Snapshot selection</h1>
+  <div class="radio-buttons" id="edge-weight-selector">
+    <label><input type="radio" name="edge-weight" value="mods" id="mods-radio" checked>Moderators</label>
+    <label><input type="radio" name="edge-weight" value="auth" id="auth-radio">Commenters</label>
+  </div>  
   <select id="snapshot-select" name="snapshot_id">
       {% for task in iTasks %}
           <option value="{{ task.id }}">Snapshot: {{ task.id }}</option>

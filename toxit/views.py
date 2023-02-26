@@ -14,12 +14,12 @@ def update_data(request, snapshot_id):
     queried_subs = snapshot.get_subreddits_for_inference_task()
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
-    # Prepare the data to be returned
 
+    # if you get any errors make sure tqdm is installed 
     sub_nodes_context = [
         {
             'id': result.id, 
-            'label': result.subreddit.display_name
+            'label': result.subreddit.display_name,
         } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]
     mod_edges_context = [
@@ -33,6 +33,7 @@ def update_data(request, snapshot_id):
         {
             'from': result.from_sub_id,
             'to': result.to_sub_id,
+            'label': str(result.weight),
         } for result in tqdm(queried_authors, desc='Author Edges')
     ]
 

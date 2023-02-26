@@ -1,4 +1,4 @@
-// console.log("networkGraph.js loaded!");
+var displayMods = Boolean(true); 
 
 var sub_nodes = new vis.DataSet();
 var mod_edges = new vis.DataSet();
@@ -22,7 +22,7 @@ var options = {
   },
   edges: {
     font: {
-      size: 14,
+      size: 24,
       align: 'middle'
     },
     hoverWidth: 0.5,
@@ -114,4 +114,23 @@ updateGraphData(firstChoiceValue);
 document.getElementById('snapshot-select').addEventListener('change', function() {
   var snapshot_id = this.value;
   updateGraphData(snapshot_id);
+});
+
+// radio button edge selector logic
+$('input[type=radio][name=edge-weight]').change(function() {
+  if (this.value == 'mods') {
+      document.getElementById("mods-radio").checked = true;
+      document.getElementById("auth-radio").checked = false;
+
+      data.edges = mod_edges;
+  }
+  else if (this.value == 'auth') {
+    document.getElementById("mods-radio").checked = false;
+    document.getElementById("auth-radio").checked = true;
+
+    data.edges = author_edges;
+  }
+
+  // Update the network with the new edges
+  network.setData(data);
 });
