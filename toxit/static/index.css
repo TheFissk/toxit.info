@@ -5,6 +5,8 @@
       }
       body {
       height:100vh;
+
       }
-
-
+    :root{
+        --node-bkg-img: url(/static/img/wood.jpg) ;
+    }

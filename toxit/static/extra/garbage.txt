@@ -11,3 +11,5 @@ a:hover{
 nav ul li a:hover{
   background: #1e1e1e;
 }
+  background-color: var(--node-bkg-color);
+  transition: background-color 0.5s, color 0.5s;
