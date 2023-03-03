@@ -1,0 +1,3 @@
+this exists just to force git to create the static directory in the root folder of the django staticfiles.
+
+django will look for the directoy no matter what even if it is not used so this just prevents some warnings and is good practice.

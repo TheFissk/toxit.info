@@ -127,7 +127,8 @@ USE_TZ = True
 # https://docs.djangoproject.com/en/4.1/howto/static-files/
 
 STATIC_URL = 'static/'
-STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
+# empty directory needed in root for cross application static files, prevents warning: staticfiles.W004
+STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] 
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
