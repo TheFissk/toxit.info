@@ -177,11 +177,12 @@ a:hover {
 }
 
 .snap-select-radio-buttons label {
-  /* display: block; */
+  display: inline-block;
 }
 
 .snap-select-radio-buttons label input {
-  position: absolute;
+  /* position: absolute; */
+  display: inline;
   z-index: -1;
 }
 
@@ -189,87 +190,3 @@ a:hover {
   Radio button code - sourced from: 
     https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
 */
-
-/**** RED radio button code ****/
-
-label {
-  width: 5vw;
-  height: 5vw;
-  border-radius: 50%;
-  display: block;
-}
-
-.radio {
-  left: -20vw;
-  background: #EA4335;
-  border-color: #EA4335!important;
-  animation-delay: .2s;
-}
-.radio:checked {
-  background: white;
-  border: 1vw solid;
-  box-shadow: inset rgba(0, 0, 0, 0.117647) 0 0 .6vw 0, inset rgba(0, 0, 0, 0.239216) 0 .6vw .8vw 0;
-  transition: all .2s;
-}
-.radio:checked {
-  width: 5vw;
-  height: 5vw;
-  background: #EA4335;
-  transition: all .4s;
-}
-/* for IE */
-.radio:not(:checked) {
-  width: 5vw;
-  height: 5vw;
-  background: #EA4335;
-  box-shadow: none;
-}
-
-*, *:before, *:after {
-  padding: 0;
-  outline: 0;
-  overflow: hidden;
-  box-sizing: border-box;
-}
-
-label {
-  /* display: inline-block;
-  width: 10vw;
-  height: 10vw;
-  border-radius: 50%; */
-}
-
-label, label:before, label:after {
-  /* position: absolute;
-  top: 0;
-  bottom: 0;
-  left: 0;
-  right: 0; */
-}
-
-label:before {
-  content: "";
-  position: absolute;
-  width: 5vw;
-  height: 5vw;
-  background: white;
-  border-radius: 50%;
-  box-shadow: rgba(0, 0, 0, 0.117647) 0 0 .8vw 0, rgba(0, 0, 0, 0.239216) 0 .8vw .8vw 0;
-  transition: all .2s;
-}
-
-label:after {
-  content: "";
-  position: absolute;
-  width: 10vw;
-  height: 10vw;
-  background: rgba(255, 255, 255, .5);
-  border-radius: 50%;
-  transform: scale(0);
-}
-
-.radio:checked.label:after {
-  background: transparent;
-  transition: all .5s;
-  transform: scale(1);
-}
