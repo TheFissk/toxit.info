@@ -1,45 +1,5 @@
-{% load static %}
+<!-- Snapshot / Inference Task drop down selector -->
+{% include "toxit/sidebar/sidebar-snapselect.html" %}
 
-<div class="btn">
-   <span class="fas fa-bars"></span>
-</div>
-
-<nav class="sidebar">
-   <div class="resizeHandle"></div>
-   <div class="text">
-      Dashboard
-   </div>
-   <ul class="main_side">
-      <li class="active">
-         <a href="#" id="1">Options
-            <span class="fas fa-caret-down"></span>
-         </a>
-         <ul class="item-show-1">
-            <li>
-               {% include "toxit/sidebar/optionTab.html" %}
-            </li>
-         </ul>
-      </li>
-      <li>
-         <a href="#" id="2">Data
-            <span class="fas fa-caret-down"></span>
-         </a>
-         <ul class="item-show-2">
-            <li>
-               {% include "toxit/sidebar/dataTab.html" %}
-            </li>
-         </ul>
-      </li>
-
-      <li>
-         <a href="#" id="3">Help/Contact Us
-            <span class="fas fa-caret-down"></span>
-         </a>
-         <ul class="item-show-3">
-            <li>
-               {% include "toxit/sidebar/helpTab.html" %}
-            </li>
-         </ul>
-      </li>
-   </ul>
-</nav>
+<!-- Lightmode toggle + Background select -->
+{% include "toxit/sidebar/sidebar-themes.html" %}

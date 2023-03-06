@@ -19,7 +19,7 @@ def update_data(request, snapshot_id):
     sub_nodes_context = [
         {
             'id': result.id, 
-            'label': result.subreddit.display_name,
+            'label': f'{result.subreddit.display_name}\n\n[{result.mean_result}]',
             'title': f'Min: {result.min_result}, Max: {result.max_result}, Mean: {result.mean_result}, Std: {result.std_result}',
         } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]

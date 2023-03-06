@@ -1,183 +1,224 @@
+/* CSS is ordered from least specific and is ordered based on dom heirarchy of side nav */
 @import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
 
-
-*{
+* {
   margin: 0;
   padding: 0;
-  user-select: none;
+  /* user-select: none; */
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
 
-body{
-
-  background-image: var(--node-bkg-img);
-  background-size: cover;
+a:hover {
+  color: var(--highlight-color);
 }
-.btn{
+
+
+/* 
+  Main content displayed under side nav 
+*/
+
+.content {
   position: absolute;
-    top: 10px;
-    left: 45px;
-    height: 37px;
-    width: 37px;
-    text-align: center;
-    background-color: var(--bkg-color);
-    transition: background-color 0.5s, color 0.5s;
-    border-radius: 3px;
-    cursor: pointer;
-    z-index: 100;
-    transition: left 0.5s ease;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #202020;
+  z-index: -1;
+  text-align: center;
 }
-.btn.click{
-  left: calc(var(--menuSize) + 2em);
+
+
+/* 
+  Sidebar hamburger toggle button for side nav 
+*/
+
+.sidebar-btn {
+  z-index: 1;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  text-align: center;
+  background: var(--primary-color);
+  border: var(--border-weight) solid var(--highlight-color);
+  border-radius: 0.625rem; /* 10px */
+  cursor: pointer;
+  transition: left var(--transition-speed-navtog) ease;
 }
-.btn span{
-    color: var(--text-color);
-    transition: background-color 0.5s, color 0.5s;
-    font-size: 15px;
-    line-height: 36px;
+
+.sidebar-btn.click {
+  left: 15.5rem;
+  border-left: transparent;
 }
-.btn.click span:before{
+
+.sidebar-btn span {
+  color: var(--font-color);
+  font-size: 1.5rem;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.sidebar-btn.click span:before {
   content: '\f00d';
-
 }
-.sidebar{
+
+/* 
+  Sidebar container for side nav 
+*/
+
+.sidebar {
   position: fixed;
-  width: calc(var(--menuSize));
-  height: 100vh;
-  left: -100%;
-  background-color: var(--bkg-color);
-  transition: background-color 0.5s, color 0.5s;
-  z-index: 100;
-  overflow-wrap: anywhere;
-  transition: left 0.5s ease;
-  /*scrolling feature*/
-  -ms-overflow-style: none; /* for Internet Explorer, Edge */
-  scrollbar-width: none; /* for Firefox */
-  overflow-y: scroll;
-  overflow: -moz-scrollbars-none;
-  overflow-x: none;
- }
-.sidebar::-webkit-scrollbar {
-  display: none; /* for Chrome, Safari, and Opera */
-  }
-
-.sidebar.show{
-  left: 0px;
+  width: 16rem;
+  height: 100%;
+  left: -18rem;
+  background: var(--primary-color);
+  border-right: var(--border-weight) solid var(--highlight-color);
+  transition: left var(--transition-speed-navtog) ease;
 }
- .sidebar .text{
-  color: var(--text-color);
-  transition: background-color 0.5s, color 0.5s;
+
+.sidebar.show {
+  left: 0;
+}
+
+.sidebar .text {
+  color: var(--font-color);
   font-size: 19px;
   font-weight: 600;
   line-height: 65px;
   text-align: center;
-  background-color: var(--bkg-color);
+  background: var(--primary-color);
   letter-spacing: 1px;
 }
-nav ul{
-  background-color: var(--bkg-color);
-  transition: background-color 0.5s, color 0.5s;
+
+.main_side {
+  background: var(--primary-color);
   height: 100%;
   width: 100%;
   list-style: none;
-  padding-left: 10px;
 }
-nav ul li{
-  line-height: 50px;
-  border-top: 1px solid rgba(255,255,255,0.1);
+
+
+/* 
+  List items and their text for side nav 
+*/
+
+.main_side li {
+  line-height: 3rem; /* how tall each item is on the side nav */
+  border-top:var(--border-weight) solid var(--border-color); 
+  margin: 0;
 }
-nav ul li:last-child{
-  border-bottom: 1px solid rgba(255,255,255,0.05);
-}
-nav ul li a{
+
+.item-text {
   position: relative;
-  color: var(--text-color);
-  transition: background-color 0.5s, color 0.5s;
-  font-size: 13px;
-  padding-left: 14px;
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0 0.5rem;
   font-weight: 500;
   display: block;
   width: 100%;
-  border-left: 3px solid transparent;
-  text-decoration: none;
 }
 
-.feat-show{
-  transition: all 0.5s;
+.item-text {
+  color: var(--highlight-color);
+  background: var(--primary-color);
+  border-left-color: var(--highlight-color);
 }
 
-nav ul li.active ul{
- transition: all 0.5s;
-}
-nav ul ul{
-  position: static;
-  display: none;
+.item-text:hover {
+  color: var(--highlight-color) ;
+  background: var(--primary-color) ;
 }
 
-nav ul.show{
-  display: block;
-  transition: all 0.5s;
-}
-
-nav ul ul li{
-  line-height: 42px;
-  border-top: none;
-}
-nav ul ul li{
-  font-size: 12px;
-  color: var(--text-color);
-  transition: background-color 0.5s, color 0.5s;
-  padding-left:1%;
-  padding-right:1%;
-}
-nav ul li.active ul li{
-  color: var(--text-color);
-  background-color: var(--bkg-color);
-  transition: background-color 0.5s, color 0.5s;
-  border-left-color: transparent;
-
-}
-
-a:hover{
-  color: #FC5404;
-}
-
-
-nav ul li a span{
+.item-text span {
   position: absolute;
   top: 50%;
   right: 20px;
   transform: translateY(-50%);
   font-size: 15px;
-  transition: transform 0.5s;
+  transition: transform 0.4s;
 }
-nav ul li a span.rotate{
+
+
+/* 
+  Collapsible list items for side nav 
+*/
+.collapsible  {
+  position: static;
+  display: none;
+}
+
+.collapsible.show  {
+  display: block;
+  padding: 0 1rem;
+}
+
+
+/* 
+  Animations for side nav 
+*/
+
+/* spins selection chevron */
+.main_side li a span.rotate {
   transform: translateY(-50%) rotate(-180deg);
 }
-.content{
-  position: absolute;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%,-50%);
-  color: var(--text-color);
-  transition: background-color 0.5s, color 0.5s;
-  z-index: -1;
-  text-align: center;
+
+
+/* 
+  CSS for snapshot select side nav module 
+*/
+
+#snapshot-select {
+  width: 100%;
 }
-nav ul li.active a{
-    color: #FC5404;
-    background-color: var(--bkg-color);
-    transition: background-color 0.5s, color 0.5s;
-    border-left-color: #FC5404;
+
+.snap-select-radio-buttons label {
+  display: inline;
 }
-.resizeHandle {
-  width: 1em;
-  height: 100%;
-  background-color: red;
-  cursor: col-resize;
-  position: absolute;
-  top: 0px;
-  right: -5px;
-  z-index: 101;
+
+.snap-select-radio-buttons label input {
+  margin-right: 1rem;
+  display: inline-block;
+}
+
+/*
+  Radio button code - sourced from: 
+    https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
+*/
+
+/**** RED radio button code ****/
+
+label {
+  width: 5vw;
+  height: 5vw;
+  border-radius: 50%;
+  display: inline;
+}
+
+.radio {
+  left: -20vw;
+  background: #EA4335;
+  border-color: #EA4335!important;
+  animation-delay: .2s;
+}
+.radio:checked {
+  background: white;
+  border: 1vw solid;
+  box-shadow: inset rgba(0, 0, 0, 0.117647) 0 0 .6vw 0, inset rgba(0, 0, 0, 0.239216) 0 .6vw .8vw 0;
+  transition: all .2s;
+}
+.radio:checked {
+  width: 5vw;
+  height: 5vw;
+  background: #EA4335;
+  transition: all .4s;
+}
+/* for IE */
+.radio:not(:checked) {
+  width: 5vw;
+  height: 5vw;
+  background: #EA4335;
+  box-shadow: none;
 }

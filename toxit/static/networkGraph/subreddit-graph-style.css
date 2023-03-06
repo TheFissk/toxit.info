@@ -1,41 +1,6 @@
-
-/* all the relevant CSS for the network graph related page content */
-
-#Toxit-SubredditGraph, canvas, .vis-network {
-  width: 100vh !important;
-  height: 100vh !important;
-  position: absolute;
-  min-height: 100vh;
-  min-width: 100vh;
-}
-
-#snapshot-select {
-  margin-top: 0.2rem;
-}
-
-#snapshot-selection-wrapper h1 {
-  margin-bottom: 0;
-}
-
-#snapshot-selection-wrapper {
-  display: block;
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 420; /* makes selection clickable */
-  float: right;
-  text-align: right;
-  margin-right: 0.5rem;
-}
-
-#snapshot-selection-wrapper select {
-  float: right;
-  height: 100%;
-}
-
-#Toxit-SubredditGraph {
-  height: 100%;
-}
+/* 
+  all the relevant CSS for the network graph related page content 
+*/
 
 .loader {
   position: fixed;

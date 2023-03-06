@@ -1,0 +1,28 @@
+/* default is dark mode */
+:root {
+  --font-color: #fff;
+  --bg-color: #000;
+  --primary-color-L: hsl(240, 8%, 29%); /* pc lighter */
+  --primary-color: hsl(240, 8%, 19%); /* pc neutral */
+  --primary-color-D: hsl(240, 8%, 9%); /* pc darker */
+  --secondary-color-L: hsl(240, 100%, 100%); /* sc lighter */
+  --secondary-color: hsl(240, 98%, 98%); /* sc neutral */
+  --secondary-color-D: hsl(240, 95%, 95%); /* sc darker */
+  --border-color: hsl(240, 55%, 65%);
+  --highlight-color: hsl(240, 65%, 73%);
+
+  --border-weight: 0.2rem;
+
+  --transition-speed-navtog: 0.7s;
+  --transition-speed-navitem: 1.6s;
+}
+
+/* light theme - currenntly unimplemented */
+[data-theme="light"] {
+  --font-color: #fff;
+}
+
+body {
+  color: var(--font-color);
+  background-color: var(--bg-color);
+}
