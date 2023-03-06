@@ -2,6 +2,10 @@
   all the relevant CSS for the network graph related page content 
 */
 
+#Toxit-SubredditGraph {
+  height: 100%;
+}
+
 .loader {
   position: fixed;
   bottom: 0;

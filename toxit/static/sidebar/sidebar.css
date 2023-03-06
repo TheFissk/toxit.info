@@ -15,7 +15,7 @@ a:hover {
 
 
 /* 
-  Main content displayed under side nav 
+  Main content displayed under / beside side nav 
 */
 
 .content {
@@ -26,6 +26,8 @@ a:hover {
   color: #202020;
   z-index: -1;
   text-align: center;
+  width: 100%;
+  height: 100%;
 }
 
 
@@ -187,10 +189,6 @@ a:hover {
   Radio button code - sourced from: 
     https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
 */
-
-[type="radio"] {
-  /* display: none; */
-}
 
 /**** RED radio button code ****/
 
