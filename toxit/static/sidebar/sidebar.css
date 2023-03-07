@@ -43,7 +43,7 @@ a:hover {
   height: 2.5rem;
   width: 2.5rem;
   text-align: center;
-  background: var(--primary-color);
+  background: var(--primary-color-D);
   border: var(--border-weight) solid var(--highlight-color);
   border-radius: 0.625rem; /* 10px */
   cursor: pointer;
@@ -51,7 +51,7 @@ a:hover {
 }
 
 .sidebar-btn.click {
-  left: 15.5rem;
+  left: var(--sidenav-btn-offset);
   border-left: transparent;
 }
 
@@ -71,9 +71,9 @@ a:hover {
 
 .sidebar {
   position: fixed;
-  width: 16rem;
+  width: var(--sidenav-width);
   height: 100%;
-  left: -18rem;
+  left: var(--sidenav-width-hide);
   background: var(--primary-color);
   border-right: var(--border-weight) solid var(--highlight-color);
   transition: left var(--transition-speed-navtog) ease;
@@ -85,12 +85,25 @@ a:hover {
 
 .sidebar .text {
   color: var(--font-color);
-  font-size: 19px;
+  font-size: 2rem;
   font-weight: 600;
-  line-height: 65px;
+  line-height: 5rem;
   text-align: center;
   background: var(--primary-color);
-  letter-spacing: 1px;
+  letter-spacing: 0.01rem;
+  background-color: var(--primary-color-D);
+}
+
+.text::before, .text::after {
+  content: '';
+  background-image: url("../logo/favicon.ico");
+  background-size: 2rem;
+  display: inline-block;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  top: 0.25rem;
+  margin: 0 0.5rem;
 }
 
 .main_side {
@@ -107,7 +120,8 @@ a:hover {
 
 .main_side li {
   line-height: 3rem; /* how tall each item is on the side nav */
-  border-top:var(--border-weight) solid var(--border-color); 
+  border-top: var(--border-weight) solid var(--border-color); 
+  border-bottom: var(--border-weight) solid var(--border-color); 
   margin: 0;
 }
 
@@ -123,15 +137,18 @@ a:hover {
   width: 100%;
 }
 
-.item-text {
+li:has(.show) {
+  background-color: var(--primary-color-D);
+  border: 0.3rem outset var(--border-color);
+}
+
+.active .item-text {
   color: var(--highlight-color);
-  background: var(--primary-color);
-  border-left-color: var(--highlight-color);
 }
 
 .item-text:hover {
   color: var(--highlight-color) ;
-  background: var(--primary-color) ;
+  background-color: var(--primary-color-L) ;
 }
 
 .item-text span {
@@ -177,7 +194,7 @@ a:hover {
 }
 
 .snap-select-radio-buttons label {
-  display: inline-block;
+  display: block;
 }
 
 .snap-select-radio-buttons label input {

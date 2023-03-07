@@ -1,5 +1,13 @@
 /* default is dark mode */
 :root {
+  /* sets the base font size for the entire document */
+  font-size: 1rem;
+
+  /* width and placement of side nav */
+  --sidenav-width: 25rem;
+  --sidenav-width-hide: -25rem;
+  --sidenav-btn-offset: 24.5rem;
+
   --font-color: #fff;
   --bg-color: #000;
   --primary-color-L: hsl(240, 8%, 29%); /* pc lighter */
@@ -13,6 +21,7 @@
 
   --border-weight: 0.2rem;
 
+  /* animation speeds */
   --transition-speed-navtog: 0.7s;
   --transition-speed-navitem: 1.6s;
 }

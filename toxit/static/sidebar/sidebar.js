@@ -10,7 +10,20 @@ $('.item-text').click(function () {
   $('.main_side li #' + id + ' span').toggleClass("rotate");  
 });
 
+// $('.main_side li').click(function () {
+//   var isActive = $(this).hasClass("active");
+//   var hasShow = $(this).children('div').hasClass("show");
 
-$('.main_side li').click(function () {
-  $(this).addClass("active").siblings().removeClass("active");
-});
+//   // Remove active class from all li elements if no child has the class show
+//   if (!hasShow) {
+//     $('.main_side li').removeClass("active");
+//     return;
+//   }
+  
+//   // Add or remove active class based on current state
+//   if (!isActive) {
+//     $(this).addClass("active").siblings().removeClass("active");
+//   } else {
+//     $(this).removeClass("active");
+//   }
+// });

@@ -8,16 +8,16 @@
 
 .loader {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 2.5rem;
-  height: 2.5rem;
+  bottom: 1rem;
+  right: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
   z-index: 666;
   margin: 0.5rem;
   cursor: pointer;
-  }
-  
-  .loader .spinner {
+}
+
+.loader .spinner {
   border: 0.5rem solid #787878;
   border-top: 0.5rem solid #3498db;
   border-radius: 50%;
@@ -25,27 +25,32 @@
   height: -webkit-fill-available;
   width: -webkit-fill-available;
   display: inline-block;
-  }
-  
-  .loader:hover::after {
-    content: 'X';
-    font-size: 3.5rem;
-    font-family: cursive;
-    color: red;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-  }
+}
+
+.loader:hover::after {
+  content: 'X';
+  font-size: 3.5rem;
+  font-family: cursive;
+  color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
 
 @keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
 }
 
 /* this might be needed to get stupid tool tips working for nodes */
