@@ -18,10 +18,12 @@ moonIcon.classList.add("fa-moon");
 darkLightMode.addEventListener("change", () => {
   if (darkLightMode.checked) {
     // Light mode
+    document.documentElement.setAttribute("data-theme", "light");
     moonIcon.classList.remove("fa-moon");
     moonIcon.classList.add("fa-sun");
   } else {
     // Dark mode
+    document.documentElement.setAttribute("data-theme", "dark");
     moonIcon.classList.remove("fa-sun");
     moonIcon.classList.add("fa-moon");
   }
