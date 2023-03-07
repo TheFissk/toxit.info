@@ -29,6 +29,57 @@ darkLightMode.addEventListener("change", () => {
   }
 });
 
+
+/* 
+  edge selector logic 
+*/
+network.on('click', function(event) {
+  // get the div element and the network object
+  const edgeBtnContainer = document.getElementById("edge-buttons");
+  const collapsibleDiv = document.querySelector(".collapsible.item-show-edgeselect");
+
+  // clear previous data
+  edgeBtnContainer.innerHTML = "";
+
+  // the clicked node
+  var node = event.nodes[0];
+
+  // if the node exists and has data
+  if (node) {
+    var data = sub_nodes.get(node);
+
+    // get the edges connected to the clicked node
+    const connectedEdges = network.getConnectedEdges(node);
+
+    // create a button for each edge and append it to the div element
+    let buttonsAdded = false;
+    connectedEdges.forEach((edgeId) => {
+      const edge = network.body.edges[edgeId];
+
+      const fromNode = sub_nodes.get(edge.from);
+      const toNode = sub_nodes.get(edge.to);
+      const fromLabel = fromNode.label;
+      const toLabel = toNode.label;
+
+      const button = document.createElement("button");
+      button.classList.add("edge-button");
+      button.textContent = fromLabel + " to " + toLabel;
+      edgeBtnContainer.appendChild(button);
+
+      buttonsAdded = true;
+    });
+
+    // toggle the collapsible div's show class based on whether any buttons were added
+    if (buttonsAdded) {
+      collapsibleDiv.classList.add("show");
+    } else {
+      collapsibleDiv.classList.remove("show");
+    }
+  }
+});
+
+
+
 // $(document).ready(function() {
 //   $('#bg-pic-select').hide();
 

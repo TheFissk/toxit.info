@@ -4,7 +4,7 @@
 * {
   margin: 0;
   padding: 0;
-  /* user-select: none; */
+  user-select: none;
   box-sizing: border-box;
   font-family: 'Poppins', sans-serif;
 }
@@ -46,7 +46,7 @@ label {
   width: 2.5rem;
   text-align: center;
   background: var(--primary-color-D);
-  border: var(--border-weight) solid var(--highlight-color);
+  border: var(--border-weight) solid var(--border-color);
   border-radius: 0.625rem; /* 10px */
   cursor: pointer;
   transition: left var(--transition-speed-navtog) ease;
@@ -77,7 +77,7 @@ label {
   height: 100%;
   left: var(--sidenav-width-hide);
   background: var(--primary-color);
-  border-right: var(--border-weight) solid var(--highlight-color);
+  border-right: var(--border-weight) solid var(--border-color);
   transition: left var(--transition-speed-navtog) ease;
   overflow-y: scroll;
   scrollbar-width: thin;
@@ -104,7 +104,7 @@ label {
   height: 2rem;
 }
 
-.sidebar .text {
+.sidebar .sidenav-title-text {
   color: var(--font-color);
   font-size: 2rem;
   font-weight: 600;
@@ -115,7 +115,7 @@ label {
   background-color: var(--primary-color-D);
 }
 
-.text::before, .text::after {
+.sidenav-title-text::before, .sidenav-title-text::after {
   content: '';
   background-image: url("../logo/favicon.ico");
   background-size: 2rem;
@@ -278,6 +278,7 @@ select#bg-pic-select {
   transition: all 0.2s ease;
   font-family: sans-serif;
   perspective: 100px;
+  vertical-align: middle;
 }
 .tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
   display: inline-block;
@@ -319,9 +320,8 @@ select#bg-pic-select {
 }
 
 .fa-moon:before, .fa-sun:before {
-  position: relative;
-  top: -0.65rem;
-  left: -0.5rem;
+  position: static;
+  vertical-align: middle;
 }
 
 .fa-sun:before {
@@ -330,6 +330,17 @@ select#bg-pic-select {
 
 .tg-list-item i.fas {
   display: inline;
+}
+
+/* additional css for edge select checkbox */
+#auto-open-edge + .tgl-btn:before {
+  color: white;
+  background-image: radial-gradient(circle, var(--highlight-color) 0%, var(--highlight-color-D) 100%);
+}
+
+#auto-open-edge + .tgl-btn:after {
+  color: black;
+  background-image: radial-gradient(circle, rgba(128,128,128,1) 0%, rgba(0,0,0,1) 100%);
 }
 
 

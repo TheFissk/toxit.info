@@ -16,8 +16,9 @@
   --secondary-color-L: hsl(240, 100%, 100%); /* sc lighter */
   --secondary-color: hsl(240, 98%, 98%); /* sc neutral */
   --secondary-color-D: hsl(240, 95%, 95%); /* sc darker */
-  --border-color: hsl(240, 55%, 65%);
-  --highlight-color: hsl(240, 38%, 61%);
+  --border-color: hsl(20, 100%, 50%);
+  --highlight-color: hsl(25, 100%, 67%);
+  --highlight-color-D: hsl(33, 100%, 49%);
 
   --border-weight: 0.2rem;
 
@@ -38,6 +39,7 @@
   --secondary-color-D: hsl(240, 8%, 9%); /* sc darker */
   --border-color: hsl(240, 55%, 65%);
   --highlight-color: hsl(240, 38%, 61%);
+  --highlight-color-D: hsl(240, 32%, 31%);
 }
 
 body {
