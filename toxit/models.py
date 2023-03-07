@@ -60,7 +60,7 @@ class Inference_task(models.Model):
     min_words = models.IntegerField(default=20, null=True, validators=[MinValueValidator(1), MaxValueValidator(168)],
                                     help_text="The minimum number of words to be considered a valid comment")
     forest_width = models.IntegerField(default=10, validators=[MinValueValidator(0)],
-                                    help_text="The number of comments per level to be acquired")
+                                    help_text="[DEPRECIATED]")
     per_post_n = models.IntegerField(default=1000, validators=[MinValueValidator(1)],
                                     help_text="The maximum number of comments per post to be harvested")
     comments_n = models.IntegerField(default=1000, validators=[MinValueValidator(1)],
@@ -103,7 +103,7 @@ class Subreddit_result(models.Model):
                                     help_text="The standard deviation for this subreddit")
     timestamp = models.DateTimeField(auto_now_add=True,
                                     help_text="The time when the data was collected")
-    edges = models.JSONField(help_text="The edges for this subreddit")
+    edges = models.JSONField(help_text="[DEPRECIATED]")
 
     def __str__(self):
         return f"Results for {self.subreddit} collected on {self.inference_task.start_sched}"
@@ -116,7 +116,7 @@ class Subreddit_mod(models.Model):
 
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE)
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE,
-                                    help_text="The collection that the user was a moderator during")
+                                    help_text="The subreddit the user was a moderator for, in a specific result")
     username = models.CharField(max_length=32,
                                     help_text="The username of the moderator")
     def __str__(self):
