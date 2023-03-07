@@ -211,6 +211,81 @@ select#bg-pic-select {
 }
 
 /*
+  Flip Radio button code - sourced from: 
+    https://codepen.io/mallendeo/pen/QWKrEL
+*/
+.tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+  box-sizing: border-box;
+}
+
+.tgl {
+  display: none;
+}
+
+button, hr, input {
+  overflow: visible;
+}
+
+.tgl + .tgl-btn {
+  outline: 0;
+  display: block;
+  width: 4em;
+  height: 2em;
+  position: relative;
+  cursor: pointer;
+  box-sizing: border-box;
+  -webkit-user-select: none;
+  -moz-user-select: none;
+  -ms-user-select: none;
+  user-select: none;
+}
+
+.tgl-flip + .tgl-btn:before {
+  background: #FF3A19;
+  content: attr(data-tg-off);
+}
+
+.tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
+  display: inline-block;
+  transition: all 0.4s ease;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  line-height: 2em;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 4px;
+}
+
+.tgl-flip + .tgl-btn:after {
+  content: attr(data-tg-on);
+  background: #02C66F;
+  transform: rotateY(-180deg);
+}
+
+.tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
+  display: inline-block;
+  transition: all 0.4s ease;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  line-height: 2em;
+  font-weight: bold;
+  color: #fff;
+  position: absolute;
+  top: 0;
+  left: 0;
+  -webkit-backface-visibility: hidden;
+  backface-visibility: hidden;
+  border-radius: 4px;
+}
+
+/*
   Radio button code - sourced from: 
     https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
 */
