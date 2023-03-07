@@ -28,7 +28,16 @@
 
 /* light theme - currenntly unimplemented */
 [data-theme="light"] {
-  --font-color: #fff;
+  --font-color: #000;
+  --bg-color: #fff;
+  --primary-color-L: hsl(240, 100%, 100%); /* pc lighter */
+  --primary-color: hsl(240, 98%, 98%); /* pc neutral */
+  --primary-color-D: hsl(240, 95%, 95%); /* pc darker */
+  --secondary-color-L: hsl(240, 8%, 29%); /* sc lighter */
+  --secondary-color: hsl(240, 8%, 19%); /* sc neutral */
+  --secondary-color-D: hsl(240, 8%, 9%); /* sc darker */
+  --border-color: hsl(240, 55%, 65%);
+  --highlight-color: hsl(240, 38%, 61%);
 }
 
 body {

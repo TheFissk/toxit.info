@@ -9,6 +9,24 @@ $('.item-text').click(function () {
   $('.main_side li #' + id + ' span').toggleClass("rotate");  
 });
 
+const darkLightMode = document.getElementById("dark-light-mode");
+const moonIcon = document.getElementById("moon-icon");
+
+// Set the default icon to fa-moon
+moonIcon.classList.add("fa-moon");
+
+darkLightMode.addEventListener("change", () => {
+  if (darkLightMode.checked) {
+    // Light mode
+    moonIcon.classList.remove("fa-moon");
+    moonIcon.classList.add("fa-sun");
+  } else {
+    // Dark mode
+    moonIcon.classList.remove("fa-sun");
+    moonIcon.classList.add("fa-moon");
+  }
+});
+
 // $(document).ready(function() {
 //   $('#bg-pic-select').hide();
 
