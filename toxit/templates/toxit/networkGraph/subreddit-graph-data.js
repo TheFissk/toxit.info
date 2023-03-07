@@ -160,6 +160,35 @@ $('input[type=radio][name=edge-weight]').change(function() {
   network.setData(data);
 });
 
+
+/* edge selector logic */
+// get the div element and the network object
+const edgeBtnDiv = document.getElementById("edge-buttons");
+
+network.on('click', function(event) {
+  var node = event.nodes[0];
+
+  if (node) {
+    var data = sub_nodes.get(node);
+    
+    // alert('Subreddit: ' + data.label);
+
+    // get the edges connected to the clicked node
+    const connectedEdges = network.getConnectedEdges(node);
+
+    // create a button for each edge and append it to the div element
+    connectedEdges.forEach((edgeId) => {
+      const edge = network.body.edges[edgeId];
+      const fromNode = sub_nodes.get(edge.from);
+      const toNode = sub_nodes.get(edge.to);
+      const button = document.createElement("button");
+      button.classList.add("edge-button");
+      button.textContent = fromNode.label + " to " + toNode.label;
+      edgeBtnDiv.appendChild(button);
+    });
+  }
+});
+
 /*
   Physicss slider stuff
 */

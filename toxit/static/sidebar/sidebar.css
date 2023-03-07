@@ -194,7 +194,6 @@ li:has(.show) {
   padding: 0 1rem;
 }
 
-
 /* 
   Animations for side nav 
 */
@@ -349,6 +348,25 @@ select#bg-pic-select {
 
 #phsyics-slider-wrapper input[type="range"] {
   width: 250px;
+}
+
+/*
+  edge selection panel
+*/
+.edge-button {
+  display: inline-block;
+  cursor: pointer;
+  width: min-content;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--secondary-color-D);
+  color: var(--primary-color-D);
+}
+
+.edge-button:hover{
+  /* margin: 0.5rem 0; */
+  color: var(--highlight-color);
 }
 
 /*
