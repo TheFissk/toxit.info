@@ -3,27 +3,16 @@
         <span class="fas fa-caret-down"></span>
     </a>
     <div class="collapsible item-show-themestyle">
-        <div >
-            <!-- Moderators -->
-            <label for="mods-radio" class="radio">
-                <input type="radio" name="edge-weight" value="mods" id="mods-radio" checked>
-                Moderators
-            </label>
-            <!-- Commenters -->
-            <label for="auth-radio" class="radio">
-                <input type="radio" name="edge-weight" value="auth" id="auth-radio">
-                Commenters
-            </label>
-            <!-- Commenters -->
-            <label for="auth-radio" class="radio">
-                <input type="radio" name="edge-weight" value="auth" id="auth-radio">
-                Commenters
-            </label>
+        <!-- Dark Mode -->
+        <div class="tg-list-item">
+            <input class="tgl tgl-flip" id="dark-light-mode" type="checkbox">
+            <label class="tgl-btn" data-tg-off="Dark" data-tg-on="Light" for="dark-light-mode"></label>
         </div>
-        <select id="snapshot-select" name="snapshot_id">
-            {% for task in iTasks %}
-            <option value="{{ task.id }}">Snapshot: {{ task.id }}</option>
+        <!-- Create option element for each image filename. -->
+        <!-- <select id="bg-pic-select" name="bg-pic-select">
+            {% for image in images %}
+            <option value="{{ image }}">{{ image }}</option>
             {% endfor %}
-        </select>
-    </div>
+        </select> -->
+    </div>      
 </li>

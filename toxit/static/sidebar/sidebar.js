@@ -3,12 +3,23 @@ $('.sidebar-btn').click(function () {
   $('.sidebar').toggleClass("show");
 });
 
-
 $('.item-text').click(function () {
   var id = $(this).attr('id');
   $('.collapsible.item-show-' + id).toggleClass("show");
   $('.main_side li #' + id + ' span').toggleClass("rotate");  
 });
+
+// $(document).ready(function() {
+//   $('#bg-pic-select').hide();
+
+//   $('input[name="themestyle-radio"]').change(function() {
+//       if ($('#bg-pic').is(':checked')) {
+//           $('#bg-pic-select').show();
+//       } else {
+//           $('#bg-pic-select').hide();
+//       }
+//   });
+// });
 
 // $('.main_side li').click(function () {
 //   var isActive = $(this).hasClass("active");

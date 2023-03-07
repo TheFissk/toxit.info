@@ -1,3 +1,4 @@
+import os
 from django.http import HttpResponse, JsonResponse
 from tqdm import tqdm
 from django.template import loader
@@ -20,7 +21,7 @@ def update_data(request, snapshot_id):
         {
             'id': result.id, 
             'label': f'{result.subreddit.display_name}\n\n[{result.mean_result}]',
-            'title': f'Min: {result.min_result}, Max: {result.max_result}, Mean: {result.mean_result}, Std: {result.std_result}',
+            'title': f'Max: {result.max_result}, \nMean: {result.mean_result}, \nMin: {result.min_result}, \nStd: {result.std_result}',
         } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]
     mod_edges_context = [
@@ -54,8 +55,13 @@ def index(request):
     # get a list of all inference tasks that have the STATUS_TYPE of ('2', 'Completed') defined in the models
     iTasks = Inference_task.objects.filter(status=Inference_task.STATUS_TYPES[2][0])
 
+    # get a list of all image filenames in the BG-Pic directory
+    path = 'toxit/static/BG-Pic'
+    images = os.listdir(path)
+
     context = {
         'iTasks': iTasks,
+        'images': images,
     }
 
     return render(request, 'toxit/index.html', context)

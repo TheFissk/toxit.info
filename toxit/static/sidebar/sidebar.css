@@ -13,11 +13,14 @@ a:hover {
   color: var(--highlight-color);
 }
 
+label {
+  display: block;
+}
+
 
 /* 
   Main content displayed under / beside side nav 
 */
-
 .content {
   position: absolute;
   top: 50%;
@@ -34,7 +37,6 @@ a:hover {
 /* 
   Sidebar hamburger toggle button for side nav 
 */
-
 .sidebar-btn {
   z-index: 1;
   position: absolute;
@@ -65,10 +67,10 @@ a:hover {
   content: '\f00d';
 }
 
+
 /* 
   Sidebar container for side nav 
 */
-
 .sidebar {
   position: fixed;
   width: var(--sidenav-width);
@@ -117,7 +119,6 @@ a:hover {
 /* 
   List items and their text for side nav 
 */
-
 .main_side li {
   line-height: 3rem; /* how tall each item is on the side nav */
   border-top: var(--border-weight) solid var(--border-color); 
@@ -178,7 +179,6 @@ li:has(.show) {
 /* 
   Animations for side nav 
 */
-
 /* spins selection chevron */
 .main_side li a span.rotate {
   transform: translateY(-50%) rotate(-180deg);
@@ -188,19 +188,26 @@ li:has(.show) {
 /* 
   CSS for snapshot select side nav module 
 */
-
 #snapshot-select {
   width: 100%;
-}
-
-.snap-select-radio-buttons label {
-  display: block;
 }
 
 .snap-select-radio-buttons label input {
   /* position: absolute; */
   display: inline;
   z-index: -1;
+}
+
+
+/*
+  CSS for theme and style module
+*/
+select#bg-pic-select {
+  margin-left: 20%;
+  margin-bottom: 1.25rem;
+  position: relative;
+  width: 75%;
+  display: block;
 }
 
 /*
