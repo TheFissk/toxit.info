@@ -79,10 +79,29 @@ label {
   background: var(--primary-color);
   border-right: var(--border-weight) solid var(--highlight-color);
   transition: left var(--transition-speed-navtog) ease;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--highlight-color) var(--primary-color-D);
 }
 
 .sidebar.show {
   left: 0;
+}
+
+/* custom scrollbar */
+/* For webkit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: var(--primary-color-D);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--highlight-color);
+  border-radius: 0.3rem;
+  height: 2rem;
 }
 
 .sidebar .text {
@@ -110,7 +129,7 @@ label {
 
 .main_side {
   background: var(--primary-color);
-  height: 100%;
+  height: auto;
   width: 100%;
   list-style: none;
 }
@@ -302,7 +321,7 @@ select#bg-pic-select {
 
 .fa-moon:before, .fa-sun:before {
   position: relative;
-  top: -0.5rem;
+  top: -0.65rem;
   left: -0.5rem;
 }
 
@@ -314,7 +333,30 @@ select#bg-pic-select {
   display: inline;
 }
 
+
+/*
+  physics slider
+*/
+
+#phsyics-slider-wrapper {
+  padding: 10px;
+}
+
+#phsyics-slider-wrapper label {
+  display: inline-block;
+  width: 150px;
+}
+
+#phsyics-slider-wrapper input[type="range"] {
+  width: 250px;
+}
+
 /*
   Radio button code - sourced from: 
     https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
+*/
+
+/*
+  draggable test
+  https://codepen.io/PJCHENder/pen/PKBVRO/
 */

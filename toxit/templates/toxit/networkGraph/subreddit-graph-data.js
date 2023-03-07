@@ -160,6 +160,57 @@ $('input[type=radio][name=edge-weight]').change(function() {
   network.setData(data);
 });
 
+/*
+  Physicss slider stuff
+*/
+// Get the slider elements
+// var springLengthSlider = document.getElementById("springLengthRange");
+// var springConstantSlider = document.getElementById("springConstantRange");
+// var dampingSlider = document.getElementById("dampingRange");
+// var repulsionSlider = document.getElementById("repulsionRange");
+// var gravitySlider = document.getElementById("gravityRange");
+
+// // Add event listeners to the sliders to update physics options
+// springLengthSlider.addEventListener("input", function() {
+//   // Update the physics options with the new spring length value
+//   options.physics.springLength = parseInt(this.value);
+
+//   // Update the network with the new physics options
+//   network.setOptions(options);
+// });
+
+// springConstantSlider.addEventListener("input", function() {
+//   // Update the physics options with the new spring constant value
+//   options.physics.springConstant = parseFloat(this.value);
+
+//   // Update the network with the new physics options
+//   network.setOptions(options);
+// });
+
+// dampingSlider.addEventListener("input", function() {
+//   // Update the physics options with the new damping value
+//   options.physics.damping = parseFloat(this.value);
+
+//   // Update the network with the new physics options
+//   network.setOptions(options);
+// });
+
+// repulsionSlider.addEventListener("input", function() {
+//   // Update the physics options with the new repulsion value
+//   options.physics.repulsion = parseInt(this.value);
+
+//   // Update the network with the new physics options
+//   network.setOptions(options);
+// });
+
+// gravitySlider.addEventListener("input", function() {
+//   // Update the physics options with the new gravity value
+//   options.physics.gravity = parseFloat(this.value);
+
+//   // Update the network with the new physics options
+//   network.setOptions(options);
+// });
+
 // debug function that returns node data in an alert on click 
 // network.on('click', function(event) {
 //   var node = event.nodes[0];
