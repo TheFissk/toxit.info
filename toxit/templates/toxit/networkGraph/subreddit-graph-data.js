@@ -70,6 +70,13 @@ var options = {
 // Create the VisJs network with the data retrieved from the 
 var network = new vis.Network(container, data, options);
 
+// rudimentry function to start with for coloring nodes based on toxicity
+function getColorForScore(score) {
+  var red = Math.max(0, Math.min(255, Math.round((score + 1) * 127.5)));
+  var green = Math.max(0, Math.min(255, Math.round((1 - score) * 127.5)));
+  return 'rgb(' + red + ',' + green + ',0)';
+}
+
 /*
   Ajax function using fetch to update the data shown on the graph.
 
@@ -122,7 +129,17 @@ var updateGraphData = (function() {
         $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
 
         // Add the new data
-        sub_nodes.add(data.sub_nodes_context);
+        // Add the new data
+        sub_nodes.add(data.sub_nodes_context.map(function(node) {
+          return {
+            id: node.id,
+            label: node.label,
+            title: node.title,
+            subname: node.subname,
+            score: node.score,
+            color: { background: getColorForScore(node.score) }
+          };
+        }));
         mod_edges.add(data.mod_edges_context);
         author_edges.add(data.author_edges_context);
       })
