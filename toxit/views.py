@@ -16,49 +16,44 @@ def update_data(request, snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-    # if you get any errors make sure tqdm is installed
-    sub_nodes_context = {result.id:
-                         {
-                             'id': result.id,
-                             'label': f'r/{result.subreddit.display_name}\n\n[{result.mean_result}]',
-                             'title': f'r/{result.subreddit.display_name}\nMax: {result.max_result}, \nMean: {result.mean_result}, \nMin: {result.min_result}, \nStd: {result.std_result}',
-                             'subname': result.subreddit.display_name,
-                         } for result in tqdm(queried_subs, desc='Sub Nodes')
 
-                         }
-    # old style, use if you don't need subnames on the edges
-    # sub_nodes_context = [
-    # {
-    #     'id': result.id,
-    #     'label': f'r/{result.subreddit.display_name}\n\n[{result.mean_result}]',
-    #     'title': f'r/{result.subreddit.display_name}\nMax: {result.max_result}, \nMean: {result.mean_result}, \nMin: {result.min_result}, \nStd: {result.std_result}',
-    #     'subname': result.subreddit.display_name,
-    # } for result in tqdm(queried_subs, desc='Sub Nodes')
-    # ]
+    precision = 6  # number of decimal places to round to
 
-    mod_edges_context = [ #we already have the subnames in sub_nodes_context, so its faster to grab them from that object, which is what I'm doing here, this is fast
+    # if you get any errors make sure tqdm is installed 
+    sub_nodes_context = [
+        {
+            'id': result.id, 
+            'label': f'r/{result.subreddit.display_name}\n[{round(result.mean_result, 3)}]',
+            # title = on hover visjs node tooltip
+            'title': (
+                f'r/{result.subreddit.display_name}\n'
+                f'{"~".center(len(result.subreddit.display_name) + 6, "~")}\n'
+                f'Min: {round(result.min_result, precision)}\n'
+                f'Max: {round(result.max_result, precision)}\n'
+                f'Mean: {round(result.mean_result, precision)}\n'
+                f'Std: {round(result.std_result, precision)}'
+            ),
+            'subname': f'r/{result.subreddit.display_name}',
+            'score': result.mean_result,
+        } for result in tqdm(queried_subs, desc='Sub Nodes')
+    ]
+    mod_edges_context = [
         {
             'from': result.from_sub_id,
-            'from_subname': sub_nodes_context[result.from_sub_id]['subname'],
             'to': result.to_sub_id,
-            'to_subname': sub_nodes_context[result.to_sub_id]['subname'],
             'label': str(result.weight),
         } for result in tqdm(queried_mods, desc='Mod Edges')
     ]
-
     author_edges_context = [
         {
             'from': result.from_sub_id,
-            'from_subname': sub_nodes_context[result.from_sub_id]['subname'],
             'to': result.to_sub_id,
-            'to_subname': sub_nodes_context[result.to_sub_id]['subname'],
             'label': str(result.weight),
-            # add to from sub name pairs
         } for result in tqdm(queried_authors, desc='Author Edges')
     ]
-    subs = list(sub_nodes_context.values())
+
     data = {
-        'sub_nodes_context': subs,
+        'sub_nodes_context': sub_nodes_context,
         'mod_edges_context': mod_edges_context,
         'author_edges_context': author_edges_context,
     }

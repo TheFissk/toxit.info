@@ -17,7 +17,7 @@
         </div>
         <select id="snapshot-select" name="snapshot_id">
             {% for task in iTasks %}
-            <option value="{{ task.id }}">Snapshot: {{ task.id }}</option>
+            <option value="{{ task.id }}">Snapshot #{{ task.id }}: {{ task.start_sched }}</option>
             {% endfor %}
         </select>
     </div>

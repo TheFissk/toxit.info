@@ -30,7 +30,8 @@ darkLightMode.addEventListener("change", () => {
 });
 
 /* 
-  edge selector logic 
+  VisJS network on click functionality
+   handles edge selector logic 
 */
 network.on("click", function (event) {
   // get the div element and the network object
@@ -40,26 +41,24 @@ network.on("click", function (event) {
   edgeBtnContainer.innerHTML = "";
 
   // the clicked node
-  const node = event.nodes[0];
+  const fromNode = event.nodes[0];
 
   // if the node exists and has data
-  if (node) {
-    const node_data = sub_nodes.get(node);
+  if (fromNode) {
+    const from_data = sub_nodes.get(fromNode);
 
     // get the edges connected to the clicked node
-    const connectedNodes = network.getConnectedNodes(node);
+    const connectedNodes = network.getConnectedEdges(fromNode);
 
     // create a button for each edge and append it to the div element
     connectedNodes.forEach((edgeId) => {
+      const connectedNodes = network.getConnectedNodes(edgeId);
+      const toNode = connectedNodes.filter(node => node !== fromNode)[0];
+      const to_data = sub_nodes.get(toNode);
+      
       const button = document.createElement("button");
-
-      const fromLabel = node_data.subname;
-
-      const edge_data = sub_nodes.get(edgeId);
-      const toLabel = edge_data.subname;
-
       button.classList.add("edge-button");
-      button.textContent = `${fromLabel} to ${toLabel}`;
+      button.textContent = `${from_data.subname}\nto\n${to_data.subname}`;
       edgeBtnContainer.appendChild(button);
     });
 
@@ -70,10 +69,7 @@ network.on("click", function (event) {
     const edgeButtonsDiv = $("#edge-buttons");
 
     // toggle show if auto show is enabled and buttons (edges) were added
-    if (
-      autoOpenEdgeCheckbox.is(":checked") &&
-      !collapsibleDiv.hasClass("show")
-    ) {
+    if ( autoOpenEdgeCheckbox.is(":checked") && !collapsibleDiv.hasClass("show") ) {
       edgeButtonsDiv.html().length > 0
         ? collapsibleDiv.addClass("show")
         : collapsibleDiv.removeClass("show");
