@@ -74,10 +74,10 @@ class Inference_task(models.Model):
         return Subreddit_result.objects.filter(inference_task=self).select_related('subreddit')
     
     def get_mod_edges_for_inference_task(self):
-        return Mod_edge.objects.filter(inference_task=self)
+        return Mod_edge.objects.filter(inference_task=self).select_related('from_sub__subreddit', 'to_sub__subreddit')
     
     def get_author_edges_for_inference_task(self):
-        return Author_edge.objects.filter(inference_task=self)
+        return Author_edge.objects.filter(inference_task=self).select_related('from_sub__subreddit', 'to_sub__subreddit')
 
     def __str__(self):
         if (self.start_sched):
