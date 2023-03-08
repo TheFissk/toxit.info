@@ -1,12 +1,12 @@
-$('.sidebar-btn').click(function () {
+$(".sidebar-btn").click(function () {
   $(this).toggleClass("click");
-  $('.sidebar').toggleClass("show");
+  $(".sidebar").toggleClass("show");
 });
 
-$('.item-text').click(function () {
-  var id = $(this).attr('id');
-  $('.collapsible.item-show-' + id).toggleClass("show");
-  $('.main_side li #' + id + ' span').toggleClass("rotate");  
+$(".item-text").click(function () {
+  var id = $(this).attr("id");
+  $(".collapsible.item-show-" + id).toggleClass("show");
+  $(".main_side li #" + id + " span").toggleClass("rotate");
 });
 
 const darkLightMode = document.getElementById("dark-light-mode");
@@ -29,11 +29,10 @@ darkLightMode.addEventListener("change", () => {
   }
 });
 
-
 /* 
   edge selector logic 
 */
-network.on('click', function(event) {
+network.on("click", function (event) {
   // get the div element and the network object
   const edgeBtnContainer = document.getElementById("edge-buttons");
 
@@ -48,35 +47,39 @@ network.on('click', function(event) {
     const node_data = sub_nodes.get(node);
 
     // get the edges connected to the clicked node
-    const connectedEdges = network.getConnectedEdges(node);
+    const connectedNodes = network.getConnectedNodes(node);
 
     // create a button for each edge and append it to the div element
-    connectedEdges.forEach((edgeId) => {
+    connectedNodes.forEach((edgeId) => {
       const button = document.createElement("button");
 
       const fromLabel = node_data.subname;
 
-      const edge_data = author_edges.get(edgeId);
-      const toLabel = edge_data.to;
+      const edge_data = sub_nodes.get(edgeId);
+      const toLabel = edge_data.subname;
 
       button.classList.add("edge-button");
-      button.textContent = fromLabel + " to " + toLabel;
+      button.textContent = `${fromLabel} to ${toLabel}`;
       edgeBtnContainer.appendChild(button);
     });
 
     // toggle show if auto show is enabled and buttons (edges) were added
     // Cache the selectors
-    const autoOpenEdgeCheckbox = $('#auto-open-edge');
-    const collapsibleDiv = $('.collapsible.item-show-edgeselect');
-    const edgeButtonsDiv = $('#edge-buttons');
+    const autoOpenEdgeCheckbox = $("#auto-open-edge");
+    const collapsibleDiv = $(".collapsible.item-show-edgeselect");
+    const edgeButtonsDiv = $("#edge-buttons");
 
     // toggle show if auto show is enabled and buttons (edges) were added
-    if (autoOpenEdgeCheckbox.is(':checked') && !collapsibleDiv.hasClass('show')) {
-      edgeButtonsDiv.html().length > 0 ? collapsibleDiv.addClass('show') : collapsibleDiv.removeClass('show');
-    } 
+    if (
+      autoOpenEdgeCheckbox.is(":checked") &&
+      !collapsibleDiv.hasClass("show")
+    ) {
+      edgeButtonsDiv.html().length > 0
+        ? collapsibleDiv.addClass("show")
+        : collapsibleDiv.removeClass("show");
+    }
   }
 });
-
 
 // $(document).ready(function() {
 //   $('#bg-pic-select').hide();

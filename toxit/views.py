@@ -29,18 +29,19 @@ def update_data(request, snapshot_id):
     mod_edges_context = [
         {
             'from': result.from_sub_id,
-            # 'from_subname': result.from_sub_id.subreddit.display_name,
+            'from_subname': result.from_sub.subreddit.display_name,
             'to': result.to_sub_id,
-            # 'to_subname': result.to_sub_id.subreddit.display_name,
+            'to_subname': result.to_sub.subreddit.display_name,
+
             'label': str(result.weight),
         } for result in tqdm(queried_mods, desc='Mod Edges')
     ]
     author_edges_context = [
         {
             'from': result.from_sub_id,
-            # 'from_subname': result.from_sub_id.subreddit.display_name,
+            'from_subname': result.from_sub.subreddit.display_name,
             'to': result.to_sub_id,
-            # 'to_subname': result.to_sub_id.subreddit.display_name,
+            'to_subname': result.to_sub.subreddit.display_name,
             'label': str(result.weight),
              # add to from sub name pairs
         } for result in tqdm(queried_authors, desc='Author Edges')
