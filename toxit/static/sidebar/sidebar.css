@@ -334,13 +334,13 @@ select#bg-pic-select {
 
 /* additional css for edge select checkbox */
 #auto-open-edge + .tgl-btn:before {
-  color: white;
-  background-image: radial-gradient(circle, var(--highlight-color) 0%, var(--highlight-color-D) 100%);
+  color: black;
+  background-image: radial-gradient(circle, rgba(128,128,128,1) 0%, rgba(0,0,0,1) 100%);
 }
 
 #auto-open-edge + .tgl-btn:after {
-  color: black;
-  background-image: radial-gradient(circle, rgba(128,128,128,1) 0%, rgba(0,0,0,1) 100%);
+  color: white;
+  background-image: radial-gradient(circle, var(--highlight-color) 0%, var(--highlight-color-D) 100%);
 }
 
 

@@ -36,7 +36,6 @@ darkLightMode.addEventListener("change", () => {
 network.on('click', function(event) {
   // get the div element and the network object
   const edgeBtnContainer = document.getElementById("edge-buttons");
-  const collapsibleDiv = document.querySelector(".collapsible.item-show-edgeselect");
 
   // clear previous data
   edgeBtnContainer.innerHTML = "";
@@ -52,32 +51,30 @@ network.on('click', function(event) {
     const connectedEdges = network.getConnectedEdges(node);
 
     // create a button for each edge and append it to the div element
-    let buttonsAdded = false;
     connectedEdges.forEach((edgeId) => {
       const edge = network.body.edges[edgeId];
-
       const fromNode = sub_nodes.get(edge.from);
       const toNode = sub_nodes.get(edge.to);
       const fromLabel = fromNode.label;
       const toLabel = toNode.label;
-
       const button = document.createElement("button");
       button.classList.add("edge-button");
       button.textContent = fromLabel + " to " + toLabel;
       edgeBtnContainer.appendChild(button);
-
-      buttonsAdded = true;
     });
 
-    // toggle the collapsible div's show class based on whether any buttons were added
-    if (buttonsAdded) {
-      collapsibleDiv.classList.add("show");
-    } else {
-      collapsibleDiv.classList.remove("show");
-    }
+    // toggle show if auto show is enabled and buttons (edges) were added
+    // Cache the selectors
+    const autoOpenEdgeCheckbox = $('#auto-open-edge');
+    const collapsibleDiv = $('.collapsible.item-show-edgeselect');
+    const edgeButtonsDiv = $('#edge-buttons');
+
+    // toggle show if auto show is enabled and buttons (edges) were added
+    if (autoOpenEdgeCheckbox.is(':checked') && !collapsibleDiv.hasClass('show')) {
+      edgeButtonsDiv.html().length > 0 ? collapsibleDiv.addClass('show') : collapsibleDiv.removeClass('show');
+    } 
   }
 });
-
 
 
 // $(document).ready(function() {
