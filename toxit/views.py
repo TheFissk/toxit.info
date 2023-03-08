@@ -20,22 +20,28 @@ def update_data(request, snapshot_id):
     sub_nodes_context = [
         {
             'id': result.id, 
-            'label': f'{result.subreddit.display_name}\n\n[{result.mean_result}]',
-            'title': f'Max: {result.max_result}, \nMean: {result.mean_result}, \nMin: {result.min_result}, \nStd: {result.std_result}',
+            'label': f'r/{result.subreddit.display_name}\n\n[{result.mean_result}]',
+            'title': f'r/{result.subreddit.display_name}\nMax: {result.max_result}, \nMean: {result.mean_result}, \nMin: {result.min_result}, \nStd: {result.std_result}',
+            'subname': result.subreddit.display_name,
         } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]
     mod_edges_context = [
         {
             'from': result.from_sub_id,
+            'from_subname': result.from_sub_id.subreddit.display_name,
             'to': result.to_sub_id,
+            'to_subname': result.to_sub_id.subreddit.display_name,
             'label': str(result.weight),
         } for result in tqdm(queried_mods, desc='Mod Edges')
     ]
     author_edges_context = [
         {
             'from': result.from_sub_id,
+            'from_subname': result.from_sub_id.subreddit.display_name,
             'to': result.to_sub_id,
+            'to_subname': result.to_sub_id.subreddit.display_name,
             'label': str(result.weight),
+             # add to from sub name pairs
         } for result in tqdm(queried_authors, desc='Author Edges')
     ]
 

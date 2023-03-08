@@ -31,15 +31,15 @@
 [data-theme="light"] {
   --font-color: #000;
   --bg-color: #fff;
-  --primary-color-L: hsl(240, 100%, 100%); /* pc lighter */
-  --primary-color: hsl(240, 98%, 98%); /* pc neutral */
-  --primary-color-D: hsl(240, 95%, 95%); /* pc darker */
-  --secondary-color-L: hsl(240, 8%, 29%); /* sc lighter */
-  --secondary-color: hsl(240, 8%, 19%); /* sc neutral */
-  --secondary-color-D: hsl(240, 8%, 9%); /* sc darker */
-  --border-color: hsl(240, 55%, 65%);
-  --highlight-color: hsl(240, 38%, 61%);
-  --highlight-color-D: hsl(240, 32%, 31%);
+  --primary-color-L: hsl(20deg 100% 90%);
+  --primary-color: hsl(41deg 98% 98%);
+  --primary-color-D: hsl(20deg 100% 80%);
+  --secondary-color-L: hsl(240, 8%, 29%);
+  --secondary-color: hsl(240, 8%, 19%);
+  --secondary-color-D: hsl(240, 8%, 9%);
+  --border-color: hsl(20, 100%, 50%);
+  --highlight-color: hsl(25, 100%, 67%);
+  --highlight-color-D: hsl(33, 100%, 49%);
 }
 
 body {

@@ -118,6 +118,9 @@ var updateGraphData = (function() {
         mod_edges.clear();
         author_edges.clear();
 
+        // check if the edge selector exists and clear it too if it does
+        $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
+
         // Add the new data
         sub_nodes.add(data.sub_nodes_context);
         mod_edges.add(data.mod_edges_context);

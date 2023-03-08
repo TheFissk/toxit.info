@@ -41,23 +41,24 @@ network.on('click', function(event) {
   edgeBtnContainer.innerHTML = "";
 
   // the clicked node
-  var node = event.nodes[0];
+  const node = event.nodes[0];
 
   // if the node exists and has data
   if (node) {
-    var data = sub_nodes.get(node);
+    const node_data = sub_nodes.get(node);
 
     // get the edges connected to the clicked node
     const connectedEdges = network.getConnectedEdges(node);
 
     // create a button for each edge and append it to the div element
     connectedEdges.forEach((edgeId) => {
-      const edge = network.body.edges[edgeId];
-      const fromNode = sub_nodes.get(edge.from);
-      const toNode = sub_nodes.get(edge.to);
-      const fromLabel = fromNode.label;
-      const toLabel = toNode.label;
       const button = document.createElement("button");
+
+      const fromLabel = node_data.subname;
+
+      const edge_data = author_edges.get(edgeId);
+      const toLabel = edge_data.to;
+
       button.classList.add("edge-button");
       button.textContent = fromLabel + " to " + toLabel;
       edgeBtnContainer.appendChild(button);
