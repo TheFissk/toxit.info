@@ -365,19 +365,20 @@ select#bg-pic-select {
   edge selection panel
 */
 .edge-button {
-  display: inline-block;
+  display: block;
   cursor: pointer;
-  width: min-content;
-  margin: 0.5rem;
+  width: 100%;
+  margin: 0.5rem 0;
   padding: 0.5rem;
   border-radius: 0.5rem;
-  background-color: var(--secondary-color-D);
+  background-color: var(--secondary-color);
   color: var(--primary-color-D);
 }
 
 .edge-button:hover{
-  /* margin: 0.5rem 0; */
   color: var(--highlight-color);
+  font-weight: bolder;
+  border: var(--border-color) solid 0.1rem;
 }
 
 /*

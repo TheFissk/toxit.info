@@ -20,6 +20,11 @@
   --highlight-color: hsl(25, 100%, 67%);
   --highlight-color-D: hsl(33, 100%, 49%);
 
+  /* VisJs Network colors */
+  --vis-node-border: darkorange;
+  --vis-node-border-active: darkorange;
+  --vis-node-bg: darkorange;
+
   --border-weight: 0.2rem;
 
   /* animation speeds */

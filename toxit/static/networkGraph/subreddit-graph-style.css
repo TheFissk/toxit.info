@@ -60,6 +60,21 @@
   z-index: 5;
 }
 
+/* Set the border color for nodes */
+.vis-network .node {
+  /* border-color: var(--border-color); */
+}
+
+/* Set the highlight color for active edges and nodes */
+.vis-network .edge.active, .vis-network .node.active {
+  /* border-color: var(--highlight-color); */
+}
+
+/* Set the edge color */
+.vis-network .edge {
+  /* line-color: var(--highlight-color-D); */
+}
+
 @keyframes spin {
   0% {
     transform: rotate(0deg);

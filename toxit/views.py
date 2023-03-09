@@ -16,22 +16,22 @@ def update_data(request, snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-
-    precision = 6  # number of decimal places to round to
+    node_precision = 3  # number of decimal places to round to
+    tooltip_precision = 6  # number of decimal places to round to
 
     # if you get any errors make sure tqdm is installed 
     sub_nodes_context = [
         {
             'id': result.id, 
-            'label': f'r/{result.subreddit.display_name}\n[{round(result.mean_result, 3)}]',
+            'label': f'r/{result.subreddit.display_name}\n\n[{round(result.mean_result, node_precision)}]',
             # title = on hover visjs node tooltip
             'title': (
                 f'r/{result.subreddit.display_name}\n'
                 f'{"~".center(len(result.subreddit.display_name) + 6, "~")}\n'
-                f'Min: {round(result.min_result, precision)}\n'
-                f'Max: {round(result.max_result, precision)}\n'
-                f'Mean: {round(result.mean_result, precision)}\n'
-                f'Std: {round(result.std_result, precision)}'
+                f'Min: {round(result.min_result, tooltip_precision)}\n'
+                f'Max: {round(result.max_result, tooltip_precision)}\n'
+                f'Mean: {round(result.mean_result, tooltip_precision)}\n'
+                f'Std: {round(result.std_result, tooltip_precision)}'
             ),
             'subname': f'r/{result.subreddit.display_name}',
             'score': result.mean_result,
@@ -63,11 +63,10 @@ def update_data(request, snapshot_id):
 
 
 def index(request):
-    template = loader.get_template('toxit/index.html')
-
     # get a list of all inference tasks that have the STATUS_TYPE of ('2', 'Completed') defined in the models
     iTasks = Inference_task.objects.filter(
-        status=Inference_task.STATUS_TYPES[2][0])
+        status=Inference_task.STATUS_TYPES[2][0]
+        ).order_by('-start_sched')
 
     # get a list of all image filenames in the BG-Pic directory
     path = 'toxit/static/BG-Pic'

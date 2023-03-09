@@ -27,9 +27,10 @@ var options = {
     shape: "circle",
     margin: 10,
     size: 16,
-    shapeProperties: {
-      interpolation: false    // 'true' for intensive zooming
-    },
+    borderWidth: 3,
+    // shapeProperties: {
+    //   interpolation: false    // 'true' for intensive zooming
+    // },
   },
   // Define the appearance and behavior of the edges
   edges: {
@@ -37,34 +38,35 @@ var options = {
       size: 24,
       align: 'middle'
     },
-    hoverWidth: 0.5,
+    hoverWidth: 1,
     selectionWidth: 1,
-    width: 0.15,
-    smooth: {
-      type: 'continuous'
-    },
-  },
-  // Define the layout properties of the network graph
-  layout: {
-    improvedLayout:false
+    width: 0.5,
+
   },
   // Define the physics properties of the network graph
   physics: {
-    solver: "forceAtlas2Based",
-    maxVelocity: 50,
-    timestep: 0.35,
     stabilization: {
-      enabled: true,
-      iterations: 1000,
-      updateInterval: 25,
+      iterations: 2500,  // maximum number of iteration to stabilize the graph
+      fit: true  // fit the graph to the viewport
     },
     forceAtlas2Based: {
-      gravitationalConstant: -69, /* nice */
+      gravitationalConstant: -200,
       centralGravity: 0.01,
-      springLength: 42069,
-      springConstant: 0.001,
+      springLength: 200,
+      springConstant: 0.03,
+      damping: 0.4,
+      avoidOverlap: 1  // prevents node overlap, may make nodes more spread out
     },
+    maxVelocity: 50,  // the maximum velocity of nodes during physics simulation
+    minVelocity: 0.1,  // the minimum velocity of nodes during physics simulation
+    solver: 'forceAtlas2Based'  // which solver to use for the physics simulation
   },
+  configure: {
+    enabled: true,
+    filter: 'nodes,edges',
+    container: document.getElementById('vis-config'),
+    showButton: true
+  }
 };
 
 // Create the VisJs network with the data retrieved from the 
@@ -87,69 +89,51 @@ function getColorForScore(score) {
   network automatically without needing to call an update to the canvas
   or graph or network (the displayed nodes).
 */
-var updateGraphData = (function() {
-  // Create a new AbortController instance for each call of the function
-  var controller = new AbortController();
+const updateGraphData = (snapshot_id) => {
+  // Construct the URL for the data endpoint based on the selected snapshot
+  var url = '/update_data/' + snapshot_id + '/';
+  var $loader = $('#loader');
 
-  return function(snapshot_id) {
-     // Construct the URL for the data endpoint based on the selected snapshot
-    var url = '/update_data/' + snapshot_id + '/';
-    var $loader = $('#loader');
+  // Show the loader while the data is being fetched
+  $loader.show();
 
-    // cancel previous request if it hasn't already been completed
-    controller.abort();
-    controller = new AbortController();
-
-     // add event listener to loader element to cancel fetch request
-     $loader.click(function() {
-      controller.abort();
+  // Use fetch() to get the data and handle it with Promises
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Hide the loader once the data has been loaded
       $loader.hide();
-    });
 
-    // show the loader while the data is being fetched
-    $loader.show();
+      // Clear the existing data
+      sub_nodes.clear();
+      mod_edges.clear();
+      author_edges.clear();
 
-    fetch(url, {
-      method: 'GET',
-      signal: controller.signal,
+      // check if the edge selector exists and clear it too if it does
+      $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
+
+      // Add the new data
+      sub_nodes.add(data.sub_nodes_context.map(node => {
+        return {
+          id: node.id,
+          label: node.label,
+          title: node.title,
+          subname: node.subname,
+          score: node.score,
+          color: { background: getColorForScore(node.score) }
+        };
+      }));
+
+      mod_edges.add(data.mod_edges_context);
+      author_edges.add(data.author_edges_context);
+
     })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        // hide the loader once the data has been loaded
-        $loader.hide();
+    .catch(error => {
+      $loader.hide(); // Hide the loader in case of an error
 
-        // Clear the existing data
-        sub_nodes.clear();
-        mod_edges.clear();
-        author_edges.clear();
-
-        // check if the edge selector exists and clear it too if it does
-        $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
-
-        // Add the new data
-        // Add the new data
-        sub_nodes.add(data.sub_nodes_context.map(function(node) {
-          return {
-            id: node.id,
-            label: node.label,
-            title: node.title,
-            subname: node.subname,
-            score: node.score,
-            color: { background: getColorForScore(node.score) }
-          };
-        }));
-        mod_edges.add(data.mod_edges_context);
-        author_edges.add(data.author_edges_context);
-      })
-      .catch(function(error) {
-        $loader.hide(); // hide the loader in case of an error
-
-        console.log('Error:', error);
-      });
-  }
-})();
+      console.log('Error:', error);
+    });
+};
 
 // Call the function to update the graph data for the first choice on page load
 var firstChoiceValue = $('#snapshot-select option:first').val();
@@ -161,7 +145,9 @@ document.getElementById('snapshot-select').addEventListener('change', function()
   updateGraphData(snapshot_id);
 });
 
-// radio button edge selector logic
+/*
+  Logic for network graph edge weight selection using radio buttons
+*/
 $('input[type=radio][name=edge-weight]').change(function() {
   if (this.value == 'mods') {
       document.getElementById("mods-radio").checked = true;

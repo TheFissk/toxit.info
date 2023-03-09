@@ -1,14 +1,23 @@
+/* 
+  Open Close Side Nav Logic
+*/
 $(".sidebar-btn").click(function () {
   $(this).toggleClass("click");
   $(".sidebar").toggleClass("show");
 });
 
+/* 
+  Collapse / Display nav modules 
+*/
 $(".item-text").click(function () {
   var id = $(this).attr("id");
   $(".collapsible.item-show-" + id).toggleClass("show");
   $(".main_side li #" + id + " span").toggleClass("rotate");
 });
 
+/* 
+  Logic to handle toggling dark mode and light mode
+*/
 const darkLightMode = document.getElementById("dark-light-mode");
 const moonIcon = document.getElementById("moon-icon");
 
@@ -58,11 +67,13 @@ network.on("click", function (event) {
       
       const button = document.createElement("button");
       button.classList.add("edge-button");
-      button.textContent = `${from_data.subname}\nto\n${to_data.subname}`;
+      button.innerHTML = `${from_data.subname}<br>to<br>${to_data.subname}`;
       edgeBtnContainer.appendChild(button);
     });
 
-    // toggle show if auto show is enabled and buttons (edges) were added
+    /*
+      Logic for auto open selector 
+    */
     // Cache the selectors
     const autoOpenEdgeCheckbox = $("#auto-open-edge");
     const collapsibleDiv = $(".collapsible.item-show-edgeselect");
@@ -70,6 +81,7 @@ network.on("click", function (event) {
 
     // toggle show if auto show is enabled and buttons (edges) were added
     if ( autoOpenEdgeCheckbox.is(":checked") && !collapsibleDiv.hasClass("show") ) {
+      
       edgeButtonsDiv.html().length > 0
         ? collapsibleDiv.addClass("show")
         : collapsibleDiv.removeClass("show");
@@ -77,14 +89,7 @@ network.on("click", function (event) {
   }
 });
 
-// $(document).ready(function() {
-//   $('#bg-pic-select').hide();
-
-//   $('input[name="themestyle-radio"]').change(function() {
-//       if ($('#bg-pic').is(':checked')) {
-//           $('#bg-pic-select').show();
-//       } else {
-//           $('#bg-pic-select').hide();
-//       }
-//   });
-// });
+/* 
+  On Page Load functions
+    - Move configuration item into correct tab
+*/
