@@ -191,7 +191,7 @@ li:has(.show) {
 
 .collapsible.show  {
   display: block;
-  padding: 0 1rem;
+  margin: 0 1rem;
 }
 
 /* 
@@ -379,6 +379,61 @@ select#bg-pic-select {
   color: var(--highlight-color);
   font-weight: bolder;
   border: var(--border-color) solid 0.1rem;
+}
+
+/*
+  config panel
+*/
+div#vis-config {
+  border: 0.5rem var(--highlight-color) dotted;
+  padding: 0.5rem;
+  border-top: 0.75rem var(--border-color) solid;
+}
+
+.vis-config-header, .vis-config-label {
+  text-decoration: underline;
+  text-underline-position: under;
+  font-size: 2rem;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: var(--primary-color-L);
+}
+
+.vis-config-label  {
+  font-size: 1rem;
+  padding: 0 1rem;
+  margin: 0;
+}
+
+div#vis-config {
+  border: 0.5rem var(--highlight-color) dotted;
+  padding: 0.5rem;
+  border-top: 0.75rem var(--border-color) solid;
+}
+
+.vis-configuration.vis-config-item.vis-config-s2 *:not(.vis-config-label) {
+  display: inline-block;
+}
+
+.vis-configuration.vis-config-label {
+  display: block;
+}
+
+input.vis-configuration.vis-config-rangeinput {
+  margin-left: 1rem;
+  width: 3rem;
+}
+
+/* all items nested under s0 indented */
+.vis-configuration-wrapper > :not(.vis-config-s0) {
+  margin-left: 1rem;
+}
+
+/* 
+  geniebro code
+*/
+.vis-config-item.hidden {
+  display: none;
 }
 
 /*

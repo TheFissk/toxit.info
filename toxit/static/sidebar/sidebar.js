@@ -38,19 +38,20 @@ darkLightMode.addEventListener("change", () => {
   }
 });
 
-/* 
-  VisJS network on click functionality
-   handles edge selector logic 
+/*
+  Function that creates a button for each edge showing from to node pair
+  and handles
+    + select to node
+    + move to animation for to node
+    + repop buttons with to node
+    + Logic for auto open selector 
 */
-network.on("click", function (event) {
+function populateEdgeButtons(fromNode) {
   // get the div element and the network object
   const edgeBtnContainer = document.getElementById("edge-buttons");
 
   // clear previous data
   edgeBtnContainer.innerHTML = "";
-
-  // the clicked node
-  const fromNode = event.nodes[0];
 
   // if the node exists and has data
   if (fromNode) {
@@ -62,12 +63,27 @@ network.on("click", function (event) {
     // create a button for each edge and append it to the div element
     connectedNodes.forEach((edgeId) => {
       const connectedNodes = network.getConnectedNodes(edgeId);
-      const toNode = connectedNodes.filter(node => node !== fromNode)[0];
+      const toNode = connectedNodes.filter((node) => node !== fromNode)[0];
       const to_data = sub_nodes.get(toNode);
-      
+
       const button = document.createElement("button");
       button.classList.add("edge-button");
       button.innerHTML = `${from_data.subname}<br>to<br>${to_data.subname}`;
+      button.addEventListener("click", () => {
+        const toNodePosition = network.getPositions([toNode])[toNode];
+        const moveToOptions = {
+          position: toNodePosition,
+          scale: 1.0,
+          offset: { x: 0, y: 0 },
+          animation: {
+            duration: 1000,
+            easingFunction: "easeInOutQuad",
+          },
+        };
+        network.moveTo(moveToOptions);
+        network.selectNodes([toNode]);
+        populateEdgeButtons(toNode);
+      });
       edgeBtnContainer.appendChild(button);
     });
 
@@ -80,16 +96,36 @@ network.on("click", function (event) {
     const edgeButtonsDiv = $("#edge-buttons");
 
     // toggle show if auto show is enabled and buttons (edges) were added
-    if ( autoOpenEdgeCheckbox.is(":checked") && !collapsibleDiv.hasClass("show") ) {
-      
+    if (
+      autoOpenEdgeCheckbox.is(":checked") &&
+      !collapsibleDiv.hasClass("show")
+    ) {
       edgeButtonsDiv.html().length > 0
         ? collapsibleDiv.addClass("show")
         : collapsibleDiv.removeClass("show");
     }
   }
-});
+}
 
 /* 
-  On Page Load functions
-    - Move configuration item into correct tab
+  VisJS network on click functionality
 */
+network.on("click", function (event) {
+  const fromNode = event.nodes[0];
+  populateEdgeButtons(fromNode); /* edge buttons and auto open */
+});
+
+
+/* 
+  menu-ize visjs config - planned
+*/
+$(document).ready(function() {
+  // Hide all items that do not have the class "vis-config-s0"
+  $('.vis-config-item:not(.vis-config-s0)').addClass('hidden');
+  
+  $('.vis-config-header').click(function() {
+    var $parent = $(this).parent(); // Get the parent element of the clicked header
+    var $siblings = $parent.nextUntil('.vis-config-s0'); // Get all the siblings until the next header
+    $siblings.toggle(); // Toggle the visibility of the siblings
+  });
+});

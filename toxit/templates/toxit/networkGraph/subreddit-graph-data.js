@@ -66,7 +66,7 @@ var options = {
     filter: 'nodes,edges',
     container: document.getElementById('vis-config'),
     showButton: true
-  }
+  },
 };
 
 // Create the VisJs network with the data retrieved from the 

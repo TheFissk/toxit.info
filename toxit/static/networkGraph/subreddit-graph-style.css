@@ -75,15 +75,6 @@
   /* line-color: var(--highlight-color-D); */
 }
 
-@keyframes spin {
-  0% {
-    transform: rotate(0deg);
-  }
-
-  100% {
-    transform: rotate(360deg);
-  }
-}
 
 /* this might be needed to get stupid tool tips working for nodes */
 /* ::ng-deep div.vis-tooltip {

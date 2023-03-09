@@ -51,3 +51,15 @@ body {
   color: var(--font-color);
   background-color: var(--bg-color);
 }
+
+/* Animation content */
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}
