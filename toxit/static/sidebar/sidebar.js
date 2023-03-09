@@ -2,9 +2,17 @@
   Open Close Side Nav Logic
 */
 $(".sidebar-btn").click(function () {
-  $(this).toggleClass("click");
-  $(".sidebar").toggleClass("show");
+  toggleSideNav();
 });
+
+// function to toggle the side nav
+const sidebarBtn = $(".sidebar-btn");
+const sidebar = $(".sidebar");
+
+function toggleSideNav() {
+  sidebarBtn.toggleClass("click");
+  sidebar.toggleClass("show");
+}
 
 /* 
   Collapse / Display nav modules 
@@ -90,28 +98,51 @@ function populateEdgeButtons(fromNode) {
     /*
       Logic for auto open selector 
     */
+    const sidebarBtn = $(".sidebar-btn");
+    const sidebar = $(".sidebar");
+
     // Cache the selectors
     const autoOpenEdgeCheckbox = $("#auto-open-edge");
     const collapsibleDiv = $(".collapsible.item-show-edgeselect");
     const edgeButtonsDiv = $("#edge-buttons");
 
-    // toggle show if auto show is enabled and buttons (edges) were added
-    if (
-      autoOpenEdgeCheckbox.is(":checked") &&
-      !collapsibleDiv.hasClass("show")
-    ) {
-      edgeButtonsDiv.html().length > 0
-        ? collapsibleDiv.addClass("show")
-        : collapsibleDiv.removeClass("show");
+    // Hide the edge buttons container if no edge buttons are present
+    if (connectedNodes.length === 0) {
+      collapsibleDiv.removeClass("show");
+    }
+
+    // Check if auto open is enabled
+    if (autoOpenEdgeCheckbox.is(":checked")) {
+      // Toggle the classes if edge buttons were added
+      if (connectedNodes.length > 0) {
+        sidebarBtn.addClass("click");
+        sidebar.addClass("show");
+        collapsibleDiv.addClass("show");
+      }
     }
   }
 }
+
 
 /* 
   VisJS network on click functionality
 */
 network.on("click", function (event) {
   const fromNode = event.nodes[0];
+
+  // Move to the clicked node position with a new animation
+  const toNodePosition = network.getPositions([fromNode])[fromNode];
+  const moveToOptions = {
+    position: toNodePosition,
+    scale: 1.0,
+    offset: { x: 0, y: 0 },
+    animation: {
+      duration: 1500, // New animation duration
+      easingFunction: "easeInOutCubic", // New animation easing function
+    },
+  };
+  network.moveTo(moveToOptions);
+
   populateEdgeButtons(fromNode); /* edge buttons and auto open */
 });
 

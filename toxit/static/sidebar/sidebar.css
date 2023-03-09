@@ -373,6 +373,7 @@ select#bg-pic-select {
   border-radius: 0.5rem;
   background-color: var(--secondary-color);
   color: var(--primary-color-D);
+  border: transparent solid 0.1rem;
 }
 
 .edge-button:hover{
