@@ -106,19 +106,11 @@ function populateEdgeButtons(fromNode) {
     const collapsibleDiv = $(".collapsible.item-show-edgeselect");
     const edgeButtonsDiv = $("#edge-buttons");
 
-    // Hide the edge buttons container if no edge buttons are present
-    if (connectedNodes.length === 0) {
-      collapsibleDiv.removeClass("show");
-    }
-
-    // Check if auto open is enabled
-    if (autoOpenEdgeCheckbox.is(":checked")) {
-      // Toggle the classes if edge buttons were added
-      if (connectedNodes.length > 0) {
-        sidebarBtn.addClass("click");
-        sidebar.addClass("show");
-        collapsibleDiv.addClass("show");
-      }
+    // Toggle show if auto show is enabled and buttons (edges) were added
+    if (autoOpenEdgeCheckbox.is(":checked") && edgeBtnContainer.hasChildNodes()) {
+      collapsibleDiv.addClass("show");
+      sidebarBtn.addClass("click");
+      sidebar.addClass("show");
     }
   }
 }
