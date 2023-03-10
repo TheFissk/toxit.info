@@ -99,7 +99,6 @@ function populateEdgeButtons(fromNode) {
 
     // get the edges connected to the clicked node
     const connectedNodes = network.getConnectedEdges(fromNode);
-    console.log(connectedNodes);
 
     // create a button for each edge and append it to the div element
     connectedNodes.forEach((edgeId) => {
@@ -124,12 +123,14 @@ function populateEdgeButtons(fromNode) {
       button.innerHTML = `${from_data.subname} [ ${from_data.score} ]<br> to <br>${to_data.subname} [ ${to_data.score} ]`;
 
       // Set button :before pseudo-element content based on the edge weight and label
-      const edgeData = network.data.edges.get(edgeId);
+      // Get the edge label based on the edge weight
+      const edges = (edgeWeight === "mods") ? mod_edges : author_edges;
+      const edge = edges.get(edgeId);
 
       if (edgeWeight === "mods") {
-        button.style.setProperty("--before-content", `\'Moderator(s): ${edgeData}\'`);
+        button.style.setProperty("--before-content", `\'Moderator(s): ${edge.label}\'`);
       } else if (edgeWeight === "auth") {
-        button.style.setProperty("--before-content", `\'Comentor(s): ${edgeData}\'`);
+        button.style.setProperty("--before-content", `\'Comentor(s): ${edge.label}\'`);
       }
 
       button.addEventListener("click", () => {
