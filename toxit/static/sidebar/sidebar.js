@@ -24,7 +24,7 @@ $(".item-text").click(function () {
 });
 
 /*
-  Logic for network graph edge weight selection using radio buttons
+  Snapshot selection drop down logic
 */
 // Call the function to update the graph data for the first choice on page load
 var firstChoiceValue = $('#snapshot-select option:first').val();
