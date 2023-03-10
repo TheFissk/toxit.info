@@ -1,37 +1,6 @@
-
-/* all the relevant CSS for the network graph related page content */
-
-#Toxit-SubredditGraph, canvas, .vis-network {
-  width: 100vh !important;
-  height: 100vh !important;
-  position: absolute;
-  min-height: 100vh;
-  min-width: 100vh;
-}
-
-#snapshot-select {
-  margin-top: 0.2rem;
-}
-
-#snapshot-selection-wrapper h1 {
-  margin-bottom: 0;
-}
-
-#snapshot-selection-wrapper {
-  display: block;
-  position: fixed;
-  top: 0;
-  right: 0;
-  z-index: 420; /* makes selection clickable */
-  float: right;
-  text-align: right;
-  margin-right: 0.5rem;
-}
-
-#snapshot-selection-wrapper select {
-  float: right;
-  height: 100%;
-}
+/* 
+  all the relevant CSS for the network graph related page content 
+*/
 
 #Toxit-SubredditGraph {
   height: 100%;
@@ -39,16 +8,16 @@
 
 .loader {
   position: fixed;
-  bottom: 0;
-  right: 0;
-  width: 2.5rem;
-  height: 2.5rem;
+  bottom: 1rem;
+  right: 1rem;
+  width: 3.5rem;
+  height: 3.5rem;
   z-index: 666;
   margin: 0.5rem;
   cursor: pointer;
-  }
-  
-  .loader .spinner {
+}
+
+.loader .spinner {
   border: 0.5rem solid #787878;
   border-top: 0.5rem solid #3498db;
   border-radius: 50%;
@@ -56,28 +25,56 @@
   height: -webkit-fill-available;
   width: -webkit-fill-available;
   display: inline-block;
-  }
-  
-  .loader:hover::after {
-    content: 'X';
-    font-size: 3.5rem;
-    font-family: cursive;
-    color: red;
-    position: absolute;
-    top: 0;
-    left: 0;
-    width: 100%;
-    height: 90%;
-    display: flex;
-    justify-content: center;
-    align-items: center;
-    z-index: 1;
-  }
-
-@keyframes spin {
-  0% { transform: rotate(0deg); }
-  100% { transform: rotate(360deg); }
 }
+
+.loader:hover::after {
+  content: 'X';
+  font-size: 3.5rem;
+  font-family: cursive;
+  color: red;
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 90%;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  z-index: 1;
+}
+
+/* 
+  Very important CSS for network
+  fixes the tooltip for VisJs and allows on hover context tool tips
+*/
+.vis-tooltip {
+  position: absolute;
+  /* visibility: visible !important; */
+  width: fit-content;
+  color: var(--font-color);
+  background-color: var(--primary-color-L);
+  border: var(--border-weight) ridge var(--border-color);
+  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  pointer-events: none;
+  padding: 1rem;
+  z-index: 5;
+}
+
+/* Set the border color for nodes */
+.vis-network .node {
+  /* border-color: var(--border-color); */
+}
+
+/* Set the highlight color for active edges and nodes */
+.vis-network .edge.active, .vis-network .node.active {
+  /* border-color: var(--highlight-color); */
+}
+
+/* Set the edge color */
+.vis-network .edge {
+  /* line-color: var(--highlight-color-D); */
+}
+
 
 /* this might be needed to get stupid tool tips working for nodes */
 /* ::ng-deep div.vis-tooltip {
@@ -93,8 +90,5 @@
   border-radius: 3px;
   border: 1px solid #808074;
 
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-
-  z-index: 5;
+  
 } */

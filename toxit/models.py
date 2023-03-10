@@ -75,10 +75,8 @@ class Inference_task(models.Model):
     
     def get_mod_edges_for_inference_task(self):
         return Mod_edge.objects.filter(inference_task=self)
-    
     def get_author_edges_for_inference_task(self):
         return Author_edge.objects.filter(inference_task=self)
-
     def __str__(self):
         if (self.start_sched):
             return f"Inference job scheduled: {self.start_sched}"

@@ -1,0 +1,65 @@
+/* default is dark mode */
+:root {
+  /* sets the base font size for the entire document */
+  font-size: 1rem;
+
+  /* width and placement of side nav */
+  --sidenav-width: 25rem;
+  --sidenav-width-hide: -25rem;
+  --sidenav-btn-offset: 24.5rem;
+
+  --font-color: #fff;
+  --bg-color: #000;
+  --primary-color-L: hsl(240, 8%, 29%); /* pc lighter */
+  --primary-color: hsl(240, 8%, 19%); /* pc neutral */
+  --primary-color-D: hsl(240, 8%, 9%); /* pc darker */
+  --secondary-color-L: hsl(240, 100%, 100%); /* sc lighter */
+  --secondary-color: hsl(240, 98%, 98%); /* sc neutral */
+  --secondary-color-D: hsl(240, 95%, 95%); /* sc darker */
+  --border-color: hsl(20, 100%, 50%);
+  --highlight-color: hsl(25, 100%, 67%);
+  --highlight-color-D: hsl(33, 100%, 49%);
+
+  /* VisJs Network colors */
+  --vis-node-border: darkorange;
+  --vis-node-border-active: darkorange;
+  --vis-node-bg: darkorange;
+
+  --border-weight: 0.2rem;
+
+  /* animation speeds */
+  --transition-speed-navtog: 0.7s;
+  --transition-speed-navitem: 1.6s;
+}
+
+/* light theme - currenntly unimplemented */
+[data-theme="light"] {
+  --font-color: #000;
+  --bg-color: #fff;
+  --primary-color-L: hsl(20deg 100% 90%);
+  --primary-color: hsl(41deg 98% 98%);
+  --primary-color-D: hsl(20deg 100% 80%);
+  --secondary-color-L: hsl(240, 8%, 29%);
+  --secondary-color: hsl(240, 8%, 19%);
+  --secondary-color-D: hsl(240, 8%, 9%);
+  --border-color: hsl(20, 100%, 50%);
+  --highlight-color: hsl(25, 100%, 67%);
+  --highlight-color-D: hsl(33, 100%, 49%);
+}
+
+body {
+  color: var(--font-color);
+  background-color: var(--bg-color);
+}
+
+/* Animation content */
+
+@keyframes spin {
+  0% {
+    transform: rotate(0deg);
+  }
+
+  100% {
+    transform: rotate(360deg);
+  }
+}

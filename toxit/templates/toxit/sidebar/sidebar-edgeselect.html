@@ -1,0 +1,18 @@
+<li>
+    <a href="#" class="item-text" id="edgeselect">Connected Nodes
+        <span class="fas fa-caret-down"></span>
+    </a>
+    <div class="collapsible item-show-edgeselect">
+        <div class="tg-list-item">
+            <span>Auto Open: </span>
+            <input class="tgl tgl-flip" id="auto-open-edge" type="checkbox" checked>
+            <!-- unchecked checkbox and tg-off are ON and checked and tg-on are OFF
+                because of placement based checkbox css system and default values -->
+            <label class="tgl-btn" data-tg-off="Off" data-tg-on="On" for="auto-open-edge"></label>
+        </div>
+        <!-- 
+            This container populates with buttons that let the user navigate to any connnected 
+            edges of a node when the node is clicked. If the user changes  -->
+        <div id="edge-buttons"></div>
+    </div>      
+</li>

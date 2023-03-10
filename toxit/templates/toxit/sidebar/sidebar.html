@@ -1,45 +1,33 @@
-{% load static %}
+<!-- 
+   This functions logically identical to the view systems we looked at in class
+   
+   The sidebar just calls what sidebar modules it wants to load and show.
+      All of the supporting JS and CSS can just exist even if a module is removed later
+      because some parts are written to be cross componenet compatible for code reusability.
 
-<div class="btn">
-   <span class="fas fa-bars"></span>
-</div>
+      This is especially true for the CSS.
+ -->
 
-<nav class="sidebar">
-   <div class="resizeHandle"></div>
-   <div class="text">
-      Dashboard
-   </div>
-   <ul class="main_side">
-      <li class="active">
-         <a href="#" id="1">Options
-            <span class="fas fa-caret-down"></span>
-         </a>
-         <ul class="item-show-1">
-            <li>
-               {% include "toxit/sidebar/optionTab.html" %}
-            </li>
-         </ul>
-      </li>
-      <li>
-         <a href="#" id="2">Data
-            <span class="fas fa-caret-down"></span>
-         </a>
-         <ul class="item-show-2">
-            <li>
-               {% include "toxit/sidebar/dataTab.html" %}
-            </li>
-         </ul>
-      </li>
+<!-- Snapshot / Inference Task drop down selector -->
+{% include "toxit/sidebar/sidebar-snapselect.html" %}
 
-      <li>
-         <a href="#" id="3">Help/Contact Us
-            <span class="fas fa-caret-down"></span>
-         </a>
-         <ul class="item-show-3">
-            <li>
-               {% include "toxit/sidebar/helpTab.html" %}
-            </li>
-         </ul>
-      </li>
-   </ul>
-</nav>
+<!-- Lightmode toggle + Background select -->
+{% include "toxit/sidebar/sidebar-themes.html" %}
+
+<!-- Export current inference task factory module -->
+{% include "toxit/sidebar/sidebar-config.html" %}
+
+<!-- Live layout GUI Physics sliders -->
+{% include "toxit/sidebar/siderbar-physicsGUI.html" %}
+
+<!-- Edge Selector for current node -->
+{% include "toxit/sidebar/sidebar-edgeselect.html" %}
+
+<!-- Node master list drop down + random select  -->
+{% include "toxit/sidebar/sidebar-nodenavigator.html" %}
+
+<!-- Current node info  -->
+{% include "toxit/sidebar/sidebar-nodeinfo.html" %}
+
+<!-- Export current inference task factory module -->
+{% include "toxit/sidebar/sidebar-export.html" %}

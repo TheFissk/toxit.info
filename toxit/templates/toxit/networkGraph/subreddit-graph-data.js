@@ -1,196 +1,140 @@
-var sub_nodes = new vis.DataSet();
-var mod_edges = new vis.DataSet();
-var author_edges = new vis.DataSet();
+/*
+  subreddit-graph-data.js
 
+  Holds all the javascript logic for the VisJs network
+    - Event listener for changing inference task
+    - Ajax for loading subreddit nodes and moderator + commentor edge weights
+    - loading icon and cancel logic
+*/
+
+// define variables to be populated with updateGraphData ajax call 
+var sub_nodes = new vis.DataSet();    /* all subreddits as nodes */
+var mod_edges = new vis.DataSet();    /* all shared moderators between sub_nodes as edges */
+var author_edges = new vis.DataSet(); /* all shared comment authors between sub_nodes as edges */
+
+// Get the container element for the network graph
 var container = document.getElementById("Toxit-SubredditGraph");
 
+// define data for network graph; default edge weight is moderators
 var data = {
   nodes: sub_nodes,
   edges: mod_edges,
 };
 
 var options = {
+  // Define the appearance and behavior of the nodes
   nodes: {
     shape: "circle",
     margin: 10,
     size: 16,
-    shapeProperties: {
-      interpolation: false    // 'true' for intensive zooming
-    },
+    borderWidth: 3,
+    // shapeProperties: {
+    //   interpolation: false    // 'true' for intensive zooming
+    // },
   },
+  // Define the appearance and behavior of the edges
   edges: {
     font: {
       size: 24,
       align: 'middle'
     },
-    hoverWidth: 0.5,
+    hoverWidth: 1,
     selectionWidth: 1,
-    width: 0.15,
-    smooth: {
-      type: 'continuous'
-    },
+    width: 0.5,
+
   },
-  layout: {
-    improvedLayout:false
-  },
+  // Define the physics properties of the network graph
   physics: {
-    solver: "forceAtlas2Based",
-    maxVelocity: 50,
-    timestep: 0.35,
     stabilization: {
-      enabled: true,
-      iterations: 1000,
-      updateInterval: 25,
+      iterations: 2500,  // maximum number of iteration to stabilize the graph
+      fit: true  // fit the graph to the viewport
     },
     forceAtlas2Based: {
-      gravitationalConstant: -69, /* nice */
+      gravitationalConstant: -200,
       centralGravity: 0.01,
-      springLength: 42069,
-      springConstant: 0.001,
+      springLength: 200,
+      springConstant: 0.03,
+      damping: 0.4,
+      avoidOverlap: 1  // prevents node overlap, may make nodes more spread out
     },
+    maxVelocity: 50,  // the maximum velocity of nodes during physics simulation
+    minVelocity: 0.1,  // the minimum velocity of nodes during physics simulation
+    solver: 'forceAtlas2Based'  // which solver to use for the physics simulation
+  },
+  configure: {
+    enabled: true,
+    filter: 'nodes,edges',
+    container: document.getElementById('vis-config'),
+    showButton: true
   },
 };
 
+// Create the VisJs network with the data retrieved from the 
 var network = new vis.Network(container, data, options);
 
-// Define a function to update the graph data
-var updateGraphData = (function() {
-  var controller = new AbortController();
+// rudimentry function to start with for coloring nodes based on toxicity
+function getColorForScore(score) {
+  var red = Math.max(0, Math.min(255, Math.round((1 - score) * 100)));
+  var green = Math.max(0, Math.min(255, Math.round((score + 1) * 200)));
+  return 'rgb(' + red + ',' + green + ',0)';
+}
 
-  return function(snapshot_id) {
-    var url = '/update_data/' + snapshot_id + '/';
-    var $loader = $('#loader'); // the loader element, replace with your own
+/*
+  Ajax function using fetch to update the data shown on the graph.
 
-    // cancel previous request if it hasn't already been completed
-    controller.abort();
-    controller = new AbortController();
+  This is called on load using the snapshot selector to get the default edge weight choice.
 
-     // add event listener to loader element to cancel fetch request
-     $loader.click(function() {
-      controller.abort();
+  views.py defines a function that packages the nodes in a data json object 
+  
+  clears the current variable data before loading in the new 'snapshot'
+  data into each respective variable, this function updates the VisJS
+  network automatically without needing to call an update to the canvas
+  or graph or network (the displayed nodes).
+*/
+const updateGraphData = (snapshot_id) => {
+  // Construct the URL for the data endpoint based on the selected snapshot
+  var url = '/update_data/' + snapshot_id + '/';
+  var $loader = $('#loader');
+
+  // Show the loader while the data is being fetched
+  $loader.show();
+
+  // Use fetch() to get the data and handle it with Promises
+  fetch(url)
+    .then(response => response.json())
+    .then(data => {
+      // Hide the loader once the data has been loaded
       $loader.hide();
-    });
 
-    // show the loader while the data is being fetched
-    $loader.show();
+      // Clear the existing data
+      sub_nodes.clear();
+      mod_edges.clear();
+      author_edges.clear();
 
-    fetch(url, {
-      method: 'GET',
-      signal: controller.signal,
+      // check if the edge selector exists and clear it too if it does
+      $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
+
+      // Add the new data
+      sub_nodes.add(data.sub_nodes_context.map(node => {
+        return {
+          id: node.id,
+          label: node.label,
+          title: node.title,
+          subname: node.subname,
+          score: node.score,
+          color: { background: getColorForScore(node.score) }
+        };
+      }));
+
+      mod_edges.add(data.mod_edges_context);
+      author_edges.add(data.author_edges_context);
+
     })
-      .then(function(response) {
-        return response.json();
-      })
-      .then(function(data) {
-        // hide the loader once the data has been loaded
-        $loader.hide();
+    .catch(error => {
+      $loader.hide(); // Hide the loader in case of an error
 
-        // Clear the existing data
-        sub_nodes.clear();
-        mod_edges.clear();
-        author_edges.clear();
+      console.log('Error:', error);
+    });
+};
 
-        // Add the new data
-        sub_nodes.add(data.sub_nodes_context);
-        mod_edges.add(data.mod_edges_context);
-        author_edges.add(data.author_edges_context);
-      })
-      .catch(function(error) {
-        // hide the loader in case of an error
-        $loader.hide();
-
-        console.log('Error:', error);
-      });
-  }
-})();
-
-// Call the function to update the graph data for the first choice on page load
-var firstChoiceValue = $('#snapshot-select option:first').val();
-updateGraphData(firstChoiceValue);
-
-// Add event listener to snapshot-select select tag
-document.getElementById('snapshot-select').addEventListener('change', function() {
-  var snapshot_id = this.value;
-  updateGraphData(snapshot_id);
-});
-
-// radio button edge selector logic
-$('input[type=radio][name=edge-weight]').change(function() {
-  if (this.value == 'mods') {
-      document.getElementById("mods-radio").checked = true;
-      document.getElementById("auth-radio").checked = false;
-
-      data.edges = mod_edges;
-  }
-  else if (this.value == 'auth') {
-    document.getElementById("mods-radio").checked = false;
-    document.getElementById("auth-radio").checked = true;
-
-    data.edges = author_edges;
-  }
-
-  // Update the network with the new edges
-  network.setData(data);
-});
-
-network.on('click', function(event) {
-  var node = event.nodes[0];
-  if (node) {
-    var data = sub_nodes.get(node);
-    alert('Subreddit: ' + data.label + '\nDescription: ' + data.title);
-  }
-});
-
-
-
-document.addEventListener('DOMContentLoaded', function() {
-     var nodes = null;
-      var edges = null;
-      var network = null;
-        var DIR = 'img/refresh-cl/';
-        var toxicity_results = new vis.DataSet();
-            toxicity_results.add({id: 1, toxicity: 0.5});
-            toxicity_results.add({id: 2, toxicity: 1.0});
-            toxicity_results.add({id: 3, toxicity: -0.5});
-            toxicity_results.add({id: 4, toxicity: -1.0});
-            toxicity_results.add({id: 5, toxicity: 0.75});
-//            var toxicity = toxicity_results.get(1);
-        toxicity_results.forEach(function(item) {
-      var svg = '<svg xmlns="http://www.w3.org/2000/svg" width="250" height="65">' +
-          '<rect x="0" y="0" width="100%" height="100%" fill="hsl(' +(60 - 60 * item.toxicity)+', 100%, 50%)" stroke-width="2" stroke="black" ></rect>' +
-          '<foreignObject x="0" y="20%" width="100%" height="100%">' +
-              '<div xmlns="http://www.w3.org/1999/xhtml" style="font-family:Arial; font-size:30px; text-align: center; ">' +
-              "Toxicity: " + item.toxicity +
-              '</div>' +
-          '</foreignObject>' +
-          '</svg>';
-
-
-            var url = "data:image/svg+xml;charset=utf-8,"+ encodeURIComponent(svg);
-            nodes.update({id: item.id, label: nodes.get(item.id).label, image: url, shape: 'image'});
-        });
-// Create a data table with nodes.
-            nodes = [];
-
-            // Create a data table with links.
-            edges = [];
-            nodes.push({id: 1, label: 'Get HTML', image: url, shape: 'image'});
-            nodes.push({id: 2, label: 'Using SVG', image: url, shape: 'image'});
-            edges.push({from: 1, to: 2, length: 300});
-
-            // create a network
-//            var container = this.svgNetworkContainer.nativeElement;
-
-            var container = document.getElementById('mynetwork');
-            var data = {
-                nodes: nodes,
-                edges: edges
-            };
-            var options = {
-                physics: {stabilization: false},
-                edges: {smooth: false}
-            };
-            //network = new vis.Network(container, data, options);
-            this.network = new vis.Network(container, data, options);
-  }
- )
+// text background code

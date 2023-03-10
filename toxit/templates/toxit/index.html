@@ -3,47 +3,54 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <link rel="shortcut icon" type="image/png" href="{% static '/logo/favicon.ico' %}"/>
-    <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
-    <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
+    <!-- Dependencies -->
+
+    <!-- JQuery -->
     <script src="https://code.jquery.com/jquery-3.5.1.min.js"></script>
+    <!-- VisJs -->
+    <script type="text/javascript" src="{% static 'node_modules/vis-network/dist/vis-network.js' %}"></script>
+    <!-- Add Font Awesome CSS stylesheet -->
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" />
 
-    <!-- idk what this is, is it all side bar stuff? -->
 
-    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" integrity="sha384-Gn5384xqQ1aoWXA+058RXPxPg6fy4IWvTNh0E263XmFcJlSAwiGgFAW/dAiS6JXm" crossorigin="anonymous">
-    <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.9/umd/popper.min.js" integrity="sha384-ApNbgh9B+Y1QKtv3Rn7W3mgPxhU9K/ScQsAP7hUibX39j7fakFPskvXusvfa0b4Q" crossorigin="anonymous"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js" integrity="sha384-JZR6Spejh4U02d8jOt6vLEHfe/JQGiRRSQQxSfFWpi1MquVdAyjUar5+76PVCmYl" crossorigin="anonymous"></script>
-    <!--      sidebar-->
-    <link rel="stylesheet" href="{% static 'index.css' %}">
-    <link rel="stylesheet" href="{% static 'sidebar/options.css' %}">
+
+    <!-- Project Files -->
+
+    <!-- toxit logo icon  -->
+    <link rel="shortcut icon" type="image/png" href="{% static '/logo/favicon.ico' %}"/>
+    <!-- Main website stylesheet -->
+    <link rel="stylesheet" href="{% static 'main.css' %}">
+    <!--  NetworkGraph CSS -->
+    <link rel="stylesheet" href="{% static 'networkGraph/subreddit-graph-style.css' %}">
+    <!--  Sidebar CSS -->
     <link rel="stylesheet" href="{% static 'sidebar/sidebar.css' %}">
 
-    <!-- are we using all this ? -->
-
-    <title>Network</title>
+    <!-- Tab Display Text -->
+    <title>Toxit</title>
 </head>
 
 <body>
-    <!-- visJs Block -->
-    {% include "toxit/networkGraph/visJs-container.html" %}
-
-    <div style = "position: fixed;"> <!-- we should use the style sheet for this -->
-        {% include "toxit/sidebar/sidebar.html" %}
-    </div>
+    <!-- side nav toggle button -->
+    <div class="sidebar-btn">
+        <span class="fas fa-bars"></span>
+     </div>
+     <nav class="sidebar">
+        <div class="sidenav-title-text">Toxit</div>
+        <ul class="main_side">
+            {% include 'toxit/sidebar/sidebar.html' %}
+        </ul>
+     </nav>
+     <div class="content">
+        {% include "toxit/networkGraph/visJs-container.html" %}
+     </div>
 </body>
 
 <footer>
-    <!-- VisJS Network -->
-    <script type="text/javascript"> {% include "toxit/networkGraph/subreddit-graph-data.js" %} </script>
-    <script type="text/javascript" src="{% static 'networkGraph/subreddit-graph-visualization.js' %}"></script>
-    <!--    sidebar-->
-    <script src="{% static 'sidebar/sidebarEvents.js' %}"></script>
-    <script src="{% static 'sidebar/options.js' %}"></script>
+    <!-- NetworkGraph JS - VisJs network template language portion -->
+    <script type="text/javascript"> 
+        {% include "toxit/networkGraph/subreddit-graph-data.js" %} 
+    </script>
+    <!-- Sidebar JS -->
+    <script src="{% static 'sidebar/sidebar.js' %}"></script>
 </footer>
 </html>
-
-
-
-
-
-
