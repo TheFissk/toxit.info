@@ -53,6 +53,7 @@ darkLightMode.addEventListener("change", () => {
     + move to animation for to node
     + repop buttons with to node
     + Logic for auto open selector 
+    + before and after tag manipulation of edge buttons
 */
 function populateEdgeButtons(fromNode) {
   // get the div element and the network object
@@ -76,7 +77,26 @@ function populateEdgeButtons(fromNode) {
 
       const button = document.createElement("button");
       button.classList.add("edge-button");
-      button.innerHTML = `${from_data.subname}<br>to<br>${to_data.subname}`;
+
+      // Determine which edge weight radio button is selected
+      const edgeWeightRadios = document.getElementsByName("edge-weight");
+      let edgeWeight = "mods";
+      for (let i = 0; i < edgeWeightRadios.length; i++) {
+        if (edgeWeightRadios[i].checked) {
+          edgeWeight = edgeWeightRadios[i].value;
+          break;
+        }
+      }
+
+      // Set the button text and before pseudo-element content based on the edge weight
+      if (edgeWeight === "mods") {
+        button.innerHTML = `${from_data.subname}<br>to<br>${to_data.subname}`;
+        button.style.setProperty("--before-content", "'Moderators'");
+      } else if (edgeWeight === "auth") {
+        button.innerHTML = `${from_data.subname}<br>by<br>${to_data.subname}`;
+        button.style.setProperty("--before-content", "'Commentors'");
+      }
+
       button.addEventListener("click", () => {
         const toNodePosition = network.getPositions([toNode])[toNode];
         const moveToOptions = {
@@ -122,20 +142,26 @@ function populateEdgeButtons(fromNode) {
 network.on("click", function (event) {
   const fromNode = event.nodes[0];
 
-  // Move to the clicked node position with a new animation
-  const toNodePosition = network.getPositions([fromNode])[fromNode];
-  const moveToOptions = {
-    position: toNodePosition,
-    scale: 1.0,
-    offset: { x: 0, y: 0 },
-    animation: {
-      duration: 1500, // New animation duration
-      easingFunction: "easeInOutCubic", // New animation easing function
-    },
-  };
-  network.moveTo(moveToOptions);
+  if (event.event.button === 1) {
+    // Middle mouse button clicked
+    console.log("do something");
+    network.fit();
+  } else {
+    // Move to the clicked node position with a new animation
+    const toNodePosition = network.getPositions([fromNode])[fromNode];
+    const moveToOptions = {
+      position: toNodePosition,
+      scale: 1.5,
+      offset: { x: 0, y: 0 },
+      animation: {
+        duration: 1500, // New animation duration
+        easingFunction: "easeOutCubic", // New animation easing function
+      },
+    };  
+    network.moveTo(moveToOptions);
 
-  populateEdgeButtons(fromNode); /* edge buttons and auto open */
+    populateEdgeButtons(fromNode); /* edge buttons and auto open */
+  }
 });
 
 
