@@ -374,6 +374,20 @@ select#bg-pic-select {
   background-color: var(--secondary-color);
   color: var(--primary-color-D);
   border: transparent solid 0.1rem;
+  line-height: 1.5rem;
+}
+
+button.edge-button:before {
+  content: "Moderator(s): 2";
+  display: block;
+  position: relative;
+  background-color: var(--highlight-color);
+  border-radius: 0.25rem;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px var(--border-color) solid;
+  color: black;
 }
 
 .edge-button:hover{
@@ -381,6 +395,7 @@ select#bg-pic-select {
   font-weight: bolder;
   border: var(--border-color) solid 0.1rem;
 }
+
 
 /*
   config panel
