@@ -1,0 +1,24 @@
+<li>
+    <a href="#" class="item-text" id="snapselect">Snapshot Selection
+        <span class="fas fa-caret-down"></span>
+    </a>
+    <div class="collapsible item-show-snapselect show">
+        <div class="snap-select-radio-buttons" id="edge-weight-selector">
+            <!-- Moderators -->
+            <label for="mods-radio" class="radio">
+                <input type="radio" name="edge-weight" value="mods" id="mods-radio" checked>
+                Moderators
+            </label>
+            <!-- Commenters -->
+            <label for="auth-radio" class="radio">
+                <input type="radio" name="edge-weight" value="auth" id="auth-radio">
+                Commenters
+            </label>
+        </div>
+        <select id="snapshot-select" name="snapshot_id">
+            {% for task in iTasks %}
+            <option value="{{ task.id }}">Snapshot #{{ task.id }}: {{ task.start_sched }}</option>
+            {% endfor %}
+        </select>
+    </div>
+</li>

@@ -35,6 +35,7 @@ class Inference_task(models.Model):
     class Meta:
         db_table = 'toxit_inference_task'
         managed = False
+
     TIME_SCALES =   [
                     ('hour', 'This Hour'),
                     ('day', 'Today'),
@@ -43,6 +44,7 @@ class Inference_task(models.Model):
                     ('year', 'This Year'),
                     ('all', 'All Time')
                     ]
+    
     STATUS_TYPES = [
                     ('0', 'Scheduled'),
                     ('1', 'In Progress'),
@@ -50,6 +52,7 @@ class Inference_task(models.Model):
                     ('3', 'Error'),
                     ('4', 'Cancelled')
                     ]
+    
     start_sched = models.DateTimeField(help_text='Requested start time')
     
     time_scale = models.CharField(max_length=5, choices=TIME_SCALES,
@@ -57,7 +60,7 @@ class Inference_task(models.Model):
     min_words = models.IntegerField(default=20, null=True, validators=[MinValueValidator(1), MaxValueValidator(168)],
                                     help_text="The minimum number of words to be considered a valid comment")
     forest_width = models.IntegerField(default=10, validators=[MinValueValidator(0)],
-                                    help_text="The number of comments per level to be acquired")
+                                    help_text="[DEPRECIATED]")
     per_post_n = models.IntegerField(default=1000, validators=[MinValueValidator(1)],
                                     help_text="The maximum number of comments per post to be harvested")
     comments_n = models.IntegerField(default=1000, validators=[MinValueValidator(1)],
@@ -66,7 +69,14 @@ class Inference_task(models.Model):
                                     help_text="A set of the subreddits to be harvested")
     status = models.PositiveSmallIntegerField(choices=STATUS_TYPES,
                                     help_text="The status of the task")
-
+    
+    def get_subreddits_for_inference_task(self):
+        return Subreddit_result.objects.filter(inference_task=self).select_related('subreddit')
+    
+    def get_mod_edges_for_inference_task(self):
+        return Mod_edge.objects.filter(inference_task=self)
+    def get_author_edges_for_inference_task(self):
+        return Author_edge.objects.filter(inference_task=self)
     def __str__(self):
         if (self.start_sched):
             return f"Inference job scheduled: {self.start_sched}"
@@ -76,6 +86,7 @@ class Subreddit_result(models.Model):
     class Meta:
         db_table = 'toxit_subreddit_result'
         managed = False
+
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE,
                                     help_text="The subreddit that was analyzed")
     inference_task = models.ForeignKey(Inference_task, on_delete=models.CASCADE,
@@ -90,7 +101,7 @@ class Subreddit_result(models.Model):
                                     help_text="The standard deviation for this subreddit")
     timestamp = models.DateTimeField(auto_now_add=True,
                                     help_text="The time when the data was collected")
-    edges = models.JSONField(help_text="The edges for this subreddit")
+    edges = models.JSONField(help_text="[DEPRECIATED]")
 
     def __str__(self):
         return f"Results for {self.subreddit} collected on {self.inference_task.start_sched}"
@@ -100,9 +111,10 @@ class Subreddit_mod(models.Model):
     class Meta:
         db_table = 'toxit_subreddit_mod'
         managed = False
+
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE)
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE,
-                                    help_text="The collection that the user was a moderator during")
+                                    help_text="The subreddit the user was a moderator for, in a specific result")
     username = models.CharField(max_length=32,
                                     help_text="The username of the moderator")
     def __str__(self):
@@ -113,6 +125,7 @@ class Comment_result(models.Model):
     class Meta:
         db_table = 'toxit_comment_result'
         managed = False
+
     subreddit_result = models.ForeignKey(Subreddit_result, on_delete=models.CASCADE)
     subreddit = models.ForeignKey(Subreddit, on_delete=models.CASCADE)
     permalink = models.TextField(help_text='The permalink to the comment sample')
@@ -128,6 +141,7 @@ class Author_edge(models.Model):
     class Meta:
         db_table = 'toxit_author_edge'
         managed = False
+
     from_sub = models.ForeignKey(Subreddit_result, related_name='auth_from_sub', on_delete=models.CASCADE)
     to_sub = models.ForeignKey(Subreddit_result, related_name='auth_to_sub', on_delete=models.CASCADE)
     inference_task = models.ForeignKey(Inference_task, on_delete=models.CASCADE)
@@ -141,6 +155,7 @@ class Mod_edge(models.Model):
     class Meta:
         db_table = 'toxit_mod_edge'
         managed = False
+
     from_sub = models.ForeignKey(Subreddit_result, related_name='mod_from_sub', on_delete=models.CASCADE)
     to_sub = models.ForeignKey(Subreddit_result, related_name='mod_to_sub', on_delete=models.CASCADE)
     inference_task = models.ForeignKey(Inference_task, on_delete=models.CASCADE)

@@ -1,0 +1,463 @@
+/* CSS is ordered from least specific and is ordered based on dom heirarchy of side nav */
+@import url('https://fonts.googleapis.com/css?family=Poppins:400,500,600,700&display=swap');
+
+* {
+  margin: 0;
+  padding: 0;
+  user-select: none;
+  box-sizing: border-box;
+  font-family: 'Poppins', sans-serif;
+}
+
+a:hover {
+  color: var(--highlight-color);
+}
+
+label {
+  display: block;
+}
+
+
+/* 
+  Main content displayed under / beside side nav 
+*/
+.content {
+  position: absolute;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  color: #202020;
+  z-index: -1;
+  text-align: center;
+  width: 100%;
+  height: 100%;
+}
+
+
+/* 
+  Sidebar hamburger toggle button for side nav 
+*/
+.sidebar-btn {
+  z-index: 1;
+  position: absolute;
+  top: 1rem;
+  left: 1rem;
+  height: 2.5rem;
+  width: 2.5rem;
+  text-align: center;
+  background: var(--primary-color-D);
+  border: var(--border-weight) solid var(--border-color);
+  border-radius: 0.625rem; /* 10px */
+  cursor: pointer;
+  transition: left var(--transition-speed-navtog) ease;
+}
+
+.sidebar-btn.click {
+  left: var(--sidenav-btn-offset);
+  border-left: transparent;
+}
+
+.sidebar-btn span {
+  color: var(--font-color);
+  font-size: 1.5rem;
+  vertical-align: -webkit-baseline-middle;
+}
+
+.sidebar-btn.click span:before {
+  content: '\f00d';
+}
+
+
+/* 
+  Sidebar container for side nav 
+*/
+.sidebar {
+  position: fixed;
+  width: var(--sidenav-width);
+  height: 100%;
+  left: var(--sidenav-width-hide);
+  background: var(--primary-color);
+  border-right: var(--border-weight) solid var(--border-color);
+  transition: left var(--transition-speed-navtog) ease;
+  overflow-y: scroll;
+  scrollbar-width: thin;
+  scrollbar-color: var(--highlight-color) var(--primary-color-D);
+}
+
+.sidebar.show {
+  left: 0;
+}
+
+/* custom scrollbar */
+/* For webkit browsers */
+.sidebar::-webkit-scrollbar {
+  width: 0.2rem;
+}
+
+.sidebar::-webkit-scrollbar-track {
+  background-color: var(--primary-color-D);
+}
+
+.sidebar::-webkit-scrollbar-thumb {
+  background-color: var(--highlight-color);
+  border-radius: 0.3rem;
+  height: 2rem;
+}
+
+.sidebar .sidenav-title-text {
+  color: var(--font-color);
+  font-size: 2rem;
+  font-weight: 600;
+  line-height: 5rem;
+  text-align: center;
+  background: var(--primary-color);
+  letter-spacing: 0.01rem;
+  background-color: var(--primary-color-D);
+}
+
+.sidenav-title-text::before, .sidenav-title-text::after {
+  content: '';
+  background-image: url("../logo/favicon.ico");
+  background-size: 2rem;
+  display: inline-block;
+  position: relative;
+  width: 2rem;
+  height: 2rem;
+  top: 0.25rem;
+  margin: 0 0.5rem;
+}
+
+.main_side {
+  background: var(--primary-color);
+  height: auto;
+  width: 100%;
+  list-style: none;
+}
+
+
+/* 
+  List items and their text for side nav 
+*/
+.main_side li {
+  line-height: 3rem; /* how tall each item is on the side nav */
+  border-top: var(--border-weight) solid var(--border-color); 
+  border-bottom: var(--border-weight) solid var(--border-color); 
+  margin: 0;
+}
+
+.item-text {
+  position: relative;
+  color: var(--secondary-color);
+  text-decoration: none;
+  font-size: 1rem;
+  margin: 0;
+  padding: 0 0.5rem;
+  font-weight: 500;
+  display: block;
+  width: 100%;
+}
+
+li:has(.show) {
+  background-color: var(--primary-color-D);
+  border: 0.3rem outset var(--border-color);
+}
+
+.active .item-text {
+  color: var(--highlight-color);
+}
+
+.item-text:hover {
+  color: var(--highlight-color) ;
+  background-color: var(--primary-color-L) ;
+}
+
+.item-text span {
+  position: absolute;
+  top: 50%;
+  right: 20px;
+  transform: translateY(-50%);
+  font-size: 15px;
+  transition: transform 0.4s;
+}
+
+
+/* 
+  Collapsible list items for side nav 
+*/
+.collapsible  {
+  position: static;
+  display: none;
+}
+
+.collapsible.show  {
+  display: block;
+  margin: 0 1rem;
+}
+
+/* 
+  Animations for side nav 
+*/
+/* spins selection chevron */
+.main_side li a span.rotate {
+  transform: translateY(-50%) rotate(-180deg);
+}
+
+
+/* 
+  CSS for snapshot select side nav module 
+*/
+#snapshot-select {
+  width: 100%;
+}
+
+.snap-select-radio-buttons label input {
+  /* position: absolute; */
+  display: inline;
+  z-index: -1;
+}
+
+
+/*
+  CSS for theme and style module
+*/
+select#bg-pic-select {
+  margin-left: 20%;
+  margin-bottom: 1.25rem;
+  position: relative;
+  width: 75%;
+  display: block;
+}
+
+/*
+  Flip Radio button code - sourced from: 
+    https://codepen.io/mallendeo/pen/QWKrEL
+*/
+.tg-list-item {
+  width: 10rem;
+  margin: 0.5em;
+  display: block;
+}
+
+.tgl {
+  display: none;
+}
+.tgl, .tgl:after, .tgl:before, .tgl *, .tgl *:after, .tgl *:before, .tgl + .tgl-btn {
+  box-sizing: border-box;
+}
+.tgl::selection, .tgl:after::selection, .tgl:before::selection, .tgl *::selection, .tgl *:after::selection, .tgl *:before::selection, .tgl + .tgl-btn::selection {
+  background: none;
+}
+.tgl + .tgl-btn {
+  outline: 0;
+  display: inline-block;
+  width: 4em;
+  height: 2em;
+  position: relative;
+  cursor: pointer;
+  user-select: none;
+}
+.tgl + .tgl-btn:after, .tgl + .tgl-btn:before {
+  position: relative;
+  display: block;
+  content: "";
+  width: 50%;
+  height: 100%;
+}
+.tgl + .tgl-btn:after {
+  left: 0;
+}
+.tgl + .tgl-btn:before {
+  display: none;
+}
+.tgl:checked + .tgl-btn:after {
+  left: 50%;
+}
+
+.tgl-flip + .tgl-btn {
+  padding: 2px;
+  transition: all 0.2s ease;
+  font-family: sans-serif;
+  perspective: 100px;
+  vertical-align: middle;
+}
+.tgl-flip + .tgl-btn:after, .tgl-flip + .tgl-btn:before {
+  display: inline-block;
+  transition: all 0.4s ease;
+  width: 100%;
+  text-align: center;
+  position: absolute;
+  line-height: 2em;
+  font-weight: bold;
+  color: #fff;
+  top: 0;
+  left: 0;
+  backface-visibility: hidden;
+  border-radius: 4px;
+}
+.tgl-flip + .tgl-btn:after {
+  content: attr(data-tg-on);
+  background-image: linear-gradient(to right, orange 20%, white 80%);
+  transform: rotateY(-180deg);
+}
+.tgl-flip + .tgl-btn:before {
+  background-image: radial-gradient(circle, #333333, #4d4d4d, #666666, #808080);
+  content: attr(data-tg-off);
+}
+.tgl-flip + .tgl-btn:active:before {
+  transform: rotateY(-20deg);
+}
+.tgl-flip:checked + .tgl-btn:before {
+  transform: rotateY(180deg);
+}
+.tgl-flip:checked + .tgl-btn:after {
+  transform: rotateY(0);
+  left: 0;
+  background-image: linear-gradient(to right, orange 20%, white 80%);
+  color: #000;
+}
+.tgl-flip:checked + .tgl-btn:active:after {
+  transform: rotateY(20deg);
+}
+
+.fa-moon:before, .fa-sun:before {
+  position: static;
+  vertical-align: middle;
+}
+
+.fa-sun:before {
+  color: orange;
+}
+
+.tg-list-item i.fas {
+  display: inline;
+}
+
+/* additional css for edge select checkbox */
+#auto-open-edge + .tgl-btn:before {
+  color: black;
+  background-image: radial-gradient(circle, rgba(128,128,128,1) 0%, rgba(0,0,0,1) 100%);
+}
+
+#auto-open-edge + .tgl-btn:after {
+  color: white;
+  background-image: radial-gradient(circle, var(--highlight-color) 0%, var(--highlight-color-D) 100%);
+}
+
+
+/*
+  physics slider
+*/
+
+#phsyics-slider-wrapper {
+  padding: 10px;
+}
+
+#phsyics-slider-wrapper label {
+  display: inline-block;
+  width: 150px;
+}
+
+#phsyics-slider-wrapper input[type="range"] {
+  width: 250px;
+}
+
+/*
+  edge selection panel
+*/
+.edge-button {
+  display: block;
+  cursor: pointer;
+  width: 100%;
+  margin: 0.5rem 0;
+  padding: 0.5rem;
+  border-radius: 0.5rem;
+  background-color: var(--secondary-color);
+  color: var(--primary-color-D);
+  border: transparent solid 0.1rem;
+  line-height: 1.5rem;
+}
+
+button.edge-button:before {
+  content: var(--before-content);
+  display: block;
+  position: relative;
+  background-color: var(--highlight-color);
+  border-radius: 0.25rem;
+  width: 100%;
+  margin: 0;
+  margin-bottom: 0.4rem;
+  border-bottom: 1px var(--border-color) solid;
+  color: black;
+}
+
+.edge-button:hover{
+  color: var(--highlight-color);
+  font-weight: bolder;
+  border: var(--border-color) solid 0.1rem;
+}
+
+
+/*
+  config panel
+*/
+div#vis-config {
+  border: 0.5rem var(--highlight-color) dotted;
+  padding: 0.5rem;
+  border-top: 0.75rem var(--border-color) solid;
+}
+
+.vis-config-header, .vis-config-label {
+  text-decoration: underline;
+  text-underline-position: under;
+  font-size: 2rem;
+  padding: 0.5rem;
+  margin: 0.5rem 0;
+  background-color: var(--primary-color-L);
+}
+
+.vis-config-label  {
+  font-size: 1rem;
+  padding: 0 1rem;
+  margin: 0;
+}
+
+div#vis-config {
+  border: 0.5rem var(--highlight-color) dotted;
+  padding: 0.5rem;
+  border-top: 0.75rem var(--border-color) solid;
+}
+
+.vis-configuration.vis-config-item.vis-config-s2 *:not(.vis-config-label) {
+  display: inline-block;
+}
+
+.vis-configuration.vis-config-label {
+  display: block;
+}
+
+input.vis-configuration.vis-config-rangeinput {
+  margin-left: 1rem;
+  width: 3rem;
+}
+
+/* all items nested under s0 indented */
+.vis-configuration-wrapper > :not(.vis-config-s0) {
+  margin-left: 1rem;
+}
+
+/* 
+  geniebro code
+*/
+.vis-config-item.hidden {
+  display: none;
+}
+
+/*
+  Radio button code - sourced from: 
+    https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
+*/
+
+/*
+  draggable test
+  https://codepen.io/PJCHENder/pen/PKBVRO/
+*/

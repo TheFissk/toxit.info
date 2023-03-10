@@ -1,0 +1,22 @@
+<!-- 
+    Theme selection module, allows for toggling between light and dark mode 
+ -->
+<li>
+    <a href="#" class="item-text" id="themestyle">Theme & Style
+        <span class="fas fa-caret-down"></span>
+    </a>
+    <div class="collapsible item-show-themestyle">
+        <!-- Dark Mode Light Mode Toggle -->
+        <div class="tg-list-item">
+            <i class="fas fa-moon" id="moon-icon"></i>
+            <input class="tgl tgl-flip" id="dark-light-mode" type="checkbox">
+            <label class="tgl-btn" data-tg-off="Dark" data-tg-on="Light" for="dark-light-mode"></label>
+        </div>
+        <!-- Create option element for each image filename. -->
+        <!-- <select id="bg-pic-select" name="bg-pic-select">
+            {% for image in images %}
+            <option value="{{ image }}">{{ image }}</option>
+            {% endfor %}
+        </select> -->
+    </div>      
+</li>
