@@ -26,7 +26,7 @@ SECRET_KEY = 'django-insecure-q)01061hj=ax=+yw&vs0zt(ef)t7+ce5e*y&@_e)@sy08_4m@d
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = False
 
-ALLOWED_HOSTS = ['localhost']
+ALLOWED_HOSTS = ['localhost', 'https://toxit-site-image-o6w3ya4j2a-pd.a.run.app']
 
 
 # Application definition
