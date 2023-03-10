@@ -36,7 +36,15 @@ document.getElementById('snapshot-select').addEventListener('change', function()
   updateGraphData(snapshot_id);
 });
 
+/*
+  Radio button code
+  -descriton here
+*/
 $('input[type=radio][name=edge-weight]').change(function() {
+
+  // Store the ID of the currently selected node, if any
+  var selectedNode = network.getSelectedNodes()[0];
+
   if (this.value == 'mods') {
       document.getElementById("mods-radio").checked = true;
       document.getElementById("auth-radio").checked = false;
@@ -52,6 +60,26 @@ $('input[type=radio][name=edge-weight]').change(function() {
 
   // Update the network with the new edges
   network.setData(data);
+
+  if(selectedNode) {
+    network.selectNodes([selectedNode]);
+
+    selectedNode = network.getSelectedNodes()[0];
+
+    populateEdgeButtons(selectedNode);
+
+    const toNodePosition = network.getPosition([selectedNode]);
+    const moveToOptions = {
+      position: toNodePosition,
+      scale: 1.0,
+      offset: { x: 0, y: 0 },
+      animation: {
+        duration: 1000,
+        easingFunction: "easeInOutQuad",
+      },
+    };
+    network.moveTo(moveToOptions);
+  }
 });
 
 /* 
