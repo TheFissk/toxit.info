@@ -38,7 +38,7 @@ document.getElementById('snapshot-select').addEventListener('change', function()
 
 /*
   Radio button code
-  -descriton here
+  -descriton here-
 */
 $('input[type=radio][name=edge-weight]').change(function() {
 
@@ -68,17 +68,20 @@ $('input[type=radio][name=edge-weight]').change(function() {
 
     populateEdgeButtons(selectedNode);
 
-    const toNodePosition = network.getPosition([selectedNode]);
-    const moveToOptions = {
-      position: toNodePosition,
-      scale: 1.0,
-      offset: { x: 0, y: 0 },
-      animation: {
-        duration: 1000,
-        easingFunction: "easeInOutQuad",
-      },
-    };
-    network.moveTo(moveToOptions);
+    // afterDrawing is what makes this work, waits for edge swap to finish
+    network.once("afterDrawing", function() {
+      const toNodePosition = network.getPosition([selectedNode]);
+      const moveToOptions = {
+        position: toNodePosition,
+        scale: 1.25,
+        offset: { x: 0, y: 0 },
+        animation: {
+          duration: 1100, // New animation duration
+          easingFunction: "easeInOutQuad", // New animation easing function
+        },
+      };  
+      network.moveTo(moveToOptions);
+    });
   }
 });
 
@@ -165,13 +168,13 @@ function populateEdgeButtons(fromNode) {
         const toNodePosition = network.getPositions([toNode])[toNode];
         const moveToOptions = {
           position: toNodePosition,
-          scale: 1.0,
+          scale: 1.25,
           offset: { x: 0, y: 0 },
           animation: {
-            duration: 1000,
-            easingFunction: "easeInOutQuad",
+            duration: 1100, // New animation duration
+            easingFunction: "easeInOutQuad", // New animation easing function
           },
-        };
+        };  
         network.moveTo(moveToOptions);
         network.selectNodes([toNode]);
         populateEdgeButtons(toNode);
@@ -218,7 +221,7 @@ network.on("click", function (event) {
       scale: 1.5,
       offset: { x: 0, y: 0 },
       animation: {
-        duration: 1500, // New animation duration
+        duration: 1100, // New animation duration
         easingFunction: "easeOutCubic", // New animation easing function
       },
     };  
