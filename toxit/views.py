@@ -23,18 +23,18 @@ def update_data(request, snapshot_id):
     sub_nodes_context = [
         {
             'id': result.id, 
-            'label': f'r/{result.subreddit.display_name}\n\n[{round(result.mean_result, node_precision)}]',
+            'label': f'r/{result.subreddit.display_name}\n\n[{-1.0 * round(result.mean_result, node_precision)}]',
             # title = on hover visjs node tooltip
             'title': (
                 f'r/{result.subreddit.display_name}\n'
                 f'{"~".center(len(result.subreddit.display_name) + 6, "~")}\n'
-                f'Min: {round(result.min_result, tooltip_precision)}\n'
-                f'Max: {round(result.max_result, tooltip_precision)}\n'
-                f'Mean: {round(result.mean_result, tooltip_precision)}\n'
-                f'Std: {round(result.std_result, tooltip_precision)}'
+                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}\n'
+                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}\n'
+                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
+                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}'
             ),
             'subname': f'r/{result.subreddit.display_name}',
-            'score': result.mean_result,
+            'score': -1.0 * round(result.mean_result, node_precision),
         } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]
     mod_edges_context = [

@@ -23,6 +23,37 @@ $(".item-text").click(function () {
   $(".main_side li #" + id + " span").toggleClass("rotate");
 });
 
+/*
+  Logic for network graph edge weight selection using radio buttons
+*/
+// Call the function to update the graph data for the first choice on page load
+var firstChoiceValue = $('#snapshot-select option:first').val();
+updateGraphData(firstChoiceValue); // defined in toxit/templates/toxit/networkGraph/subreddit-graph-data.js
+
+// Add event listener to snapshot-select select tag
+document.getElementById('snapshot-select').addEventListener('change', function() {
+  var snapshot_id = this.value;
+  updateGraphData(snapshot_id);
+});
+
+$('input[type=radio][name=edge-weight]').change(function() {
+  if (this.value == 'mods') {
+      document.getElementById("mods-radio").checked = true;
+      document.getElementById("auth-radio").checked = false;
+
+      data.edges = mod_edges;
+  }
+  else if (this.value == 'auth') {
+    document.getElementById("mods-radio").checked = false;
+    document.getElementById("auth-radio").checked = true;
+
+    data.edges = author_edges;
+  }
+
+  // Update the network with the new edges
+  network.setData(data);
+});
+
 /* 
   Logic to handle toggling dark mode and light mode
 */
@@ -68,6 +99,7 @@ function populateEdgeButtons(fromNode) {
 
     // get the edges connected to the clicked node
     const connectedNodes = network.getConnectedEdges(fromNode);
+    console.log(connectedNodes);
 
     // create a button for each edge and append it to the div element
     connectedNodes.forEach((edgeId) => {
@@ -87,14 +119,17 @@ function populateEdgeButtons(fromNode) {
           break;
         }
       }
+      
+      // Set the button text 
+      button.innerHTML = `${from_data.subname} [ ${from_data.score} ]<br> to <br>${to_data.subname} [ ${to_data.score} ]`;
 
-      // Set the button text and before pseudo-element content based on the edge weight
+      // Set button :before pseudo-element content based on the edge weight and label
+      const edgeData = network.data.edges.get(edgeId);
+
       if (edgeWeight === "mods") {
-        button.innerHTML = `${from_data.subname}<br>to<br>${to_data.subname}`;
-        button.style.setProperty("--before-content", "'Moderators'");
+        button.style.setProperty("--before-content", `\'Moderator(s): ${edgeData}\'`);
       } else if (edgeWeight === "auth") {
-        button.innerHTML = `${from_data.subname}<br>by<br>${to_data.subname}`;
-        button.style.setProperty("--before-content", "'Commentors'");
+        button.style.setProperty("--before-content", `\'Comentor(s): ${edgeData}\'`);
       }
 
       button.addEventListener("click", () => {

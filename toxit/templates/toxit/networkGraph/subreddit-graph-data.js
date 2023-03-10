@@ -74,13 +74,15 @@ var network = new vis.Network(container, data, options);
 
 // rudimentry function to start with for coloring nodes based on toxicity
 function getColorForScore(score) {
-  var red = Math.max(0, Math.min(255, Math.round((score + 1) * 127.5)));
-  var green = Math.max(0, Math.min(255, Math.round((1 - score) * 127.5)));
+  var red = Math.max(0, Math.min(255, Math.round((1 - score) * 100)));
+  var green = Math.max(0, Math.min(255, Math.round((score + 1) * 200)));
   return 'rgb(' + red + ',' + green + ',0)';
 }
 
 /*
   Ajax function using fetch to update the data shown on the graph.
+
+  This is called on load using the snapshot selector to get the default edge weight choice.
 
   views.py defines a function that packages the nodes in a data json object 
   
@@ -135,33 +137,4 @@ const updateGraphData = (snapshot_id) => {
     });
 };
 
-// Call the function to update the graph data for the first choice on page load
-var firstChoiceValue = $('#snapshot-select option:first').val();
-updateGraphData(firstChoiceValue);
-
-// Add event listener to snapshot-select select tag
-document.getElementById('snapshot-select').addEventListener('change', function() {
-  var snapshot_id = this.value;
-  updateGraphData(snapshot_id);
-});
-
-/*
-  Logic for network graph edge weight selection using radio buttons
-*/
-$('input[type=radio][name=edge-weight]').change(function() {
-  if (this.value == 'mods') {
-      document.getElementById("mods-radio").checked = true;
-      document.getElementById("auth-radio").checked = false;
-
-      data.edges = mod_edges;
-  }
-  else if (this.value == 'auth') {
-    document.getElementById("mods-radio").checked = false;
-    document.getElementById("auth-radio").checked = true;
-
-    data.edges = author_edges;
-  }
-
-  // Update the network with the new edges
-  network.setData(data);
-});
+// text background code

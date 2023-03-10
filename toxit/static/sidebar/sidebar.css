@@ -378,7 +378,7 @@ select#bg-pic-select {
 }
 
 button.edge-button:before {
-  content: "Moderator(s): 2";
+  content: var(--before-content);
   display: block;
   position: relative;
   background-color: var(--highlight-color);
