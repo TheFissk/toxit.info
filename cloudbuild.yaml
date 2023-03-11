@@ -2,7 +2,7 @@ steps:
 
 - id: build
   name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/mhs-reddit/toxit-site-image', '.']
+  args: ['build', '--network=cloudbuild', '-t', 'gcr.io/mhs-reddit/toxit-site-image', '.']
 
 - id: push
   name: 'gcr.io/cloud-builders/docker'
@@ -22,6 +22,12 @@ steps:
   args:
     - -c
     - '(/workspace/cloud-sql-proxy mhs-reddit:northamerica-northeast2:mhs-db & sleep 2) && python3 manage.py test'
+
+- id: upload-static-to-bucket
+  name: 'gcr.io/cloud-builders/gsutil'
+  entrypoint: 'bash'
+  args: [ '-c', 'gsutil rsync -R ./static/ gs://toxit-static/static' ]
+  waitFor: [ 'tests-with-proxy' ]
 
 images:
 - gcr.io/mhs-reddit/toxit-site-image
