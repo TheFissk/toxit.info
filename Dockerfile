@@ -12,8 +12,8 @@ RUN apt-get update && apt-get install --no-install-recommends -y wget
 # install python dependancies
 RUN pip install -r requirements.txt
 
-# run collectstatic
-RUN python manage.py collectstatic --noinput
+# # run collectstatic
+# RUN python manage.py collectstatic --noinput
 
 # run the main application loop
 EXPOSE 8000
