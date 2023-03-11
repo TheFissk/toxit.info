@@ -23,11 +23,5 @@ steps:
     - -c
     - '(/workspace/cloud-sql-proxy mhs-reddit:northamerica-northeast2:mhs-db & sleep 2) && python3 manage.py test'
 
-- id: upload-static-to-bucket
-  name: 'gcr.io/cloud-builders/gsutil'
-  entrypoint: 'bash'
-  args: [ '-c', 'gsutil rsync -R ./static/ gs://toxit-static/static' ]
-  waitFor: [ 'test-with-proxy' ]
-
 images:
 - gcr.io/mhs-reddit/toxit-site-image
