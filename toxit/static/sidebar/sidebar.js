@@ -233,15 +233,7 @@ network.on("click", function (event) {
 
 
 /* 
-  menu-ize visjs config - planned
+  menu-ize visjs config
 */
-$(document).ready(function() {
-  // Hide all items that do not have the class "vis-config-s0"
-  $('.vis-config-item:not(.vis-config-s0)').addClass('hidden');
-  
-  $('.vis-config-header').click(function() {
-    var $parent = $(this).parent(); // Get the parent element of the clicked header
-    var $siblings = $parent.nextUntil('.vis-config-s0'); // Get all the siblings until the next header
-    $siblings.toggle(); // Toggle the visibility of the siblings
-  });
-});
+
+// Find all s0 items in the config panel
