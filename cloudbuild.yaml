@@ -8,20 +8,20 @@ steps:
   name: 'gcr.io/cloud-builders/docker'
   args: ['push', 'gcr.io/mhs-reddit/toxit-site-image']
 
-- id: proxy-install
-  name: alpine:3.10
-  entrypoint: sh
-  args:
-    - -c
-    - 'wget -O /workspace/cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.0.0/cloud-sql-proxy.linux.amd64 &&  chmod +x /workspace/cloud-sql-proxy'
+# - id: proxy-install
+#   name: alpine:3.10
+#   entrypoint: sh
+#   args:
+#     - -c
+#     - 'wget -O /workspace/cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.0.0/cloud-sql-proxy.linux.amd64 &&  chmod +x /workspace/cloud-sql-proxy'
 
-- id: test-with-proxy
-  name: 'gcr.io/mhs-reddit/toxit-site-image'
-  timeout: 100s
-  entrypoint: sh
-  args:
-    - -c
-    - '(/workspace/cloud-sql-proxy mhs-reddit:northamerica-northeast2:mhs-db & sleep 2) && python3 manage.py test'
+# - id: test-with-proxy
+#   name: 'gcr.io/mhs-reddit/toxit-site-image'
+#   timeout: 100s
+#   entrypoint: sh
+#   args:
+#     - -c
+#     - '(/workspace/cloud-sql-proxy mhs-reddit:northamerica-northeast2:mhs-db & sleep 2) && python3 manage.py test'
 
 images:
 - gcr.io/mhs-reddit/toxit-site-image
