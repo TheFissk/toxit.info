@@ -28,7 +28,6 @@ DEBUG = True
 
 ALLOWED_HOSTS = ['*']
 
-
 # Application definition
 
 INSTALLED_APPS = [
@@ -39,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_gcp',
 ]
 
 MIDDLEWARE = [
@@ -129,3 +129,32 @@ STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')]
 # https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
 
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
+
+# The following are django_gcp library module settings
+# https://django-gcp.readthedocs.io/en/latest/storage.html
+
+# call out the project id
+GCP_PROJECT_ID = 'mhs-reddit'
+
+GS_DEFAULT_ACL = 'publicRead'
+
+# Set the default storage (for media files)
+DEFAULT_FILE_STORAGE = "django_gcp.storage.GoogleCloudMediaStorage"
+GCP_STORAGE_MEDIA = {
+    "bucket_name": "toxit-media-private" # Or whatever name you chose
+}
+
+# Set the static file storage
+#   This allows `manage.py collectstatic` to automatically upload your static files
+STATICFILES_STORAGE = "django_gcp.storage.GoogleCloudStaticStorage"
+GCP_STORAGE_STATIC = {
+  "bucket_name": "toxit-static-public" # or whatever name you chose
+}
+
+# Point the urls to the store locations
+#   You could customise the base URLs later with your own cdn, eg https://static.you.com
+#   But that's only if you feel like being ultra fancy
+MEDIA_URL = f"https://storage.googleapis.com/toxit-media-private/"
+MEDIA_ROOT = "/media/"
+STATIC_URL = f"https://storage.googleapis.com/toxit-static-public/"
+STATIC_ROOT = "/static/"
