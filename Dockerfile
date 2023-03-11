@@ -13,7 +13,7 @@ RUN apt-get update && apt-get install --no-install-recommends -y wget
 RUN pip install -r requirements.txt
 
 # collect all the static files
-RUN python3 manage.py collectstatic
+RUN python3 manage.py collectstatic --noinput
 
 # run the main application loop
 EXPOSE 8000
