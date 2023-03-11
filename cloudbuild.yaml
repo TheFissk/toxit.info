@@ -2,7 +2,7 @@ steps:
 
 - id: build
   name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '-t', 'gcr.io/mhs-reddit/toxit-site-image', '.']
+  args: ['build', '--network=cloudbuild', '-t', 'gcr.io/mhs-reddit/toxit-site-image', '.']
 
 - id: push
   name: 'gcr.io/cloud-builders/docker'
