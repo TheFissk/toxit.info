@@ -82,7 +82,7 @@ DATABASES = {
         'NAME': 'mhs-init',
         'USER': 'agent',
         'PASSWORD': 'Tempa$$',
-        'HOST': 'postgres://agent:Tempa$$@//cloudsql/mhs-reddit:northamerica-northeast2:mhs-db',
+        'HOST': '172.26.0.3',
         'PORT': '5432',
     }
     } 
