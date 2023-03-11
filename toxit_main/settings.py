@@ -24,7 +24,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = '2ie50$9u=q15@3mfg9t=zdh#)wod7ej^somobw0w++#@+w-qvs'
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = True
+DEBUG = False
 
 ALLOWED_HOSTS = ['*']
 
@@ -39,6 +39,7 @@ INSTALLED_APPS = [
     'django.contrib.sessions',
     'django.contrib.messages',
     'django.contrib.staticfiles',
+    'django_gcp',
 ]
 
 MIDDLEWARE = [
@@ -118,17 +119,21 @@ USE_I18N = True
 
 USE_TZ = True
 
-
-# Static files (CSS, JavaScript, Images)
-# https://docs.djangoproject.com/en/4.1/howto/static-files/
-
-STATIC_URL = 'static/'
 # empty directory needed in root for cross application static files, prevents warning: staticfiles.W004
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'static')] 
 
-# Default primary key field type
-# https://docs.djangoproject.com/en/4.1/ref/settings/#default-auto-field
-
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
-STATIC_ROOT = BASE_DIR / "Staticfiles"
+# Set the static file storage
+#   This allows `manage.py collectstatic` to automatically upload your static files
+STATICFILES_STORAGE = "django_gcp.storage.GoogleCloudStaticStorage"
+GCP_STORAGE_STATIC = {
+  "bucket_name": "toxit-static"
+}
+
+# Point the urls to the store locations
+#   You could customise the base URLs later with your own cdn, eg https://static.you.com
+#   But that's only if you feel like being ultra fancy
+
+STATIC_URL = f"https://storage.googleapis.com/toxit-static/"
+STATIC_ROOT = "/static/"
