@@ -141,14 +141,15 @@ GS_DEFAULT_ACL = 'publicRead'
 # Set the default storage (for media files)
 DEFAULT_FILE_STORAGE = "django_gcp.storage.GoogleCloudMediaStorage"
 GCP_STORAGE_MEDIA = {
-    "bucket_name": "toxit-media-private" # Or whatever name you chose
+    "bucket_name": "toxit-media-private" 
 }
 
 # Set the static file storage
 #   This allows `manage.py collectstatic` to automatically upload your static files
 STATICFILES_STORAGE = "django_gcp.storage.GoogleCloudStaticStorage"
 GCP_STORAGE_STATIC = {
-  "bucket_name": "toxit-static-public" # or whatever name you chose
+  "bucket_name": "toxit-static-public",
+  "default_acl": "publicRead"
 }
 
 # Point the urls to the store locations
