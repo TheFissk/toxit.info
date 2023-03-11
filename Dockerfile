@@ -12,6 +12,9 @@ RUN apt-get update && apt-get install --no-install-recommends -y wget
 # install python dependancies
 RUN pip install -r requirements.txt
 
+# run collectstatic
+RUN python manage.py collectstatic --noinput
+
 # run the main application loop
 EXPOSE 8000
 CMD ["gunicorn", "--bind", ":8000", "--workers", "3", "toxit_main.wsgi:application"]
