@@ -1,59 +1,45 @@
 steps:
-  - id: "build image"
-    name: "gcr.io/cloud-builders/docker"
-    args: ["build", "-t", "gcr.io/mhs-reddit/${_SERVICE_NAME}", "."]
-
-  - id: "push image"
-    name: "gcr.io/cloud-builders/docker"
-    args: ["push", "gcr.io/mhs-reddit/${_SERVICE_NAME}"]
-
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - build
+      - '--no-cache'
+      - '-t'
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - .
+      - '-f'
+      - Dockerfile
+    id: Build
+  - name: gcr.io/cloud-builders/docker
+    args:
+      - push
+      - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+    id: Push
+  - name: 'gcr.io/google.com/cloudsdktool/cloud-sdk:slim'
+    args:
+      - run
+      - services
+      - update
+      - $_SERVICE_NAME
+      - '--platform=managed'
+      - '--image=$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+      - >-
+        --labels=managed-by=gcp-cloud-build-deploy-cloud-run,commit-sha=$COMMIT_SHA,gcb-build-id=$BUILD_ID,gcb-trigger-id=$_TRIGGER_ID
+      - '--region=$_DEPLOY_REGION'
+      - '--quiet'
+    id: Deploy
+    entrypoint: gcloud
 images:
-  - "gcr.io/mhs-reddit/${_SERVICE_NAME}"
-
-
-# steps:
-
-# - id: build
-#   name: 'gcr.io/cloud-builders/docker'
-#   args: ['build', '--network=cloudbuild', '-t', 'gcr.io/mhs-reddit/toxit-site-image', '.']
-
-# - id: push
-#   name: 'gcr.io/cloud-builders/docker'
-#   args: ['push', 'gcr.io/mhs-reddit/toxit-site-image']
-
-# - id: "collect static"
-#   name: "gcr.io/google-appengine/exec-wrapper"
-#   args:
-#     [
-#       "-i",
-#       "gcr.io/mhs-reddit${_SERVICE_NAME}",
-#       "-s",
-#       "mhs-reddit:${_REGION}:${_INSTANCE_NAME}",
-#       "-e",
-#       "SETTINGS_NAME=${_SECRET_SETTINGS_NAME}",
-#       "--",
-#       "python",
-#       "manage.py",
-#       "collectstatic",
-#       "--verbosity",
-#       "2",
-#       "--no-input",
-#     ]
-
-# - id: proxy-install
-#   name: alpine:3.10
-#   entrypoint: sh
-#   args:
-#     - -c
-#     - 'wget -O /workspace/cloud-sql-proxy https://storage.googleapis.com/cloud-sql-connectors/cloud-sql-proxy/v2.0.0/cloud-sql-proxy.linux.amd64 &&  chmod +x /workspace/cloud-sql-proxy'
-
-# - id: test-with-proxy
-#   name: 'gcr.io/mhs-reddit/toxit-site-image'
-#   timeout: 100s
-#   entrypoint: sh
-#   args:
-#     - -c
-#     - '(/workspace/cloud-sql-proxy mhs-reddit:northamerica-northeast2:mhs-db & sleep 2) && python3 manage.py test'
-
-# images:
-# - gcr.io/mhs-reddit/toxit-site-image
+  - '$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA'
+options:
+  substitutionOption: ALLOW_LOOSE
+substitutions:
+  _TRIGGER_ID: 09cd3981-e01b-4dbd-86f4-a2c0f806deb5
+  REPO_NAME: cs476project
+  _DEPLOY_REGION: us-central1
+  _GCR_HOSTNAME: us.gcr.io
+  _PLATFORM: managed
+  _SERVICE_NAME: toxit-site
+tags:
+  - gcp-cloud-build-deploy-cloud-run
+  - gcp-cloud-build-deploy-cloud-run-managed
+  - toxit-site
