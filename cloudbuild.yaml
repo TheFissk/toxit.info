@@ -8,7 +8,7 @@ steps:
       - .
       - '-f'
       - Dockerfile
-    id: Build
+    id: BuildTEST
   - name: gcr.io/cloud-builders/docker
     args:
       - push
