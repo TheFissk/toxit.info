@@ -416,6 +416,7 @@ button.edge-button:before {
   height: auto !important;
   margin: 0.5rem  !important;
   padding: 0.5rem  !important;
+  vertical-align: middle;
   /* background-color: red !important; */
 }
 
@@ -433,14 +434,28 @@ input.vis-configuration.vis-config-rangeinput {
   margin-right: 0 !important;
   padding: 0 !important;
 }
-/* fix the color selectors starting with the label */
-.vis-configuration.vis-config-label.vis-config-s3 {
-  display: inline-block !important;
-}
 /* and the dumb color box too  */
-.vis-configuration.vis-config-colorBlock {
+/* deal with stupud positioning of color blocks and check boxes */
+.vis-config-colorBlock, .vis-config-checkbox {
+  display: inline-block !important;
+  margin: 0.5rem !important;
+  padding: 0.5rem !important;
+}
+/* 
+  here lies .vis-config-colorBlock, .vis-config-checkbox; it was too powerful for it's own good
+                                                            (its potions are too strong for you traveler)
+  this is used to modify checkboxes and color picker labels without fucking up a ton of sliders
+*/
+.vis-config-item > .vis-config-label:has(+ .vis-config-checkbox),
+.vis-config-item > .vis-config-label:has(+ .vis-config-colorBlock),
+.vis-config-item > .vis-config-label:has(+ .vis-config-select),
+.vis-config-item > .vis-config-label:has(+ .vis-config-text),
+select.vis-configuration.vis-config-select,
+input.vis-configuration.vis-config-text {
+  /* this is holy code, it practically fixes 90% of visjs's shitty ass default config menu */
   display: inline-block !important;
 }
+
 /* get rid of the dumb little arrow because we dont got room for it */
 div.vis-arrow {
   display: none !important;
@@ -464,34 +479,34 @@ div.vis-arrow {
 }
 /* sub 2 */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s2 {
-  margin: 0 0 0 2rem !important;
+  margin: 0 0 0 2rem ;
   width: auto;
-  /* background-color: darkblue !important; */
+  /* background-color: darkblue ; */
 }
 /* header */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s2:has(> :only-child) {
-  margin: 0 0 0 1rem !important;
+  margin: 0 0 0 1rem ;
 }
 /* sub 3 */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s3:not(.vis-config-label) {
-  margin: 0 0 0 3rem !important;
+  margin: 0 0 0 3rem ;
   width: auto;
-  /* background-color: darkgreen !important; */
+  /* background-color: darkgreen ; */
 }
 /* header */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s3:has(> :only-child) {
-  margin: 0 0 0 2rem !important;
+  margin: 0 0 0 2rem ;
 }
 
 /* sub 4 */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s4:not(.vis-config-label) {
-  margin: 0 0 0 3rem !important;
+  margin: 0 0 0 3rem ;
   width: auto;
-  /* background-color: darkcyan !important; */
+  /* background-color: darkcyan ; */
 }
 /* header */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s4:has(> :only-child) {
-  margin: 0 0 0 2rem !important;
+  margin: 0 0 0 2rem ;
 }
 
 /*
