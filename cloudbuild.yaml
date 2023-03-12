@@ -1,12 +1,51 @@
 steps:
+  - id: "build image"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["build", "-t", "gcr.io/mhs-reddit/${_SERVICE_NAME}", "."]
 
-- id: build
-  name: 'gcr.io/cloud-builders/docker'
-  args: ['build', '--network=cloudbuild', '-t', 'gcr.io/mhs-reddit/toxit-site-image', '.']
+  - id: "push image"
+    name: "gcr.io/cloud-builders/docker"
+    args: ["push", "gcr.io/mhs-reddit/${_SERVICE_NAME}"]
+    
 
-- id: push
-  name: 'gcr.io/cloud-builders/docker'
-  args: ['push', 'gcr.io/mhs-reddit/toxit-site-image']
+#   - id: "collect static"
+#     name: "gcr.io/google-appengine/exec-wrapper"
+#     args:
+#       [
+#         "-i",
+#         "gcr.io/mhs-reddit${_SERVICE_NAME}",
+#         "-s",
+#         "mhs-reddit:${_REGION}:${_INSTANCE_NAME}",
+#         "-e",
+#         "SETTINGS_NAME=${_SECRET_SETTINGS_NAME}",
+#         "--",
+#         "python",
+#         "manage.py",
+#         "collectstatic",
+#         "--verbosity",
+#         "2",
+#         "--no-input",
+#       ]
+
+substitutions:
+  _INSTANCE_NAME: mhs-db
+  _REGION: northamerica-northeast2
+  _SERVICE_NAME: toxit-site
+  _SECRET_SETTINGS_NAME: django_settings
+
+images:
+  - "gcr.io/mhs-reddit/${_SERVICE_NAME}"
+
+
+# steps:
+
+# - id: build
+#   name: 'gcr.io/cloud-builders/docker'
+#   args: ['build', '--network=cloudbuild', '-t', 'gcr.io/mhs-reddit/toxit-site-image', '.']
+
+# - id: push
+#   name: 'gcr.io/cloud-builders/docker'
+#   args: ['push', 'gcr.io/mhs-reddit/toxit-site-image']
 
 # - id: proxy-install
 #   name: alpine:3.10
@@ -23,5 +62,5 @@ steps:
 #     - -c
 #     - '(/workspace/cloud-sql-proxy mhs-reddit:northamerica-northeast2:mhs-db & sleep 2) && python3 manage.py test'
 
-images:
-- gcr.io/mhs-reddit/toxit-site-image
+# images:
+# - gcr.io/mhs-reddit/toxit-site-image
