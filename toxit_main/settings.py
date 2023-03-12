@@ -25,7 +25,7 @@ SECRET_KEY = get_random_secret_key()
 DEBUG = True
 
 ALLOWED_HOSTS = ['*']
-CSRF_TRUSTED_ORIGINS = ['http://*', 'https://*']
+CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS.copy()
 
 
 # Application definition
