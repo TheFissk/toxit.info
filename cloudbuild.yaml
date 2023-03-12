@@ -7,12 +7,10 @@ steps:
     name: "gcr.io/cloud-builders/docker"
     args: ["push", "gcr.io/mhs-reddit/${_SERVICE_NAME}"]
     
-
-substitutions:
-  _INSTANCE_NAME: mhs-db
-  _REGION: northamerica-northeast2
-  _SERVICE_NAME: toxit-site
-  _SECRET_SETTINGS_NAME: django_settings
+- id: "collect static"
+    name: "gcr.io/google-appengine/exec-wrapper"
+    args: ["-i", "gcr.io/mhs-reddit/${_SERVICE_NAME}",
+           "--", "python", "manage.py", "collectstatic", "--no-input"]
 
 images:
   - "gcr.io/mhs-reddit/${_SERVICE_NAME}"
