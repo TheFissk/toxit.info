@@ -348,19 +348,6 @@ select#bg-pic-select {
   physics slider
 */
 
-#phsyics-slider-wrapper {
-  padding: 10px;
-}
-
-#phsyics-slider-wrapper label {
-  display: inline-block;
-  width: 150px;
-}
-
-#phsyics-slider-wrapper input[type="range"] {
-  width: 250px;
-}
-
 /*
   edge selection panel
 */
@@ -401,33 +388,110 @@ button.edge-button:before {
   config panel
 */
 
-/* overwrite as many properties as possible to setup 
-  fix for config panel rendering nicely in side nav */
-div.vis-configuration-wrapper {
+/* fix wrapper */
+.vis-configuration-wrapper {
+  width: 100% !important;
+}
+
+/* all first level items in wrapper (includes end items)  */
+.vis-configuration-wrapper > * {
+  color: var(--primary-color);
+  background-color: var(--secondary-color-D) !important;
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+  position: static !important;
+  float: none !important;
+  padding: 0 !important;
+  /* flex-direction: column; */
+  /* align-items: flex-start; */
+}
+
+/* all items within items  */
+.vis-config-item > * {
+  display: block !important;
+  position: static  !important;
+  float: none  !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0.5rem  !important;
+  padding: 0.5rem  !important;
+  /* background-color: red !important; */
+}
+
+/* partially fix those stupid ass sliders */
+input.vis-configuration.vis-config-range {
+  display: inline-block !important;
+  width: 75% !important;
+}
+/* and those dumbass huge input boxes */
+input.vis-configuration.vis-config-rangeinput {
+  display: inline-block !important;
+  max-width: 3rem;
+  text-align: center;
+  margin: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
+}
+/* fix the color selectors starting with the label */
+.vis-configuration.vis-config-label.vis-config-s3 {
+  display: inline-block !important;
+}
+/* and the dumb color box too  */
+.vis-configuration.vis-config-colorBlock {
+  display: inline-block !important;
+}
+/* get rid of the dumb little arrow because we dont got room for it */
+div.vis-arrow {
+  display: none !important;
+}
+/* fix the placement of the color picker */
+.vis-color-picker {
+  top: auto !important;
+}
+
+/* .vis-configuration-wrapper > [class*=vis-config-s]:has(> :only-child) > * */
+
+/* level specific */
+/* sub 0 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s0 {
+  margin: 0;
   width: auto;
-  height: auto;
-  display: block;
-  position: static;
-  float: none;
 }
-
-/* override test */
-div.vis-configuration.vis-config-item {
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s0:has(> :only-child) {
+  margin: 0;
+}
+/* sub 2 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s2 {
+  margin: 0 0 0 2rem !important;
   width: auto;
-  height: auto;
-  display: block;
-  position: static;
-  float: none;
+  /* background-color: darkblue !important; */
+}
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s2:has(> :only-child) {
+  margin: 0 0 0 1rem !important;
+}
+/* sub 3 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s3:not(.vis-config-label) {
+  margin: 0 0 0 3rem !important;
+  width: auto;
+  /* background-color: darkgreen !important; */
+}
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s3:has(> :only-child) {
+  margin: 0 0 0 2rem !important;
 }
 
-/* header labels */
-.vis-config-item.vis-config-s0 .vis-config-header {
-  color: white;
+/* sub 4 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s4:not(.vis-config-label) {
+  margin: 0 0 0 3rem !important;
+  width: auto;
+  /* background-color: darkcyan !important; */
 }
-
-/* non header items (some sub headers tho) */
-.vis-configuration.vis-config-item:not(.vis-config-s0) {
-  color: black;
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s4:has(> :only-child) {
+  margin: 0 0 0 2rem !important;
 }
 
 /*
