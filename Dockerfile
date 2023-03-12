@@ -14,4 +14,4 @@ RUN pip install -r requirements.txt
 
 # run the main application loop
 EXPOSE $PORT
-CMD ["gunicorn", "--bind", ":$PORT", "--workers", "3", "toxit_main.wsgi:application"]
+CMD ["gunicorn", "--bind", ":${PORT}", "--workers", "3", "toxit_main.wsgi:application"]

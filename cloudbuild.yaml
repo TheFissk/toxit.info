@@ -26,7 +26,7 @@ steps:
         "manage.py",
         "collectstatic",
         "--verbosity",
-        "2",
+        "1",
         "--no-input",
       ]
     id: Collect Staticfiles
