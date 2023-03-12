@@ -21,10 +21,6 @@ steps:
       [
         "-i",
         "$_GCR_HOSTNAME/$PROJECT_ID/$REPO_NAME/$_SERVICE_NAME:$COMMIT_SHA",
-        # "-s",
-        # "${CONNECTION_NAME}",
-        # "-e",
-        # "SETTINGS_NAME=${_SECRET_SETTINGS_NAME}",
         "--",
         "python",
         "manage.py",
@@ -57,7 +53,6 @@ options:
 substitutions:
   _TRIGGER_ID: 09cd3981-e01b-4dbd-86f4-a2c0f806deb5
   REPO_NAME: cs476project
-  # CONNECTION_NAME: mhs-reddit:northamerica-northeast2:mhs-db
   _DEPLOY_REGION: us-central1
   _GCR_HOSTNAME: us.gcr.io
   _PLATFORM: managed
