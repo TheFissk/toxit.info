@@ -25,14 +25,16 @@ SECRET_KEY = get_random_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-CLOUDRUN_SERVICE_URL = os.env("CLOUDRUN_SERVICE_URL", default=None)
+CLOUDRUN_SERVICE_URL = 'https://toxit-site-o6w3ya4j2a-uc.a.run.app'
+PUBLIC_URL = 'http://toxit.site'
+
 if CLOUDRUN_SERVICE_URL:
     ALLOWED_HOSTS = [urlparse(CLOUDRUN_SERVICE_URL).netloc]
-    CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL]
+    CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL, PUBLIC_URL]
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
 else:
-    ALLOWED_HOSTS = ['.localhost', '127.0.0.1', '[::1]']
+    ALLOWED_HOSTS = ['.localhost']
 
 # Application definition
 
