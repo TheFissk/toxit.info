@@ -22,14 +22,12 @@ DEBUG = True
 
 # CSRF Protection
 if 'CLOUDRUN_SERVICE_URL' in os.environ:
+    PUBLIC_URL = os.environ['PUBLIC_URL']
     CLOUDRUN_SERVICE_URL = os.environ['CLOUDRUN_SERVICE_URL']
     ALLOWED_HOSTS = [urlparse(CLOUDRUN_SERVICE_URL).netloc, urlparse(PUBLIC_URL).netloc ]
     CSRF_TRUSTED_ORIGINS = [CLOUDRUN_SERVICE_URL, PUBLIC_URL]
     SECURE_SSL_REDIRECT = True
     SECURE_PROXY_SSL_HEADER = ("HTTP_X_FORWARDED_PROTO", "https")
-    if 'PUBLIC_URL' in os.environ:
-        PUBLIC_URL = os.environ['PUBLIC_URL']
-
 else:
     ALLOWED_HOSTS = ['.localhost']
 
