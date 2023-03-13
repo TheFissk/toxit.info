@@ -48,15 +48,16 @@
   fixes the tooltip for VisJs and allows on hover context tool tips
 */
 .vis-tooltip {
-  position: absolute ;
-  width: fit-content;
+  /* position: absolute !important; */
+  width: fit-content !important;
+  white-space: break-spaces !important;
   color: var(--font-color) !important;
   background-color: var(--primary-color-L) !important;
   border: var(--border-weight) ridge var(--border-color) !important;
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-  padding: 1rem;
-  z-index: 5;
+  /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  pointer-events: none; */
+  padding: 1rem !important;
+  /* z-index: 5; */
 }
 
 /* Set the border color for nodes */

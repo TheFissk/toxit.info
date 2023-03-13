@@ -22,32 +22,35 @@ var data = {
 };
 
 var options = {
-  // Define the appearance and behavior of the nodes
   nodes: {
-    shape: "circle",
-    margin: 10,
-    size: 16,
-    borderWidth: 3,
-    // shapeProperties: {
-    //   interpolation: false    // 'true' for intensive zooming
-    // },
-  },
-  // Define the appearance and behavior of the edges
-  edges: {
-    font: {
-      size: 24,
-      align: 'middle'
+    borderWidth: 2,
+    borderWidthSelected: 3,
+    color: {
+      border: 'rgba(233,103,36,1)',
+      background: 'rgba(40,36,34,1)',
+      highlight: {
+        border: 'rgba(233,83,46,1)',
+        background: 'rgba(94,76,64,1)',
+      },
+      hover: {
+        border: 'rgba(233,206,0,1)',
+        background: 'rgba(107,99,93,1)',
+      },
     },
-    hoverWidth: 1,
-    selectionWidth: 1,
-    width: 0.5,
-
+    font: {
+      color: 'rgba(255,255,255,1)',
+      strokeWidth: 3,
+      strokeColor: 'rgba(0,0,0,1)',
+    },
+    shape: 'circle',
   },
-  // Define the physics properties of the network graph
+  interaction: {
+    hover: true,
+  },
   physics: {
     stabilization: {
-      iterations: 2500,  // maximum number of iteration to stabilize the graph
-      fit: true  // fit the graph to the viewport
+      iterations: 2500,
+      fit: true,
     },
     forceAtlas2Based: {
       gravitationalConstant: -200,
@@ -55,17 +58,17 @@ var options = {
       springLength: 200,
       springConstant: 0.03,
       damping: 0.4,
-      avoidOverlap: 1  // prevents node overlap, may make nodes more spread out
+      avoidOverlap: 1,
     },
-    maxVelocity: 50,  // the maximum velocity of nodes during physics simulation
-    minVelocity: 0.1,  // the minimum velocity of nodes during physics simulation
-    solver: 'forceAtlas2Based'  // which solver to use for the physics simulation
+    maxVelocity: 50,
+    minVelocity: 0.1,
+    solver: "forceAtlas2Based",
   },
   configure: {
     enabled: true,
     filter: true,
     container: document.getElementById('vis-config'),
-    showButton: true
+    showButton: true,
   },
 };
 
@@ -73,11 +76,12 @@ var options = {
 var network = new vis.Network(container, data, options);
 
 // rudimentry function to start with for coloring nodes based on toxicity
-function getColorForScore(score) {
-  var red = Math.max(0, Math.min(255, Math.round((1 - score) * 100)));
-  var green = Math.max(0, Math.min(255, Math.round((score + 1) * 200)));
-  return 'rgb(' + red + ',' + green + ',0)';
-}
+// removed on request from kyllo 
+// function getColorForScore(score) {
+//   var red = Math.max(0, Math.min(255, Math.round((1 - score) * 100)));
+//   var green = Math.max(0, Math.min(255, Math.round((score + 1) * 200)));
+//   return 'rgb(' + red + ',' + green + ',0)';
+// }
 
 /*
   Ajax function using fetch to update the data shown on the graph.
@@ -122,7 +126,6 @@ const updateGraphData = (snapshot_id) => {
           title: node.title,
           subname: node.subname,
           score: node.score,
-          color: { background: getColorForScore(node.score) }
         };
       }));
 
@@ -136,5 +139,3 @@ const updateGraphData = (snapshot_id) => {
       console.log('Error:', error);
     });
 };
-
-// text background code

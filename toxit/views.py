@@ -16,26 +16,26 @@ def update_data(request, snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-    node_precision = 3  # number of decimal places to round to
+    node_above_threshold = -0.05
     tooltip_precision = 6  # number of decimal places to round to
 
     # if you get any errors make sure tqdm is installed
     sub_nodes_context = [
         {
             'id': result.id,
-            'label': f'r/{result.subreddit.display_name}\n\n[{-1.0 * round(result.mean_result, node_precision)}]',
+            'label': f'r/{result.subreddit.display_name}\n\n{result.getNodeInfo(node_above_threshold)}',
             # title = on hover visjs node tooltip
             'title': (
-                f'r/{result.subreddit.display_name}<br />'
-                f'{"~".center(len(result.subreddit.display_name) + 6, "~")}<br /><br />'
-                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}<br />'
-                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}<br />'
-                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}<br /><br />'
-                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}<br />'
-                f'Comments Above 0.05: {result.getNodeInfo(-0.05)}'
+                f'r/{result.subreddit.display_name}\n'
+                f'{"~".center(24, "~")}\n\n'
+                f'Comments Above 0.05: {result.getNodeInfo(node_above_threshold)}\n\n'
+                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}\n'
+                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}\n'
+                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
+                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}\n'
             ),
             'subname': f'r/{result.subreddit.display_name}',
-            'score': -1.0 * round(result.mean_result, node_precision),
+            'score': result.getNodeInfo(node_above_threshold),
         } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]
     mod_edges_context = [
