@@ -90,21 +90,36 @@ WSGI_APPLICATION = 'toxit_main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-# DATABASES = { 'default': { fetch_secret('toxit_db_string') }  }
+if 'DB_HOST_ADDR' in os.environ:
+    db_host = os.environ['DB_HOST_ADDR']
+else:
+    db_host = 'localhost'
+
 
 DATABASES = {
     'default': {
 
         'ENGINE': 'django.db.backends.postgresql_psycopg2',
         'NAME': 'mhs-init',
-        'USER': 'agent',
-        'PASSWORD': 'Tempa$$',
-        'HOST': f'/cloudsql/mhs-reddit:northamerica-northeast2:mhs-db',
+        'USER': fetch_secret('mhs_prod_db_username'),
+        'PASSWORD': fetch_secret('mhs_prod_db_password'),
+        'HOST': db_host,
         'PORT': '5432',
     }
     } 
 
 
+# DATABASES = {
+#     'default': {
+
+#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
+#         'NAME': 'mhs-init',
+#         'USER': fetch_secret('mhs_prod_db_username'),
+#         'PASSWORD': fetch_secret('mhs_prod_db_password'),
+#         'HOST': f'/cloudsql/mhs-reddit:northamerica-northeast2:mhs-db',
+#         'PORT': '5432',
+#     }
+#     } 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
