@@ -235,5 +235,17 @@ network.on("click", function (event) {
 /* 
   menu-ize visjs config
 */
-
-// Find all s0 items in the config panel
+$(document).ready(function() {
+  // Click handler for .vis-config-s0 items
+  $('.vis-config-s0').click(function() {
+    var $next = $(this).next(); // Get the next element after the clicked element
+    while ($next.length > 0 && !$next.hasClass('vis-config-s0')) { // Iterate until the next s0 element is found
+      if ($next.attr('style') && $next.attr('style').includes('display:none')) {
+        $next.removeAttr('style'); // If the element is hidden, remove the inline style to show it
+      } else {
+        $next.attr('style', 'display:none !important'); // If the element is not hidden, set the inline style to hide it
+      }
+      $next = $next.next(); // Move to the next element
+    }
+  });
+});
