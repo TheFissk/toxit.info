@@ -31,7 +31,7 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 SECRET_KEY = fetch_secret('django_secret_key')
 
 # SECURITY WARNING: don't run with debug turned on in production!
-DEBUG = False
+DEBUG = True
 
 CLOUDRUN_SERVICE_URL = os.environ['CLOUDRUN_SERVICE_URL']
 PUBLIC_URL = os.environ['PUBLIC_URL']
@@ -90,19 +90,19 @@ WSGI_APPLICATION = 'toxit_main.wsgi.application'
 # Database
 # https://docs.djangoproject.com/en/4.1/ref/settings/#databases
 
-DATABASES = { 'default': { fetch_secret('toxit_db_string') }  }
+# DATABASES = { 'default': { fetch_secret('toxit_db_string') }  }
 
-# DATABASES = {
-#     'default': {
+DATABASES = {
+    'default': {
 
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'mhs-init',
-#         'USER': 'agent',
-#         'PASSWORD': 'Tempa$$',
-#         'HOST': f'/cloudsql/mhs-reddit:northamerica-northeast2:mhs-db',
-#         'PORT': '5432',
-#     }
-#     } 
+        'ENGINE': 'django.db.backends.postgresql_psycopg2',
+        'NAME': 'mhs-init',
+        'USER': 'agent',
+        'PASSWORD': 'Tempa$$',
+        'HOST': f'/cloudsql/mhs-reddit:northamerica-northeast2:mhs-db',
+        'PORT': '5432',
+    }
+    } 
 
 
 # Password validation
@@ -149,7 +149,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Define static storage via django-storages[google]
 GS_PROJECT_ID = 'mhs-reddit'
-GS_BUCKET_NAME = fetch_secret('toxit_bucket_name')
+GS_BUCKET_NAME = 'mhs-reddit_toxit-static'
 STATIC_URL = '/static/'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
