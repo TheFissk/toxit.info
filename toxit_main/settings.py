@@ -24,7 +24,7 @@ SECRET_KEY = get_random_secret_key()
 # SECURITY WARNING: don't run with debug turned on in production!
 DEBUG = True
 
-ALLOWED_HOSTS = ['.toxit.info', '.localhost', '127.0.0.1', '[::1]']
+ALLOWED_HOSTS = ['https://toxit-site-o6w3ya4j2a-uc.a.run.app','.toxit.info', '.localhost', '127.0.0.1', '[::1]']
 CSRF_TRUSTED_ORIGINS = ALLOWED_HOSTS.copy()
 
 
