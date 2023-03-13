@@ -18,11 +18,14 @@ BASE_DIR = Path(__file__).resolve().parent.parent
 
 # Security Settings
 SECRET_KEY = fetch_secret('django_secret_key')
-DEBUG = False
+DEBUG = True
 
-# CSRF Protection 
-CLOUDRUN_SERVICE_URL = os.environ['CLOUDRUN_SERVICE_URL']
-PUBLIC_URL = os.environ['PUBLIC_URL']
+# CSRF Protection
+if 'CLOUDRUN_SERVICE_URL' in os.environ:
+    CLOUDRUN_SERVICE_URL = os.environ['CLOUDRUN_SERVICE_URL']
+
+if 'PUBLIC_URL' in os.environ:
+    PUBLIC_URL = os.environ['PUBLIC_URL']
 
 if CLOUDRUN_SERVICE_URL:
     ALLOWED_HOSTS = [urlparse(CLOUDRUN_SERVICE_URL).netloc, urlparse(PUBLIC_URL).netloc ]
@@ -118,8 +121,9 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static files (CSS, JavaScript, Images)
+if 'GS_BUCKET_NAME' in os.environ:
+    GS_BUCKET_NAME = os.environ['GS_BUCKET_NAME']
 GS_PROJECT_ID = 'mhs-reddit'
-GS_BUCKET_NAME = os.environ['GS_BUCKET_NAME']
 STATIC_URL = '/static/'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
