@@ -26,12 +26,12 @@ def update_data(request, snapshot_id):
             'label': f'r/{result.subreddit.display_name}\n\n[{-1.0 * round(result.mean_result, node_precision)}]',
             # title = on hover visjs node tooltip
             'title': (
-                f'r/{result.subreddit.display_name}\n'
-                f'{"~".center(len(result.subreddit.display_name) + 6, "~")}\n'
-                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}\n'
-                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}\n'
-                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
-                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}\n'
+                f'r/{result.subreddit.display_name}<br />'
+                f'{"~".center(len(result.subreddit.display_name) + 6, "~")}<br /><br />'
+                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}<br />'
+                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}<br />'
+                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}<br /><br />'
+                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}<br />'
                 f'Comments Above 0.05: {result.getNodeInfo(-0.05)}'
             ),
             'subname': f'r/{result.subreddit.display_name}',
