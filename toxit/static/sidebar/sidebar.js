@@ -17,7 +17,7 @@ function toggleSideNav() {
 /* 
   Collapse / Display nav modules 
 */
-$(".item-text").click(function () {
+$(".main_side").on("click", ".item-text", function() {
   var id = $(this).attr("id");
   $(".collapsible.item-show-" + id).toggleClass("show");
   $(".main_side li #" + id + " span").toggleClass("rotate");
@@ -230,6 +230,95 @@ network.on("click", function (event) {
     populateEdgeButtons(fromNode); /* edge buttons and auto open */
   }
 });
+
+
+/*
+  draggable test
+  https://codepen.io/PJCHENder/pen/PKBVRO/
+*/
+let elementBeingDragged = null;
+let draggables = document.querySelectorAll('.reorderable-list__item');
+let dropzones = document.querySelectorAll('.dropzone');
+
+/* Item-Being-Dragged Handlers */
+let startDrag = (event) => {
+  console.log('dragging started', event.target.innerHTML);
+  // event.target.style.backgroundColor = "rebeccapurple";
+  event.dataTransfer.effectAllowed = 'move';
+  event.dataTransfer.setData('text/html', event.target.innerHTML);
+  elementBeingDragged = event.target;
+};
+
+let stopDrag = (event) => {
+  event.preventDefault();
+  elementBeingDragged = null;
+};
+
+/* Dropzone Handlers */
+let dragInto = (event) => {
+  event.preventDefault();
+  event.target.classList.add('-dropzone');
+  console.log('dragInto');
+};
+
+let dragOver = (event) => {
+  event.preventDefault();
+  event.dataTransfer.dropEffect = 'move';
+}
+
+let dragOut = (event) => {
+  event.preventDefault();
+  console.log('dragOut');
+  event.target.classList.remove('-dropzone');
+};
+
+let drop = (event) => {
+  event.preventDefault();
+  event.stopPropagation();
+  event.target.classList.remove('-dropzone');
+
+  // Get the dropzone and item that is being dragged into
+  let targetDropzone = event.target.closest('.dropzone');
+  let itemBeingDragged = elementBeingDragged.closest('.reorderable-list__item');
+
+  // Determine the new position of the item
+  let newPosition = 0;
+  let sibling = itemBeingDragged.previousElementSibling;
+  while (sibling) {
+    if (sibling.classList.contains('reorderable-list__item')) {
+      newPosition++;
+    }
+    sibling = sibling.previousElementSibling;
+  }
+
+  // Move the item to its new position
+  let list = itemBeingDragged.parentNode;
+  list.insertBefore(itemBeingDragged, targetDropzone.closest('.reorderable-list__item'));
+  for (let i = 0; i < newPosition; i++) {
+    list.insertBefore(itemBeingDragged, itemBeingDragged.previousSibling);
+  }
+
+  // Reset the elementBeingDragged variable
+  elementBeingDragged = null;
+};
+
+
+
+// let insertAfter = (referenceNode, newNode) => {
+//   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
+// }
+
+Array.prototype.forEach.call(dropzones, (dropzone => {
+  dropzone.addEventListener('dragenter', dragInto);
+  dropzone.addEventListener('dragover', dragOver);
+  dropzone.addEventListener('dragleave', dragOut);
+  dropzone.addEventListener('drop', drop);
+}));
+ 
+Array.prototype.forEach.call(draggables, (item => {
+  item.addEventListener('dragstart', startDrag);
+  item.addEventListener('dragend', stopDrag);
+}));
 
 
 /* 
