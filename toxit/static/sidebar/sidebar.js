@@ -236,33 +236,22 @@ network.on("click", function (event) {
   menu-ize visjs config
 */
 $(document).ready(function() {
-
-  function bindClickHandler() {
-    // Click handler for .vis-config-s0 items
-    $(document).on('click', '.vis-config-s0', function() {
-      var $next = $(this).next(); // Get the next element after the clicked element
-      while ($next.length > 0 && !$next.hasClass('vis-config-s0')) { // Iterate until the next s0 element is found
-        if ($next.attr('style') && $next.attr('style').includes('display:none')) {
-          $next.removeAttr('style'); // If the element is hidden, remove the inline style to show it
-        } else {
-          $next.attr('style', 'display:none !important'); // If the element is not hidden, set the inline style to hide it
-        }
-        $next = $next.next(); // Move to the next element
+  // Click handler for .vis-config-s0 items
+  $(document).on('click', '.vis-config-s0', function() {
+    var $next = $(this).next(); // Get the next element after the clicked element
+    while ($next.length > 0 && !$next.hasClass('vis-config-s0')) { // Iterate until the next s0 element is found
+      if ($next.attr('style') && $next.attr('style').includes('display:none')) {
+        $next.removeAttr('style'); // If the element is hidden, remove the inline style to show it
+      } else {
+        $next.attr('style', 'display:none !important'); // If the element is not hidden, set the inline style to hide it
       }
-    });
-
-    // Trigger a click event on .vis-config-s0 to hide all the elements on load
-    $('.vis-config-s0').trigger('click');
-
-    // Add Font Awesome icon to .vis-config-header elements that are children of .vis-config-s0 elements
-    $('.vis-config-s0 .vis-configuration.vis-config-header').addClass('fas fa-solid fa-sliders');
-  }
-
-  // Bind the click handler initially
-  bindClickHandler();
-
-  // Re-bind the click handler after the content is refreshed
-  $(document).on('some-refresh-event', function() {
-    bindClickHandler();
+      $next = $next.next(); // Move to the next element
+    }
   });
+
+  // Trigger a click event on .vis-config-s0 to hide all the elements on load
+  $('.vis-config-s0').trigger('click');
+
+  // Add Font Awesome icon to .vis-config-header elements that are children of .vis-config-s0 elements
+  $('.vis-config-s0 .vis-configuration.vis-config-header').addClass('fas fa-solid fa-sliders');
 });
