@@ -103,6 +103,9 @@ class Subreddit_result(models.Model):
                                     help_text="The time when the data was collected")
     edges = models.JSONField(help_text="[DEPRECIATED]")
 
+    def getNodeInfo(self, threshold):
+        return  Comment_result.objects.filter(subreddit_result=self, mhs_score__gt=threshold).count()
+
     def __str__(self):
         return f"Results for {self.subreddit} collected on {self.inference_task.start_sched}"
 
