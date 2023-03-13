@@ -248,4 +248,10 @@ $(document).ready(function() {
       $next = $next.next(); // Move to the next element
     }
   });
+
+  // Trigger a click event on .vis-config-s0 to hide all the elements on load
+  $('.vis-config-s0').trigger('click');
+
+  // Add Font Awesome icon to .vis-config-header elements that are children of .vis-config-s0 elements
+  $('.vis-config-s0 .vis-configuration.vis-config-header').addClass('fas fa-solid fa-sliders');
 });

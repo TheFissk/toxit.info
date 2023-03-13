@@ -387,6 +387,11 @@ button.edge-button:before {
 /*
   config panel
 */
+/* fas icon for s0 root menu items */
+.vis-configuration.vis-config-header.fa-solid.fa-sliders::after {
+  content: "\f1de";
+  float: right;
+}
 
 /* fix wrapper */
 .vis-configuration-wrapper {
