@@ -26,7 +26,7 @@ SECRET_KEY = get_random_secret_key()
 DEBUG = True
 
 CLOUDRUN_SERVICE_URL = 'https://toxit-site-o6w3ya4j2a-uc.a.run.app'
-PUBLIC_URL = 'http://toxit.site'
+PUBLIC_URL = 'http://toxit.info'
 
 if CLOUDRUN_SERVICE_URL:
     ALLOWED_HOSTS = [urlparse(CLOUDRUN_SERVICE_URL).netloc]
