@@ -108,18 +108,6 @@ DATABASES = {
     }
     } 
 
-
-# DATABASES = {
-#     'default': {
-
-#         'ENGINE': 'django.db.backends.postgresql_psycopg2',
-#         'NAME': 'mhs-init',
-#         'USER': fetch_secret('mhs_prod_db_username'),
-#         'PASSWORD': fetch_secret('mhs_prod_db_password'),
-#         'HOST': f'/cloudsql/mhs-reddit:northamerica-northeast2:mhs-db',
-#         'PORT': '5432',
-#     }
-#     } 
 # Password validation
 # https://docs.djangoproject.com/en/4.1/ref/settings/#auth-password-validators
 
@@ -164,7 +152,7 @@ DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Define static storage via django-storages[google]
 GS_PROJECT_ID = 'mhs-reddit'
-GS_BUCKET_NAME = 'mhs-reddit_toxit-static'
+GS_BUCKET_NAME = os.environ['GS_BUCKET_NAME']
 STATIC_URL = '/static/'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
 STATICFILES_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
