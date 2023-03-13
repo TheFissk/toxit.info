@@ -19,19 +19,20 @@ def update_data(request, snapshot_id):
     node_precision = 3  # number of decimal places to round to
     tooltip_precision = 6  # number of decimal places to round to
 
-    # if you get any errors make sure tqdm is installed 
+    # if you get any errors make sure tqdm is installed
     sub_nodes_context = [
         {
-            'id': result.id, 
+            'id': result.id,
             'label': f'r/{result.subreddit.display_name}\n\n[{-1.0 * round(result.mean_result, node_precision)}]',
             # title = on hover visjs node tooltip
             'title': (
-                f'r/{result.subreddit.display_name}\n'
-                f'{"~".center(len(result.subreddit.display_name) + 6, "~")}\n'
-                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}\n'
-                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}\n'
-                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
-                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}'
+                f'r/{result.subreddit.display_name}<br />'
+                f'{"~".center(len(result.subreddit.display_name) + 6, "~")}<br /><br />'
+                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}<br />'
+                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}<br />'
+                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}<br /><br />'
+                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}<br />'
+                f'Comments Above 0.05: {result.getNodeInfo(-0.05)}'
             ),
             'subname': f'r/{result.subreddit.display_name}',
             'score': -1.0 * round(result.mean_result, node_precision),
@@ -66,7 +67,7 @@ def index(request):
     # get a list of all inference tasks that have the STATUS_TYPE of ('2', 'Completed') defined in the models
     iTasks = Inference_task.objects.filter(
         status=Inference_task.STATUS_TYPES[2][0]
-        ).order_by('-start_sched')
+    ).order_by('-start_sched')
 
     # get a list of all image filenames in the BG-Pic directory
     path = 'toxit/static/BG-Pic'

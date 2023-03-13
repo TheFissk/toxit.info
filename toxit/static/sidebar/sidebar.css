@@ -348,19 +348,6 @@ select#bg-pic-select {
   physics slider
 */
 
-#phsyics-slider-wrapper {
-  padding: 10px;
-}
-
-#phsyics-slider-wrapper label {
-  display: inline-block;
-  width: 150px;
-}
-
-#phsyics-slider-wrapper input[type="range"] {
-  width: 250px;
-}
-
 /*
   edge selection panel
 */
@@ -400,64 +387,141 @@ button.edge-button:before {
 /*
   config panel
 */
-div#vis-config {
-  border: 0.5rem var(--highlight-color) dotted;
-  padding: 0.5rem;
-  border-top: 0.75rem var(--border-color) solid;
+/* fas icon for s0 root menu items - currently unfinished */
+.vis-configuration.vis-config-header.fa-solid.fa-sliders::after {
+  content: "\f1de";
+  float: right;
 }
 
-.vis-config-header, .vis-config-label {
-  text-decoration: underline;
-  text-underline-position: under;
-  font-size: 2rem;
-  padding: 0.5rem;
-  margin: 0.5rem 0;
-  background-color: var(--primary-color-L);
+/* fix wrapper */
+.vis-configuration-wrapper {
+  width: 100% !important;
 }
 
-.vis-config-label  {
-  font-size: 1rem;
-  padding: 0 1rem;
-  margin: 0;
+/* all first level items in wrapper (includes end items)  */
+.vis-configuration-wrapper > * {
+  color: var(--secondary-color);
+  background-color: var(--primary-color-L) !important;
+  width: auto !important;
+  height: auto !important;
+  display: block !important;
+  position: static !important;
+  float: none !important;
+  padding: 0 !important;
+  /* flex-direction: column; */
+  /* align-items: flex-start; */
 }
 
-div#vis-config {
-  border: 0.5rem var(--highlight-color) dotted;
-  padding: 0.5rem;
-  border-top: 0.75rem var(--border-color) solid;
+/* all items within items  */
+.vis-config-item > * {
+  display: block !important;
+  position: static  !important;
+  float: none  !important;
+  width: auto !important;
+  height: auto !important;
+  margin: 0.5rem  !important;
+  padding: 0.5rem  !important;
+  vertical-align: middle;
+  /* background-color: red !important; */
 }
 
-.vis-configuration.vis-config-item.vis-config-s2 *:not(.vis-config-label) {
-  display: inline-block;
+/* partially fix those stupid ass sliders */
+input.vis-configuration.vis-config-range {
+  display: inline-block !important;
+  width: 75% !important;
 }
-
-.vis-configuration.vis-config-label {
-  display: block;
-}
-
+/* and those dumbass huge input boxes */
 input.vis-configuration.vis-config-rangeinput {
-  margin-left: 1rem;
-  width: 3rem;
+  display: inline-block !important;
+  max-width: 3rem;
+  text-align: center;
+  margin: 0 !important;
+  margin-right: 0 !important;
+  padding: 0 !important;
 }
-
-/* all items nested under s0 indented */
-.vis-configuration-wrapper > :not(.vis-config-s0) {
-  margin-left: 1rem;
+/* and the dumb color box too  */
+/* deal with stupud positioning of color blocks and check boxes */
+.vis-config-colorBlock, .vis-config-checkbox {
+  display: inline-block !important;
+  margin: 0.5rem !important;
+  padding: 0.5rem !important;
 }
 
 /* 
-  geniebro code
+  here lies .vis-config-colorBlock, .vis-config-checkbox; it was too powerful for it's own good
+                                                            (its potions are too strong for you traveler)
+  this is used to modify checkboxes and color picker labels without fucking up a ton of sliders
 */
-.vis-config-item.hidden {
-  display: none;
+.vis-config-item > .vis-config-label:has(+ .vis-config-checkbox),
+.vis-config-item > .vis-config-label:has(+ .vis-config-colorBlock),
+.vis-config-item > .vis-config-label:has(+ .vis-config-select),
+.vis-config-item > .vis-config-label:has(+ .vis-config-text),
+select.vis-configuration.vis-config-select,
+input.vis-configuration.vis-config-text {
+  /* this is holy code, it practically fixes 90% of visjs's shitty ass default config menu */
+  display: inline-block !important;
+}
+
+/* get rid of the dumb little arrow because we dont got room for it */
+div.vis-arrow {
+  display: none !important;
+}
+/* fix the placement of the color picker */
+.vis-color-picker {
+  top: auto !important;
+  background-color: var(--primary-color-D) !important;
+}
+/* and fix the buttons too */
+.vis-configuration.vis-config-colorBlock .vis-button {
+  background-color: var(  --primary-color-L);
+}
+
+/* .vis-configuration-wrapper > [class*=vis-config-s]:has(> :only-child) > * */
+
+/* level specific */
+/* sub 0 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s0 {
+  margin: 0;
+  width: auto;
+}
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s0:has(> :only-child) {
+  margin: 0;
+  background-color: var(--highlight-color) !important;
+}
+/* sub 2 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s2 {
+  margin: 0 0 0 2rem ;
+  width: auto;
+  /* background-color: darkblue ; */
+}
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s2:has(> :only-child) {
+  margin: 0 0 0 1rem ;
+}
+/* sub 3 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s3:not(.vis-config-label) {
+  margin: 0 0 0 3rem ;
+  width: auto;
+  /* background-color: darkgreen ; */
+}
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s3:has(> :only-child) {
+  margin: 0 0 0 2rem ;
+}
+
+/* sub 4 */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s4:not(.vis-config-label) {
+  margin: 0 0 0 3rem ;
+  width: auto;
+  /* background-color: darkcyan ; */
+}
+/* header */
+.vis-configuration-wrapper [class*=vis-config-s].vis-config-s4:has(> :only-child) {
+  margin: 0 0 0 2rem ;
 }
 
 /*
   Radio button code - sourced from: 
     https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
-*/
-
-/*
-  draggable test
-  https://codepen.io/PJCHENder/pen/PKBVRO/
 */

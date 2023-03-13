@@ -63,7 +63,7 @@ var options = {
   },
   configure: {
     enabled: true,
-    filter: 'nodes,edges',
+    filter: true,
     container: document.getElementById('vis-config'),
     showButton: true
   },
