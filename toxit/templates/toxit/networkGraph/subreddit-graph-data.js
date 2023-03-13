@@ -25,24 +25,55 @@ var options = {
   nodes: {
     borderWidth: 2,
     borderWidthSelected: 3,
+    margin: 25,
     color: {
-      border: 'rgba(233,103,36,1)',
-      background: 'rgba(40,36,34,1)',
+      border: "rgba(233,103,36,1)",
+      background: "rgba(40,36,34,1)",
       highlight: {
-        border: 'rgba(233,83,46,1)',
-        background: 'rgba(94,76,64,1)',
+        border: "rgba(233,83,46,1)",
+        background: "rgba(94,76,64,1)",
       },
       hover: {
-        border: 'rgba(233,206,0,1)',
-        background: 'rgba(107,99,93,1)',
-      },
+        border: "rgba(233,206,0,1)",
+        background: "rgba(107,99,93,1)",
+      }
     },
     font: {
-      color: 'rgba(255,255,255,1)',
+      color: "rgba(255,255,255,1)",
+      size: 15,
       strokeWidth: 3,
-      strokeColor: 'rgba(0,0,0,1)',
+      strokeColor: "rgba(0,0,0,1)",
+      face: "verdana",
+      align: "center",
+      vadjust: 20,
     },
-    shape: 'circle',
+    scaling: {
+      // customScalingFunction: function (min, max, total, value) {
+      //   var length = value.label.length;
+      //   var fontSize = Math.max(10, Math.min(30, 60 / length)); // calculate font size based on length of label
+      //   var nodeWidth = length * (fontSize / 2);
+      //   return nodeWidth / total;
+      // },
+      min: 15,
+      max: 30,
+    },
+    shape: "circle",
+    shapeProperties: {
+      borderRadius: 5,
+    },
+    size: 25
+  },
+  edges: {
+    smooth: {
+      forceDirection: "none",
+    },
+    font: {
+      color: "rgba(255,255,255,1)",
+      size: 20,
+      strokeWidth: 3,
+      strokeColor: "rgba(0,0,0,1)",
+      face: "verdana",
+    },
   },
   interaction: {
     hover: true,

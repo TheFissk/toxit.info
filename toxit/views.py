@@ -23,7 +23,7 @@ def update_data(request, snapshot_id):
     sub_nodes_context = [
         {
             'id': result.id,
-            'label': f'r/{result.subreddit.display_name}\n\n{result.getNodeInfo(node_above_threshold)}',
+            'label': f'r/{result.subreddit.display_name}'.center(22) + f'\n\n{result.getNodeInfo(node_above_threshold)}',
             # title = on hover visjs node tooltip
             'title': (
                 f'r/{result.subreddit.display_name}\n'
