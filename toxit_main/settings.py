@@ -119,8 +119,7 @@ USE_TZ = True
 DEFAULT_AUTO_FIELD = 'django.db.models.BigAutoField'
 
 # Static files (CSS, JavaScript, Images)
-if 'GS_BUCKET_NAME' in os.environ:
-    GS_BUCKET_NAME = os.environ['GS_BUCKET_NAME']
+GS_BUCKET_NAME = 'mhs-reddit_toxit-static'
 GS_PROJECT_ID = 'mhs-reddit'
 STATIC_URL = '/static/'
 DEFAULT_FILE_STORAGE = 'storages.backends.gcloud.GoogleCloudStorage'
