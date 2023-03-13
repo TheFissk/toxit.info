@@ -233,7 +233,37 @@ network.on("click", function (event) {
 
 
 /* 
-  menu-ize visjs config
-*/
+  menu-ize visjs config - unfinished
 
-// Find all s0 items in the config panel
+  this works except for visjs regenerating the html inside,
+  I think an array can be used to track what displays and what doesn't
+  Any s0 clas item that has a header inside of it is a drop down menu header
+  So when the content gets refreshed just check the array to see if the items for the header were open or close
+  if clicking make sure to update the array then update from the array to the menu items
+*/
+// $(document).ready(function() {
+//   var menuState =  Array($('.vis-config-s0 .vis-config-header').length).fill(false); // Array to track menu state for each s0 item
+//   console.log(menuState)
+
+//   // Click handler for .vis-config-s0 items
+//   $(document).on('click', '.vis-config-s0', function() {
+//     var index = $('.vis-config-s0').index(this); // Get the index of the clicked s0 item
+//     var $next = $(this).next(); // Get the next element after the clicked element
+//     while ($next.length > 0 && !$next.hasClass('vis-config-s0')) { // Iterate until the next s0 element is found
+//       if (index >= 0 && menuState[index]) { // If menu state is true for the clicked s0 item, show the element
+//         $next.removeAttr('style');
+//       } else { // Otherwise, hide the element
+//         $next.attr('style', 'display:none !important');
+//       }
+//       $next = $next.next(); // Move to the next element
+//     }
+//     menuState[index] = !menuState[index]; // Toggle the menu state for the clicked s0 item
+//   });
+
+//   // Trigger a click event on .vis-config-s0 to hide all the elements on load
+//   $('.vis-config-s0').trigger('click');
+
+//   // Add Font Awesome icon to .vis-config-header elements that are children of .vis-config-s0 elements
+//   $('.vis-config-s0 .vis-config-header').addClass('fas fa-solid fa-sliders');
+// });
+

@@ -387,6 +387,11 @@ button.edge-button:before {
 /*
   config panel
 */
+/* fas icon for s0 root menu items - currently unfinished */
+.vis-configuration.vis-config-header.fa-solid.fa-sliders::after {
+  content: "\f1de";
+  float: right;
+}
 
 /* fix wrapper */
 .vis-configuration-wrapper {
@@ -395,8 +400,8 @@ button.edge-button:before {
 
 /* all first level items in wrapper (includes end items)  */
 .vis-configuration-wrapper > * {
-  color: var(--primary-color);
-  background-color: var(--secondary-color-D) !important;
+  color: var(--secondary-color);
+  background-color: var(--primary-color-L) !important;
   width: auto !important;
   height: auto !important;
   display: block !important;
@@ -441,6 +446,7 @@ input.vis-configuration.vis-config-rangeinput {
   margin: 0.5rem !important;
   padding: 0.5rem !important;
 }
+
 /* 
   here lies .vis-config-colorBlock, .vis-config-checkbox; it was too powerful for it's own good
                                                             (its potions are too strong for you traveler)
@@ -463,6 +469,11 @@ div.vis-arrow {
 /* fix the placement of the color picker */
 .vis-color-picker {
   top: auto !important;
+  background-color: var(--primary-color-D) !important;
+}
+/* and fix the buttons too */
+.vis-configuration.vis-config-colorBlock .vis-button {
+  background-color: var(  --primary-color-L);
 }
 
 /* .vis-configuration-wrapper > [class*=vis-config-s]:has(> :only-child) > * */
@@ -476,6 +487,7 @@ div.vis-arrow {
 /* header */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s0:has(> :only-child) {
   margin: 0;
+  background-color: var(--highlight-color) !important;
 }
 /* sub 2 */
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s2 {
