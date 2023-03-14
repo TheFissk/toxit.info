@@ -36,10 +36,10 @@ def update_data(request, snapshot_id):
                 f'r/{result.subreddit.display_name}\n'
                 f'{"~".center(24, "~")}\n\n'
                 f'Flagged Comments: {result.getNodeInfo(node_above_threshold)}\n\n'
-                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}\n'
-                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}\n'
+                f'Min: {-1.0 * round(result.max_result, tooltip_precision)}\n'
+                f'Max: {-1.0 * round(result.min_result, tooltip_precision)}\n'
                 f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
-                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}\n'
+                f'Std: {round(result.std_result, tooltip_precision)}\n'
             ),
             'subname': f'r/{result.subreddit.display_name}',
             'score': result.getNodeInfo(node_above_threshold),
