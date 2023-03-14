@@ -271,7 +271,7 @@ let dropzones = document.querySelectorAll('.dropzone');
 
 /* Item-Being-Dragged Handlers */
 let startDrag = (event) => {
-  console.log('dragging started', event.target.innerHTML);
+  // console.log('dragging started', event.target.innerHTML);
   // event.target.style.backgroundColor = "rebeccapurple";
   event.dataTransfer.effectAllowed = 'move';
   event.dataTransfer.setData('text/html', event.target.innerHTML);
@@ -287,7 +287,7 @@ let stopDrag = (event) => {
 let dragInto = (event) => {
   event.preventDefault();
   event.target.classList.add('-dropzone');
-  console.log('dragInto');
+  // console.log('dragInto');
 };
 
 let dragOver = (event) => {
@@ -297,7 +297,7 @@ let dragOver = (event) => {
 
 let dragOut = (event) => {
   event.preventDefault();
-  console.log('dragOut');
+  // console.log('dragOut');
   event.target.classList.remove('-dropzone');
 };
 
@@ -355,7 +355,7 @@ Array.prototype.forEach.call(draggables, (item => {
 */
 // $(document).ready(function() {
 //   var menuState =  Array($('.vis-config-s0 .vis-config-header').length).fill(false); // Array to track menu state for each s0 item
-//   console.log(menuState)
+//   cocnsole.log(menuState)
 
 //   // Click handler for .vis-config-s0 items
 //   $(document).on('click', '.vis-config-s0', function() {

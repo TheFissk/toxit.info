@@ -123,16 +123,21 @@ var network = new vis.Network(container, data, options);
   network automatically without needing to call an update to the canvas
   or graph or network (the displayed nodes).
 */
+var lastSuccessfulSnapshot = $('#snapshot-select').val(); // store the current value of the dropdown before making the AJAX request
+
 const updateGraphData = (snapshot_id) => {
   // Construct the URL for the data endpoint based on the selected snapshot
   var url = '/update_data/' + snapshot_id + '/';
   var $loader = $('#loader');
 
+  // Initialize controller variable
+  var controller = new AbortController();
+
   // Show the loader while the data is being fetched
   $loader.show();
 
   // Use fetch() to get the data and handle it with Promises
-  fetch(url)
+  fetch(url, { signal: controller.signal })
     .then(response => response.json())
     .then(data => {
       // Hide the loader once the data has been loaded
@@ -160,6 +165,8 @@ const updateGraphData = (snapshot_id) => {
       mod_edges.add(data.mod_edges_context);
       author_edges.add(data.author_edges_context);
 
+      lastSuccessfulSnapshot = $('#snapshot-select').val(); // update variable for loader cancel 
+
       // Call the function to set the data after a delay
       delaySetData(data);
     })
@@ -167,8 +174,17 @@ const updateGraphData = (snapshot_id) => {
       $loader.hide(); // Hide the loader in case of an error
 
       console.log('Error:', error);
+
+      $('#snapshot-select').val(lastSuccessfulSnapshot); // set the value of the snapshot dropdown to the last successful snapshot
     });
+
+  // Cancel the request if the loader is clicked
+  $loader.click(function() {
+    controller.abort();
+    $loader.hide();
+  });
 };
+
 
 // Function to set the data with a delay
 function delaySetData(data) {
