@@ -15,10 +15,9 @@ def fetch_secret(secret_id):
 # Build paths inside the project like this: BASE_DIR / 'subdir'.
 BASE_DIR = Path(__file__).resolve().parent.parent
 
-
 # Security Settings
 SECRET_KEY = fetch_secret('django_secret_key')
-DEBUG = True
+DEBUG = False
 
 # CSRF Protection
 if 'CLOUDRUN_SERVICE_URL' in os.environ:
