@@ -14,6 +14,38 @@ function toggleSideNav() {
   sidebar.toggleClass("show");
 }
 
+
+/*
+  Middle mouse fit network 
+*/
+document.querySelector(".content").addEventListener("mousedown", function(event) {
+  if (event.button === 1) {
+    // Middle mouse button clicked
+    handleNetworkFit();
+  }
+});
+
+document.querySelector(".fa-minimize").addEventListener("click", function(event) {
+  if (event.button === 0) {
+    // Left mouse button clicked
+    handleNetworkFit();
+  }
+});
+
+function handleNetworkFit() {
+  network.fit({
+    animation: {
+      duration: 1000,  // 1 second
+      easingFunction: "easeInOutQuad"  // easing function
+    }
+  });
+
+  if ($(".sidebar").hasClass("show")) {
+    toggleSideNav();
+  }
+}
+
+
 /* 
   Collapse / Display nav modules 
 */
@@ -38,7 +70,7 @@ document.getElementById('snapshot-select').addEventListener('change', function()
 
 /*
   Radio button code
-  -descriton here-
+  allows the user to change the edge weight displayed between moderators and commenters 
 */
 $('input[type=radio][name=edge-weight]').change(function() {
 
@@ -178,6 +210,9 @@ function populateEdgeButtons(fromNode) {
         network.moveTo(moveToOptions);
         network.selectNodes([toNode]);
         populateEdgeButtons(toNode);
+
+        // Update the node info when a new node is selected
+        document.querySelector('.node-info-content').innerHTML = to_data.title; 
       });
       edgeBtnContainer.appendChild(button);
     });
@@ -209,11 +244,8 @@ function populateEdgeButtons(fromNode) {
 network.on("click", function (event) {
   const fromNode = event.nodes[0];
 
-  if (event.event.button === 1) {
-    // Middle mouse button clicked
-    console.log("do something");
-    network.fit();
-  } else {
+  // Only zoom to node if a node was clicked
+  if (fromNode !== undefined) {
     // Move to the clicked node position with a new animation
     const toNodePosition = network.getPositions([fromNode])[fromNode];
     const moveToOptions = {
@@ -222,12 +254,17 @@ network.on("click", function (event) {
       offset: { x: 0, y: 0 },
       animation: {
         duration: 1100, // New animation duration
-        easingFunction: "easeOutCubic", // New animation easing function
+        easingFunction: "easeInOutQuad", // New animation easing function
       },
-    };  
+    };
     network.moveTo(moveToOptions);
 
     populateEdgeButtons(fromNode); /* edge buttons and auto open */
+
+    const clickedNode = sub_nodes.get(fromNode); // get the clicked node
+    const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
+    nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
+    nodeInfoContent.innerHTML = clickedNode.title; // set the clicked node's title as the inner HTML of .node-info-content
   }
 });
 
@@ -242,7 +279,7 @@ let dropzones = document.querySelectorAll('.dropzone');
 
 /* Item-Being-Dragged Handlers */
 let startDrag = (event) => {
-  console.log('dragging started', event.target.innerHTML);
+  // console.log('dragging started', event.target.innerHTML);
   // event.target.style.backgroundColor = "rebeccapurple";
   event.dataTransfer.effectAllowed = 'move';
   event.dataTransfer.setData('text/html', event.target.innerHTML);
@@ -258,7 +295,7 @@ let stopDrag = (event) => {
 let dragInto = (event) => {
   event.preventDefault();
   event.target.classList.add('-dropzone');
-  console.log('dragInto');
+  // console.log('dragInto');
 };
 
 let dragOver = (event) => {
@@ -268,7 +305,7 @@ let dragOver = (event) => {
 
 let dragOut = (event) => {
   event.preventDefault();
-  console.log('dragOut');
+  // console.log('dragOut');
   event.target.classList.remove('-dropzone');
 };
 
@@ -302,12 +339,6 @@ let drop = (event) => {
   elementBeingDragged = null;
 };
 
-
-
-// let insertAfter = (referenceNode, newNode) => {
-//   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-// }
-
 Array.prototype.forEach.call(dropzones, (dropzone => {
   dropzone.addEventListener('dragenter', dragInto);
   dropzone.addEventListener('dragover', dragOver);
@@ -332,7 +363,7 @@ Array.prototype.forEach.call(draggables, (item => {
 */
 // $(document).ready(function() {
 //   var menuState =  Array($('.vis-config-s0 .vis-config-header').length).fill(false); // Array to track menu state for each s0 item
-//   console.log(menuState)
+//   cocnsole.log(menuState)
 
 //   // Click handler for .vis-config-s0 items
 //   $(document).on('click', '.vis-config-s0', function() {
@@ -355,4 +386,3 @@ Array.prototype.forEach.call(draggables, (item => {
 //   // Add Font Awesome icon to .vis-config-header elements that are children of .vis-config-s0 elements
 //   $('.vis-config-s0 .vis-config-header').addClass('fas fa-solid fa-sliders');
 // });
-
