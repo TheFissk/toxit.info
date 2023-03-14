@@ -83,7 +83,7 @@ class Inference_task(models.Model):
     # used by snapshot select to display count of nodes in a snapshot
     def subreddit_count(self):
         return Subreddit_result.objects.filter(inference_task=self).count()
-    
+
     def __str__(self):
         if (self.start_sched):
             return f"Inference job scheduled: {self.start_sched}"
