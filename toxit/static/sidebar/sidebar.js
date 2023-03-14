@@ -14,6 +14,27 @@ function toggleSideNav() {
   sidebar.toggleClass("show");
 }
 
+
+/*
+  Minimize button + middle mouse for animated fit() 
+*/
+document.querySelector(".fa-minimize").addEventListener("mousedown", function(event) {
+  if (event.button === 1 || event.button === 0) {
+    // Middle mouse button or left mouse button clicked
+    network.fit({
+      animation: {
+        duration: 1000,  // 1 second
+        easingFunction: "easeInOutQuad"  // easing function
+      }
+    });
+    
+    if ($(".sidebar").hasClass("show")) {
+      toggleSideNav();
+    }
+  }
+});
+
+
 /* 
   Collapse / Display nav modules 
 */
@@ -209,26 +230,22 @@ function populateEdgeButtons(fromNode) {
 network.on("click", function (event) {
   const fromNode = event.nodes[0];
 
-  if (fromNode !== undefined) { // Only zoom in if a node was clicked
-    if (event.event.buttons === 4) { // 4 represents the middle mouse button
-      console.log("do something");
-      network.fit();
-    } else {
-      // Move to the clicked node position with a new animation
-      const toNodePosition = network.getPositions([fromNode])[fromNode];
-      const moveToOptions = {
-        position: toNodePosition,
-        scale: 1.5,
-        offset: { x: 0, y: 0 },
-        animation: {
-          duration: 1100, // New animation duration
-          easingFunction: "easeOutCubic", // New animation easing function
-        },
-      };  
-      network.moveTo(moveToOptions);
+  // Only zoom to node if a node was clicked
+  if (fromNode !== undefined) {
+    // Move to the clicked node position with a new animation
+    const toNodePosition = network.getPositions([fromNode])[fromNode];
+    const moveToOptions = {
+      position: toNodePosition,
+      scale: 1.5,
+      offset: { x: 0, y: 0 },
+      animation: {
+        duration: 1100, // New animation duration
+        easingFunction: "easeInOutQuad", // New animation easing function
+      },
+    };
+    network.moveTo(moveToOptions);
 
-      populateEdgeButtons(fromNode); /* edge buttons and auto open */
-    }
+    populateEdgeButtons(fromNode); /* edge buttons and auto open */
   }
 });
 
@@ -350,4 +367,3 @@ Array.prototype.forEach.call(draggables, (item => {
 //   // Add Font Awesome icon to .vis-config-header elements that are children of .vis-config-s0 elements
 //   $('.vis-config-s0 .vis-config-header').addClass('fas fa-solid fa-sliders');
 // });
-

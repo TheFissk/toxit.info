@@ -78,6 +78,11 @@ var options = {
   interaction: {
     hover: true,
   },
+  layout: {
+    randomSeed: 69420, /* nice */
+    improvedLayout:true,
+    clusterThreshold: 150,
+  },
   physics: {
     stabilization: {
       iterations: 2500,
@@ -154,6 +159,9 @@ const updateGraphData = (snapshot_id) => {
 
       mod_edges.add(data.mod_edges_context);
       author_edges.add(data.author_edges_context);
+
+      // Call the function to set the data after a delay
+      delaySetData(data);
     })
     .catch(error => {
       $loader.hide(); // Hide the loader in case of an error
@@ -161,3 +169,18 @@ const updateGraphData = (snapshot_id) => {
       console.log('Error:', error);
     });
 };
+
+// Function to set the data with a delay
+function delaySetData(data) {
+  setTimeout(function() {
+    network.once("afterDrawing", function() {
+      console.log("test!");
+      network.fit({
+        animation: {
+          duration: 1000,  // 1 second
+          easingFunction: "easeInOutQuad"  // easing function
+        }
+      });
+    });
+  }, 250); // 250 milliseconds = 0.25 seconds
+}
