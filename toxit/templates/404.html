@@ -1,0 +1,160 @@
+<!-- sourced from https://codepen.io/tmrDevelops/embed/aNGKzN/?theme-id=modal#result-box -->
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <title>Page Not Found</title>
+    <style>
+        @import url(https://fonts.googleapis.com/css?family=Black+Ops+One);
+
+        * {
+            box-sizing: border-box;
+        }
+
+        html,
+        body {
+            background: #e6e6e6;
+            width: 100%;
+            min-height: 100%;
+            font-weight: bold;
+            font-size: 1em;
+            display: flex;
+            justify-content: center;
+            flex-direction: column;
+            font-family: "Black Ops One", cursive;
+            user-select: none;
+        }
+
+        canvas {
+            left: 50%;
+            position: absolute;
+            top: 50%;
+            transform: translate(-50%, -50%);
+        }
+
+        .text .wrap {
+            fill: #FFF;
+        }
+
+        .overlay {
+            height: 0;
+            width: 0;
+            overflow: hidden;
+            position: absolute;
+        }
+
+        .overlay .txt {
+            font-size: 14rem;
+            text-transform: uppercase;
+            font-weight: 900;
+            letter-spacing: -0.5rem;
+            text-shadow: 0 -3px 0 #0d0d0d, 0 6px 8px rgba(13, 13, 13, 0.55), 0 9px 10px rgba(13, 13, 13, 0.25);
+        }
+
+        .overlay .txt2 {
+            font-size: 4rem;
+        }
+
+        section {
+            align-self: center;
+        }
+
+        h1 {
+            position: relative;
+            font-size: 8em;
+            font-weight: bold;
+            line-height: 1;
+            display: inline-block;
+            width: 900px;
+            height: 400px;
+        }
+
+        h1 .fill {
+            position: relative;
+            width: 100%;
+            height: 100%;
+            overflow: hidden;
+        }
+
+        h1 .inv {
+            position: absolute;
+            width: 900px;
+            height: 400px;
+            top: 0;
+            left: 0;
+        }
+
+        h1 .rect {
+            fill: #e6e6e6;
+        }
+
+        h1 .clear {
+            fill: transparent;
+        }
+    </style>
+</head>
+
+<body>
+    <svg class="overlay text" viewBox="0 0 900 400">
+        <symbol id="main">
+            <text text-anchor="middle" x="50%" y="50%" dy="0.25em" class="txt">404</text>
+            <text text-anchor="middle" x="50%" y="90%" dy="0.25em" class="txt2">Not Found</text>
+        </symbol>
+        <mask id="msk" maskunits="userSpaceOnUse" maskcontentunits="userSpaceOnUse">
+            <rect width="100%" height="100%" class="wrap"></rect>
+            <use xlink:href="#main" class="mtxt"></use>
+        </mask>
+    </svg>
+    <section>
+        <h1 href="#">
+            <div class="fill">
+                <canvas id="canv" width="460" height="360" style="background: hsla(0, 0%, 0%, 1);"></canvas>
+            </div>
+            <svg viewBox="0 0 100% 100%" class="inv">
+                <rect width="100%" height="100%" mask="url(#msk)" class="rect"></rect>
+                <use xlink:href="#main" class="clear"></use>
+            </svg>
+        </h1>
+        <p class="message">Sorry, the page you requested could not be found.</p>
+    </section>
+    <script>
+        /* code for generating the canvas animation */
+
+        const canvas = document.getElementById("canv");
+        const ctx = canvas.getContext("2d");
+        canvas.width = 460;
+        canvas.height = 360;
+
+        const letters = "01";
+        const fontSize = 20;
+        const columns = canvas.width / fontSize;
+
+        const drops = [];
+        for (let i = 0; i < columns; i++) {
+            drops[i] = 1;
+        }
+
+        function draw() {
+            ctx.fillStyle = "rgba(0, 0, 0, 0.04)";
+            ctx.fillRect(0, 0, canvas.width, canvas.height);
+
+            ctx.fillStyle = "#0F0";
+            ctx.font = `${fontSize}px arial`;
+
+            for (let i = 0; i < drops.length; i++) {
+                const text = letters[Math.floor(Math.random() * letters.length)];
+                ctx.fillText(text, i * fontSize, drops[i] * fontSize);
+                drops[i]++;
+
+                if (drops[i] * fontSize > canvas.height && Math.random() > 0.95) {
+                    drops[i] = 0;
+                }
+            }
+        }
+
+        setInterval(draw, 30);
+    </script>
+</body>
+
+</html>

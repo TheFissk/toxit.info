@@ -1,10 +1,18 @@
 import os
-from django.http import HttpResponse, JsonResponse
+from django.http import HttpResponse, JsonResponse, Http404
 from tqdm import tqdm
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
 from .models import Inference_task
+
+
+# custom 404 code based on https://codepen.io/tmrDevelops/embed/aNGKzN/?theme-id=modal#result-box
+def custom_404(request, exception):
+    return render(request, '404.html', status=404)
+
+def test_404(request):
+    raise Http404("This page does not exist")
 
 
 def update_data(request, snapshot_id):
