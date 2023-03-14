@@ -35,7 +35,7 @@
 /* light theme - currenntly unimplemented */
 [data-theme="light"] {
   --font-color: #000;
-  --bg-color: #fff;
+  --bg-color: #998a82; /* #938c88 */
   --primary-color-L: hsl(20deg 100% 90%);
   --primary-color: hsl(41deg 98% 98%);
   --primary-color-D: hsl(20deg 100% 80%);
