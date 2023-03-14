@@ -16,23 +16,34 @@ function toggleSideNav() {
 
 
 /*
-  Minimize button + middle mouse for animated fit() 
+  Middle mouse fit network 
 */
-document.querySelector(".fa-minimize").addEventListener("mousedown", function(event) {
-  if (event.button === 1 || event.button === 0) {
-    // Middle mouse button or left mouse button clicked
-    network.fit({
-      animation: {
-        duration: 1000,  // 1 second
-        easingFunction: "easeInOutQuad"  // easing function
-      }
-    });
-    
-    if ($(".sidebar").hasClass("show")) {
-      toggleSideNav();
-    }
+document.querySelector(".content").addEventListener("mousedown", function(event) {
+  if (event.button === 1) {
+    // Middle mouse button clicked
+    handleNetworkFit();
   }
 });
+
+document.querySelector(".fa-minimize").addEventListener("click", function(event) {
+  if (event.button === 0) {
+    // Left mouse button clicked
+    handleNetworkFit();
+  }
+});
+
+function handleNetworkFit() {
+  network.fit({
+    animation: {
+      duration: 1000,  // 1 second
+      easingFunction: "easeInOutQuad"  // easing function
+    }
+  });
+
+  if ($(".sidebar").hasClass("show")) {
+    toggleSideNav();
+  }
+}
 
 
 /* 

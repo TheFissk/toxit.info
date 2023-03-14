@@ -174,7 +174,6 @@ const updateGraphData = (snapshot_id) => {
 function delaySetData(data) {
   setTimeout(function() {
     network.once("afterDrawing", function() {
-      console.log("test!");
       network.fit({
         animation: {
           duration: 1000,  // 1 second
