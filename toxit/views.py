@@ -3,7 +3,6 @@ from django.http import HttpResponse, JsonResponse, Http404
 from tqdm import tqdm
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
-
 from .models import Inference_task
 
 
@@ -24,8 +23,8 @@ def update_data(request, snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-    node_above_threshold = -0.05
-    tooltip_precision = 6  # number of decimal places to round to
+    node_above_threshold = 0.1
+    tooltip_precision = 4  # number of decimal places to round to
 
     # if you get any errors make sure tqdm is installed
     sub_nodes_context = [
@@ -36,7 +35,7 @@ def update_data(request, snapshot_id):
             'title': (
                 f'r/{result.subreddit.display_name}\n'
                 f'{"~".center(24, "~")}\n\n'
-                f'Comments Above 0.05: {result.getNodeInfo(node_above_threshold)}\n\n'
+                f'Flagged Comments: {result.getNodeInfo(node_above_threshold)}\n\n'
                 f'Min: {-1.0 * round(result.min_result, tooltip_precision)}\n'
                 f'Max: {-1.0 * round(result.max_result, tooltip_precision)}\n'
                 f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
