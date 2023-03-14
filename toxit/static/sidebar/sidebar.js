@@ -52,7 +52,7 @@ function handleNetworkFit() {
 $(".main_side").on("click", ".item-text", function() {
   var id = $(this).attr("id");
   $(".collapsible.item-show-" + id).toggleClass("show");
-  $(".main_side li #" + id + " span").toggleClass("rotate");
+  if(id != 'export-factory') $(".main_side li #" + id + " span").toggleClass("rotate");
 });
 
 /*
