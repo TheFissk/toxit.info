@@ -210,6 +210,9 @@ function populateEdgeButtons(fromNode) {
         network.moveTo(moveToOptions);
         network.selectNodes([toNode]);
         populateEdgeButtons(toNode);
+
+        // Update the node info when a new node is selected
+        document.querySelector('.node-info-content').innerHTML = to_data.title; 
       });
       edgeBtnContainer.appendChild(button);
     });
