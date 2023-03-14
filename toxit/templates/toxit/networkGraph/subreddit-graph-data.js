@@ -102,10 +102,15 @@ var options = {
   },
   configure: {
     enabled: true,
-    filter: true,
+    filter: function (option, path) {
+      if (path.indexOf("nodes") !== -1 || path.indexOf("edges") !== -1 || path.indexOf("physics") !== -1) {
+        return true;
+      }
+      return false;
+    },
     container: document.getElementById('vis-config'),
-    showButton: true,
-  },
+    showButton: false,
+  },  
 };
 
 // Create the VisJs network with the data retrieved from the 
