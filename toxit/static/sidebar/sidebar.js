@@ -257,6 +257,11 @@ network.on("click", function (event) {
     network.moveTo(moveToOptions);
 
     populateEdgeButtons(fromNode); /* edge buttons and auto open */
+
+    const clickedNode = sub_nodes.get(fromNode); // get the clicked node
+    const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
+    nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
+    nodeInfoContent.innerHTML = clickedNode.title; // set the clicked node's title as the inner HTML of .node-info-content
   }
 });
 

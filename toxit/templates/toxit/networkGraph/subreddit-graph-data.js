@@ -45,7 +45,7 @@ var options = {
       strokeColor: "rgba(0,0,0,1)",
       face: "verdana",
       align: "center",
-      vadjust: 20,
+      vadjust: 15,
     },
     scaling: {
       // customScalingFunction: function (min, max, total, value) {

@@ -59,3 +59,11 @@
   padding: 1rem !important;
   /* z-index: 5; */
 }
+
+.node-info-content {
+  white-space: break-spaces !important;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--primary-color-L);
+  line-height: 1.2;
+}
