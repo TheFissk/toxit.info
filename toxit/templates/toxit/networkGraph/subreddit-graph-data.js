@@ -136,6 +136,9 @@ const updateGraphData = (snapshot_id) => {
   // Show the loader while the data is being fetched
   $loader.show();
 
+  // clear the contents of .node-info-content
+  document.querySelector('.node-info-content').innerHTML = ""; 
+
   // Use fetch() to get the data and handle it with Promises
   fetch(url, { signal: controller.signal })
     .then(response => response.json())
