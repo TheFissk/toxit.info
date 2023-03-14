@@ -106,14 +106,6 @@ var options = {
 // Create the VisJs network with the data retrieved from the 
 var network = new vis.Network(container, data, options);
 
-// rudimentry function to start with for coloring nodes based on toxicity
-// removed on request from kyllo 
-// function getColorForScore(score) {
-//   var red = Math.max(0, Math.min(255, Math.round((1 - score) * 100)));
-//   var green = Math.max(0, Math.min(255, Math.round((score + 1) * 200)));
-//   return 'rgb(' + red + ',' + green + ',0)';
-// }
-
 /*
   Ajax function using fetch to update the data shown on the graph.
 
@@ -162,7 +154,6 @@ const updateGraphData = (snapshot_id) => {
 
       mod_edges.add(data.mod_edges_context);
       author_edges.add(data.author_edges_context);
-
     })
     .catch(error => {
       $loader.hide(); // Hide the loader in case of an error

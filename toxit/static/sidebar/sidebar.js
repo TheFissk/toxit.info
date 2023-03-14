@@ -38,7 +38,7 @@ document.getElementById('snapshot-select').addEventListener('change', function()
 
 /*
   Radio button code
-  -descriton here-
+  allows the user to change the edge weight displayed between moderators and commenters 
 */
 $('input[type=radio][name=edge-weight]').change(function() {
 
@@ -209,25 +209,26 @@ function populateEdgeButtons(fromNode) {
 network.on("click", function (event) {
   const fromNode = event.nodes[0];
 
-  if (event.event.button === 1) {
-    // Middle mouse button clicked
-    console.log("do something");
-    network.fit();
-  } else {
-    // Move to the clicked node position with a new animation
-    const toNodePosition = network.getPositions([fromNode])[fromNode];
-    const moveToOptions = {
-      position: toNodePosition,
-      scale: 1.5,
-      offset: { x: 0, y: 0 },
-      animation: {
-        duration: 1100, // New animation duration
-        easingFunction: "easeOutCubic", // New animation easing function
-      },
-    };  
-    network.moveTo(moveToOptions);
+  if (fromNode !== undefined) { // Only zoom in if a node was clicked
+    if (event.event.buttons === 4) { // 4 represents the middle mouse button
+      console.log("do something");
+      network.fit();
+    } else {
+      // Move to the clicked node position with a new animation
+      const toNodePosition = network.getPositions([fromNode])[fromNode];
+      const moveToOptions = {
+        position: toNodePosition,
+        scale: 1.5,
+        offset: { x: 0, y: 0 },
+        animation: {
+          duration: 1100, // New animation duration
+          easingFunction: "easeOutCubic", // New animation easing function
+        },
+      };  
+      network.moveTo(moveToOptions);
 
-    populateEdgeButtons(fromNode); /* edge buttons and auto open */
+      populateEdgeButtons(fromNode); /* edge buttons and auto open */
+    }
   }
 });
 
@@ -301,12 +302,6 @@ let drop = (event) => {
   // Reset the elementBeingDragged variable
   elementBeingDragged = null;
 };
-
-
-
-// let insertAfter = (referenceNode, newNode) => {
-//   referenceNode.parentNode.insertBefore(newNode, referenceNode.nextSibling);
-// }
 
 Array.prototype.forEach.call(dropzones, (dropzone => {
   dropzone.addEventListener('dragenter', dragInto);
