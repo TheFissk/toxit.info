@@ -23,7 +23,10 @@ def update_data(request, snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-    node_above_threshold = 0.1
+    # this number was chosen as it is halfway between the [-1,1] 
+    # normalized value from the mhs corpus dataset value for neutral and group bias.
+    # for example -0.06 is neutral and 0.1 is bias so 0.02 was chosen
+    node_above_threshold = 0.02
     tooltip_precision = 4  # number of decimal places to round to
 
     # if you get any errors make sure tqdm is installed
