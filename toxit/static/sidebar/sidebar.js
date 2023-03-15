@@ -384,25 +384,30 @@ Array.prototype.forEach.call(draggables, (item => {
 
 
 /*
-  export factory xml
+  export factory jqeury 
 */ 
 function exportData(exportType) {
   const snapshotId = document.querySelector('#export-data-select').value;
   const url = `/export-data/${snapshotId}?export_type=${exportType}`;
-  const xhr = new XMLHttpRequest();
-  xhr.open('GET', url);
-  xhr.responseType = 'blob';
-  xhr.onload = function() {
-      const blob = xhr.response;
-      const fileName = `${snapshotId}.${exportType}`;
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Export failed');
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const filename = `${snapshotId}.${exportType}`;
       const link = document.createElement('a');
       link.href = window.URL.createObjectURL(blob);
-      link.download = fileName;
-      document.body.appendChild(link);
+      link.download = filename;
       link.click();
-      document.body.removeChild(link);
-  };
-  xhr.send();
+    })
+    .catch(error => {
+      console.error(error);
+      // handle error
+    });
 }
 
 
