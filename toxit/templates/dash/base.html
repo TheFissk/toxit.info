@@ -20,11 +20,17 @@
     <!-- Main website stylesheet -->
     <link rel="stylesheet" href="{% static 'main.css' %}" />
     <link rel="stylesheet" href="{% static 'dash.css' %}" />
-    {% block extra_style %}
-    <style></style>
-    {% endblock extra_style %}
+    {% block extra_style %} {% endblock extra_style %}
   </head>
   <body>
-    {% block content %} {% endblock %}
+    {% block header %}
+    <div id="header">
+      <div id="site-header"><h1 id="site-name">Toxit Dashboard</h1></div>
+      <div id="user">
+        Welcome: <b>{{user.username}}</b> /
+        <a id="logout" href="{% url 'toxit:logout' %}">Log Out</a>
+      </div>
+    </div>
+    {% endblock header %} {% block content %} {% endblock %}
   </body>
 </html>

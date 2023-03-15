@@ -68,7 +68,7 @@ class Inference_task(models.Model):
     subreddit_set = models.JSONField(
                                     help_text="A set of the subreddits to be harvested")
     status = models.PositiveSmallIntegerField(choices=STATUS_TYPES,
-                                    help_text="The status of the task")
+                                    help_text="The status of the task", default=0)
     
     def get_subreddits_for_inference_task(self):
         return Subreddit_result.objects.filter(inference_task=self).select_related('subreddit')

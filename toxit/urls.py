@@ -14,8 +14,8 @@ urlpatterns = [
     path('login/', auth_views.LoginView.as_view(template_name='dash/login.html',
          next_page='/dash'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='../'), name='logout'),
-    path('add_inference_task/', redirect_views.add_Inference_Task,
-         name='add_Inference_Task'),
-    path('delete_inference_task/<task_id>',
-         redirect_views.delete_Inference_Task, name='delete_Inference_Task')
+    path('delete_inference_task/<int:task_id>',
+         redirect_views.delete_Inference_Task, name='delete_Inference_Task'),
+    path('taskInspector/<int:task_id>',
+         page_views.inspect_inference_task, name='taskInspector'),
 ]

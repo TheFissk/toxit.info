@@ -3,14 +3,6 @@
 
 </style>
 {% endblock extra_style %} {% block content %}{% if user.is_authenticated %}
-
-<div id="header">
-  <div id="site-header"><h1 id="site-name">Toxit Dashboard</h1></div>
-  <div id="user">
-    Welcome: <b>{{user.username}}</b> /
-    <a id="logout" href="{% url 'toxit:logout' %}">Log Out</a>
-  </div>
-</div>
 <div id="site-body">
   <div id="add-inference">
     <h2>Add Inference Task</h2>
@@ -68,7 +60,7 @@
       <tbody>
         {% for task in iTasks %}
         <tr>
-          <td>{{task.start}} </td>
+          <td><a href='{% url 'toxit:taskInspector' task.id %}'>  {{task.start}}</a> </td>
           <td>{{task.status}}</td>
           <td>
             {% if task.status != "In Progress"%}{% endif %}
