@@ -388,7 +388,7 @@ Array.prototype.forEach.call(draggables, (item => {
 */ 
 function exportData(exportType) {
   const snapshotId = document.querySelector('#export-data-select').value;
-  const url = `/export-data/${snapshotId}?export_type=${exportType}`;
+  const url = `/export_data/${snapshotId}/${exportType}`;
 
   fetch(url)
     .then(response => {

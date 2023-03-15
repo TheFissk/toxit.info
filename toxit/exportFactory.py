@@ -4,7 +4,7 @@ from io import StringIO, BytesIO
 from xml.etree.ElementTree import Element, SubElement, tostring
 import zipfile
 
-from django.http import HttpResponse
+from django.http import HttpResponse, FileResponse
 
 
 class Exporter:
@@ -18,7 +18,9 @@ class Exporter:
 class JsonExporter(Exporter):
     def export(self):
         data = json.dumps(self.exportData, indent=2)
-        return BytesIO(data.encode('utf-8'))
+        bytes = BytesIO(data.encode('utf-8'))
+        # response = FileResponse(file, content_type=file.content_type, as_attachment=True, filename=file.filename)
+        return FileResponse(bytes, filename="test.json")
 
 
 class CsvExporter(Exporter):
