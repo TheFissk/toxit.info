@@ -80,7 +80,6 @@
       .then(response => response.json())
       .then(data => {
         const table = document.getElementById("subredditViewTable");
-        console.log(data)
         data.subs.forEach((row) => {
           const tableRow = table.insertRow();
           insertData(tableRow, row.name);

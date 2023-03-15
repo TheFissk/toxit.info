@@ -19,7 +19,6 @@ def dash(request) -> HttpResponse:
             form.save()
         return redirect('toxit:dash')
     else:
-        print("else")
         form = inference_task_form()
 
     tasks = Inference_task.objects.all().order_by('-start_sched')
