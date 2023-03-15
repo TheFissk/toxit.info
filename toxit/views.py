@@ -1,5 +1,5 @@
 import os
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import JsonResponse, Http404, FileResponse
 from tqdm import tqdm
 from django.shortcuts import render, get_object_or_404
 
@@ -11,25 +11,12 @@ from .exportFactory import ExporterFactory
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
+
 def test_404(request):
     raise Http404("This page does not exist")
 
 
-def export_data(request, snapshot_id, file_type):
-    # Get network data
-    network_data = get_network_data(request, snapshot_id)
-
-    # Create file using factory
-    factory = ExporterFactory()
-    file = factory.create_exporter(file_type).export(network_data)
-
-    # Return file as a response
-    response = HttpResponse(file, content_type=file.content_type)
-    response['Content-Disposition'] = f'attachment; filename="{file.filename}"'
-    return response
-
-
-def get_network_data (request, snapshot_id):
+def build_network_data(snapshot_id):
     # Get the selected snapshot
     snapshot = get_object_or_404(Inference_task, id=snapshot_id)
 
@@ -82,7 +69,25 @@ def get_network_data (request, snapshot_id):
     }
 
     # Return the data as a JSON response
-    return JsonResponse(data)
+    return data
+
+
+def get_network_data(request, snapshot_id):
+    network_data = build_network_data(snapshot_id)
+    return JsonResponse(network_data)
+
+
+def export_data(request, snapshot_id, file_type):
+    # Get network data
+    network_data = build_network_data(snapshot_id)
+
+    # Create file using factory
+    factory = ExporterFactory()
+    file = factory.create_exporter(file_type).export(network_data)
+
+    # Return file as a response
+    response = FileResponse(file, content_type=file.content_type, as_attachment=True, filename=file.filename)
+    return response
 
 
 def index(request):

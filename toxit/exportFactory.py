@@ -3,14 +3,16 @@ import csv
 from xml.etree.ElementTree import Element, SubElement, tostring
 from abc import ABC, abstractmethod
 
+
 class Exporter(ABC):
     @abstractmethod
     def export(self, data):
         pass
 
+
 class JsonExporter(Exporter):
     def export(self, data):
-        return json.dumps(data)
+        return data.content.decode('utf-8')
 
 
 class CsvExporter(Exporter):
@@ -32,14 +34,8 @@ class XmlExporter(Exporter):
                 cell_element.text = str(value)
         return tostring(root).decode('utf-8')
 
+
 class ExporterFactory:
-    @staticmethod
-    def create_exporter(export_type):
-        if export_type == 'json':
-            return JsonExporter()
-        elif export_type == 'csv':
-            return CsvExporter()
-        elif export_type == 'xml':
-            return XmlExporter()
-        else:
-            raise ValueError(f'Unknown export type: {export_type}')
+    def create_exporter(self, file_type):
+        if file_type == 'json':
+            return save('rb')
