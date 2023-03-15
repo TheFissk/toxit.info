@@ -1,13 +1,12 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect
+from django.http import HttpResponseRedirect, HttpRequest
 from .models import Inference_task
 
 
-def dash(request):
-    bounceNonLoggedInUsers(request.user)
-
+def dash(request) -> HttpRequest:
+    if not request.user.is_authenticated:
+        return redirect('toxit:login')
     tasks = Inference_task.objects.all().order_by('-start_sched')
-
     context = {'iTasks': [
         {'id': t.id, 'start': t.start_sched,
             'status': Inference_task.STATUS_TYPES[t.status][1]}
@@ -16,7 +15,8 @@ def dash(request):
 
 
 def add_Inference_Task(request) -> HttpResponseRedirect:
-    bounceNonLoggedInUsers(request.user)
+    if not request.user.is_authenticated:
+        return redirect('toxit:login')
     print('fire')
     post = request.POST
     newTask = Inference_task(
@@ -27,18 +27,17 @@ def add_Inference_Task(request) -> HttpResponseRedirect:
         subreddit_set=post['subreddit_set'],
         status=0,
     )
-    # newTask.save()
-    print(newTask)
+    newTask.save()
     return redirect('toxit:dash')
-
-
-def bounceNonLoggedInUsers(user) -> HttpResponseRedirect:
-    if not user.is_authenticated:
-        return redirect('toxit:login')
 
 
 def delete_Inference_Task(request, task_id) -> HttpResponseRedirect:
+    if not request.user.is_authenticated:
+        return redirect('toxit:login')
     task = get_object_or_404(Inference_task, id=task_id)
-    print(task)
-    # task.delete()
+    task.delete()
     return redirect('toxit:dash')
+
+
+def inspect_inference_task(request, task_id) -> HttpRequest:
+    pass

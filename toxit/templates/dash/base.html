@@ -9,17 +9,19 @@
       type="image/png"
       href="{% static '/logo/favicon.ico' %}"
     />
+
+    <!-- Add Font Awesome CSS stylesheet -->
+    <link
+      rel="stylesheet"
+      href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
+    />
+
     <title>{% block title %}Toxit Dash{% endblock %}</title>
     <!-- Main website stylesheet -->
     <link rel="stylesheet" href="{% static 'main.css' %}" />
+    <link rel="stylesheet" href="{% static 'dash.css' %}" />
     {% block extra_style %}
-    <style>
-      body {
-        margin: 0;
-        padding: 0;
-      }
-    </style>
-    <link rel="stylesheet" href="{% static 'testing.css' %}" />
+    <style></style>
     {% endblock extra_style %}
   </head>
   <body>

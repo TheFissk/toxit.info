@@ -1,105 +1,6 @@
-{% extends 'dash\base.html' %}{%block extra_style %}{{ block.super }}
+{% extends 'dash/base.html' %}{%block extra_style %}{{ block.super }}
 <style>
-  #header {
-    background-color: var(--border-color);
-    display: flex;
-    width: auto;
-    height: auto;
-    padding: 10px 40px;
-    align-items: center;
-    justify-content: space-between;
-    overflow: hidden;
-  }
-  @media (max-width: 767px) {
-    #header {
-      padding: 15px;
-    }
-  }
-  
-  @media (max-width: 1024px) {
-    #header {
-      flex-direction: column;
-      justify-content: flex-start;
-    }
-  }
-  #logout {
-    color: var(--font-color);
-  }
-  
-  #site-body {
-    padding: 1em;
-    display: flex;
-    flex-wrap: wrap;
-    justify-content: space-around;
-  }
-  
-  #add-inference, #view-inference {
-    max-width: 60rem;
-    width: 100%;
-    min-width: 20em;
-  }
-  
-  h3 {
-    background-color: var(--border-color);
-    padding: 0.4em;
-  }
-  
-  .form-row {
-    width: 100%;
-    padding: 0.4rem 1rem;
-  }
-  
-  label {
-    float: left;
-    font-weight: bold;
-    padding: 0.2rem 0.4rem 0 0;
-    width: 8rem;
-  }
-  
-  select, input, textarea {
-    border: 1px solid var(--border-color);
-    border-radius: 4px;
-    min-height: 2rem;
-    padding: 0.3rem 0.4rem;
-    margin: 0;
-  }
-  
-  input[type=submit] {
-    float: right;
-    border: none;
-    background-color: var(--border-color);
-  }
-  
-  input[type=submit]:hover {
-    background-color: var(--highlight-color-D);
-  }
-  
-  .help-text {
-    margin: 0.2rem 0 0 8.3rem;
-    font-size: 0.8rem;
-  }
-  
-  table {
-    border-collapse: collapse;
-    width: 100%;
-    text-indent: initial;
-  }
-  
-  td {
-    padding: 0.4rem 1rem;
-  }
-  
-  tr:nth-child(even) {
-    background-color: var(--primary-color-D);
-  }
-  
-  th {
-    background-color: var(--primary-color-D);
-    border-bottom: 1px solid var(--border-color);
-    text-transform: uppercase;
-    text-align: left;
-    padding: 0.4rem 1rem;
-  }
+
 </style>
 {% endblock extra_style %} {% block content %}{% if user.is_authenticated %}
 
@@ -170,7 +71,8 @@
           <td>{{task.start}} </td>
           <td>{{task.status}}</td>
           <td>
-            <a href='{% url 'toxit:delete_Inference_Task' task.id %}' class='del'>Delete</a>
+            {% if task.status != "In Progress"%}{% endif %}
+            <a href='{% url 'toxit:delete_Inference_Task' task.id %}' class='del fas fa-trash'></a>
           </td>
         </tr>
         {% endfor %}
