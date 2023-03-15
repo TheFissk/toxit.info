@@ -2,7 +2,6 @@ import csv
 import json
 from io import StringIO, BytesIO
 from xml.etree.ElementTree import Element, SubElement, tostring
-import zipfile
 
 from django.http import HttpResponse, FileResponse
 
@@ -19,8 +18,7 @@ class JsonExporter(Exporter):
     def export(self):
         data = json.dumps(self.exportData, indent=2)
         bytes = BytesIO(data.encode('utf-8'))
-        # response = FileResponse(file, content_type=file.content_type, as_attachment=True, filename=file.filename)
-        return FileResponse(bytes, filename="test.json")
+        return FileResponse(bytes)
 
 
 class CsvExporter(Exporter):
@@ -61,23 +59,6 @@ class XmlExporter(Exporter):
         return BytesIO(data)
 
 
-# class ZipExporter(Exporter):
-#     def export(self):
-#         # Create in-memory zip file
-#         zip_file = BytesIO()
-#         with zipfile.ZipFile(zip_file, mode='w', compression=zipfile.ZIP_DEFLATED) as archive:
-#             # Add each file to the archive
-#             for file_type, exporter in self.exportData.items():
-#                 file = exporter.export()
-#                 archive.writestr(f'export.{file_type}', file.getvalue())
-
-#         # Return zip file as a response
-#         zip_file.seek(0)
-#         response = HttpResponse(zip_file.getvalue(), content_type='application/zip')
-#         response['Content-Disposition'] = 'attachment; filename="export.zip"'
-#         return response
-
-
 class ExporterFactory:
     def create_exporter(self, file_type, data):
         if file_type == 'json':
@@ -86,11 +67,5 @@ class ExporterFactory:
             return CsvExporter(data)
         elif file_type == 'xml':
             return XmlExporter(data)
-        # elif file_type == 'zip':
-        #     return ZipExporter({
-        #         'json': JsonExporter(self.exportData),
-        #         'csv': CsvExporter(self.exportData),
-        #         'xml': XmlExporter(self.exportData),
-        #     })
         else:
             raise ValueError(f'Invalid file type: {file_type}')
