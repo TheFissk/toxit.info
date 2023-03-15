@@ -37,7 +37,8 @@ body {
 }
 
 #add-inference,
-#view-inference {
+#view-inference,
+#view-subreddit {
   max-width: 60rem;
   width: 100%;
   min-width: 20em;

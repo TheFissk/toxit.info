@@ -1,7 +1,9 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponse
+from django.http import HttpResponse, JsonResponse
 
-from ..models import Inference_task
+from tqdm import tqdm
+
+from ..models import Inference_task, Subreddit_result
 from .inference_task_form import inference_task_form
 
 
@@ -29,6 +31,19 @@ def dash(request) -> HttpResponse:
             for t in tasks],
         'form': form}
     return render(request, 'dash\dash.html', context)
+
+
+def get_subreddit_data(request, task_id) -> JsonResponse:
+    task = get_object_or_404(Inference_task, id=task_id)
+    subs = Inference_task.get_subreddits_for_inference_task(task)
+    out = {'subs': [{
+        'name': s.subreddit.display_name,
+        'min': s.min_result,
+        'max': s.max_result,
+        'mean': s.mean_result,
+        'std': s.std_result,
+    }for s in tqdm(subs)]}
+    return JsonResponse(out)
 
 
 def inspect_inference_task(request, task_id) -> HttpResponse:

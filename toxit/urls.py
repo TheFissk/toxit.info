@@ -18,4 +18,6 @@ urlpatterns = [
          redirect_views.delete_Inference_Task, name='delete_Inference_Task'),
     path('taskInspector/<int:task_id>',
          page_views.inspect_inference_task, name='taskInspector'),
+    path('get_sub_data/<int:task_id>',
+         page_views.get_subreddit_data, name='get_sub_data'),
 ]
