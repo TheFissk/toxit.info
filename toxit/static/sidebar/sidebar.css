@@ -358,8 +358,21 @@ select#bg-pic-select {
 
 
 /*
-  physics slider
+  node info panel
 */
+.node-info-content {
+  white-space: break-spaces;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--primary-color-L);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.node-info-content:empty {
+  display: none;
+}
+
 
 /*
   edge selection panel

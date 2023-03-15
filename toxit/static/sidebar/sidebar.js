@@ -1,13 +1,13 @@
 /* 
   Open Close Side Nav Logic
 */
-$(".sidebar-btn").click(function () {
-  toggleSideNav();
-});
-
 // function to toggle the side nav
 const sidebarBtn = $(".sidebar-btn");
 const sidebar = $(".sidebar");
+
+sidebarBtn.click(function () {
+  toggleSideNav();
+});
 
 function toggleSideNav() {
   sidebarBtn.toggleClass("click");
@@ -226,7 +226,6 @@ function populateEdgeButtons(fromNode) {
     // Cache the selectors
     const autoOpenEdgeCheckbox = $("#auto-open-edge");
     const collapsibleDiv = $(".collapsible.item-show-edgeselect");
-    const edgeButtonsDiv = $("#edge-buttons");
 
     // Toggle show if auto show is enabled and buttons (edges) were added
     if (autoOpenEdgeCheckbox.is(":checked") && edgeBtnContainer.hasChildNodes()) {
@@ -236,6 +235,30 @@ function populateEdgeButtons(fromNode) {
     }
   }
 }
+
+
+/*
+  populate node info tab module code
+*/
+const populateNodeInfoTab = (fromNode) => {
+  const clickedNode = sub_nodes.get(fromNode); // get the clicked node
+  const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
+  nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
+  nodeInfoContent.innerHTML = clickedNode.title; // set the clicked node's title as the inner HTML of .node-info-content
+}
+
+
+/*
+  add event listener to network object for deselectNode event
+*/
+network.on("deselectNode", () => {
+  // clear edge buttons panel 
+  const edgeBtnContainer = document.getElementById("edge-buttons");
+  edgeBtnContainer.innerHTML = "";
+
+  // clear the info node tab too 
+  document.querySelector('.node-info-content').innerHTML = ""; // clear the contents of .node-info-content
+});
 
 
 /* 
@@ -261,11 +284,8 @@ network.on("click", function (event) {
 
     populateEdgeButtons(fromNode); /* edge buttons and auto open */
 
-    const clickedNode = sub_nodes.get(fromNode); // get the clicked node
-    const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
-    nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
-    nodeInfoContent.innerHTML = clickedNode.title; // set the clicked node's title as the inner HTML of .node-info-content
-  }
+    populateNodeInfoTab(fromNode);
+  } 
 });
 
 
