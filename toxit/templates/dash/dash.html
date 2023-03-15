@@ -115,7 +115,9 @@
     <h2>Add Inference Task</h2>
     <form action="{% url 'toxit:add_Inference_Task' %}" method="post" id="add-inference-form">
       {% csrf_token %}
-      <div class="form-row">DateTime Picker</div>
+      <div class="form-row">
+        <label for="start_sched"> Start Time: </label>
+        <input name="start_sched" type="datetime-local" required/></div>
       <h3>Configuration</h3>
       <div class="form-row">
         <label for="time_scale"> Time scale: </label>
@@ -135,13 +137,13 @@
         <p class="help-text">The minimum number of words to be considered a valid comment</p>
       </div>
       <div class="form-row">
-        <label for="comments_n"> Comments per Post: </label>
-        <input type="number" name="comments_n" required value="1000"></input>
+        <label for="comments_per_post"> Comments per Post: </label>
+        <input type="number" name="comments_per_post" required value="1000"></input>
         <p class="help-text">The maximum number of comments per post to be harvested</p>
       </div>
       <div class="form-row">
-        <label for="comments_per_sub"> Comments per Subreddit: </label>
-        <input type="number" name="comments_per_sub" required value="1000"></input>
+        <label for="comments_n"> Comments per Subreddit: </label>
+        <input type="number" name="comments_n" required value="1000"></input>
         <p class="help-text">The number of comments to be harvested</p>
       </div>
       <div class="form-row">
@@ -167,7 +169,9 @@
         <tr>
           <td>{{task.start}} </td>
           <td>{{task.status}}</td>
-          <td>Delete</td>
+          <td>
+            <a href='{% url 'toxit:delete_Inference_Task' task.id %}' class='del'>Delete</a>
+          </td>
         </tr>
         {% endfor %}
       </tbody>

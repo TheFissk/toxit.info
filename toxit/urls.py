@@ -13,4 +13,5 @@ urlpatterns = [
          next_page='/dash'), name='login'),
     path('logout/', auth_views.LogoutView.as_view(next_page='../'), name='logout'),
     path('add_inference_task/', dash_views.add_Inference_Task, name='add_Inference_Task'),
+    path('delete_inference_task/<task_id>', dash_views.delete_Inference_Task, name='delete_Inference_Task')
 ]
