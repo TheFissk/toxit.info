@@ -8,19 +8,19 @@ def dash(request) -> HttpRequest:
     if not request.user.is_authenticated:
         return redirect('toxit:login')
 
-    #handle a form submission
+    # handle a form submission
     if request.method == 'POST':
-        print("if")
         form = inference_task_form(request.POST)
+        print(form.errors)
         if form.is_valid():
             print('valid')
         return redirect('toxit:dash')
     else:
         print("else")
         form = inference_task_form()
-    
+
     tasks = Inference_task.objects.all().order_by('-start_sched')
-    
+
     context = {
         'iTasks': [
             {'id': t.id, 'start': t.start_sched,
