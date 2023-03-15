@@ -8,7 +8,9 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('update_data/<int:snapshot_id>/',
          views.update_data, name='update_data'),
-    path('dash/', dash_views.dash),
-    path('login/', auth_views.LoginView.as_view(template_name='dash/login.html', next_page='/dash'), name='login'),
-    path('logout/', auth_views.LogoutView.as_view(next_page='../'), name='logout')
+    path('dash/', dash_views.dash, name='dash'),
+    path('login/', auth_views.LoginView.as_view(template_name='dash/login.html',
+         next_page='/dash'), name='login'),
+    path('logout/', auth_views.LogoutView.as_view(next_page='../'), name='logout'),
+    path('add_inference_task/', dash_views.add_Inference_Task, name='add_Inference_Task'),
 ]

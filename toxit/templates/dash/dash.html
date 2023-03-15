@@ -1,16 +1,178 @@
 {% extends 'dash\base.html' %}{%block extra_style %}{{ block.super }}
-<style></style>
+<style>
+  #header {
+    background-color: var(--border-color);
+    display: flex;
+    width: auto;
+    height: auto;
+    padding: 10px 40px;
+    align-items: center;
+    justify-content: space-between;
+    overflow: hidden;
+  }
+  @media (max-width: 767px) {
+    #header {
+      padding: 15px;
+    }
+  }
+  
+  @media (max-width: 1024px) {
+    #header {
+      flex-direction: column;
+      justify-content: flex-start;
+    }
+  }
+  #logout {
+    color: var(--font-color);
+  }
+  
+  #site-body {
+    padding: 1em;
+    display: flex;
+    flex-wrap: wrap;
+    justify-content: space-around;
+  }
+  
+  #add-inference, #view-inference {
+    max-width: 60rem;
+    width: 100%;
+    min-width: 20em;
+  }
+  
+  h3 {
+    background-color: var(--border-color);
+    padding: 0.4em;
+  }
+  
+  .form-row {
+    width: 100%;
+    padding: 0.4rem 1rem;
+  }
+  
+  label {
+    float: left;
+    font-weight: bold;
+    padding: 0.2rem 0.4rem 0 0;
+    width: 8rem;
+  }
+  
+  select, input, textarea {
+    border: 1px solid var(--border-color);
+    border-radius: 4px;
+    min-height: 2rem;
+    padding: 0.3rem 0.4rem;
+    margin: 0;
+  }
+  
+  input[type=submit] {
+    float: right;
+    border: none;
+    background-color: var(--border-color);
+  }
+  
+  input[type=submit]:hover {
+    background-color: var(--highlight-color-D);
+  }
+  
+  .help-text {
+    margin: 0.2rem 0 0 8.3rem;
+    font-size: 0.8rem;
+  }
+  
+  table {
+    border-collapse: collapse;
+    width: 100%;
+    text-indent: initial;
+  }
+  
+  td {
+    padding: 0.4rem 1rem;
+  }
+  
+  tr:nth-child(even) {
+    background-color: var(--primary-color-D);
+  }
+  
+  th {
+    background-color: var(--primary-color-D);
+    border-bottom: 1px solid var(--border-color);
+    text-transform: uppercase;
+    text-align: left;
+    padding: 0.4rem 1rem;
+  }
+</style>
 {% endblock extra_style %} {% block content %}{% if user.is_authenticated %}
 
 <div id="header">
   <div id="site-header"><h1 id="site-name">Toxit Dashboard</h1></div>
   <div id="user">
     Welcome: <b>{{user.username}}</b> /
-    <a href="{% url 'toxit:logout' %}">Log Out</a>
+    <a id="logout" href="{% url 'toxit:logout' %}">Log Out</a>
   </div>
 </div>
-
-<div></div>
-
+<div id="site-body">
+  <div id="add-inference">
+    <h2>Add Inference Task</h2>
+    <form action="{% url 'toxit:add_Inference_Task' %}" method="post" id="add-inference-form">
+      {% csrf_token %}
+      <div class="form-row">DateTime Picker</div>
+      <h3>Configuration</h3>
+      <div class="form-row">
+        <label for="time_scale"> Time scale: </label>
+        <select name="time_scale" required>
+          <option value="hour">This Hour</option>
+          <option value="day">Today</option>
+          <option value="week">This Week</option>
+          <option value="month">This Month</option>
+          <option value="year">This Year</option>
+          <option value="all">All Time</option>
+        </select>
+        <p class="help-text">The period overwhich the comments will be harvested</p>
+      </div>
+      <div class="form-row">
+        <label for="min_words"> Min Words: </label>
+        <input type="number" name="min_words" required value="20"></input>
+        <p class="help-text">The minimum number of words to be considered a valid comment</p>
+      </div>
+      <div class="form-row">
+        <label for="comments_n"> Comments per Post: </label>
+        <input type="number" name="comments_n" required value="1000"></input>
+        <p class="help-text">The maximum number of comments per post to be harvested</p>
+      </div>
+      <div class="form-row">
+        <label for="comments_per_sub"> Comments per Subreddit: </label>
+        <input type="number" name="comments_per_sub" required value="1000"></input>
+        <p class="help-text">The number of comments to be harvested</p>
+      </div>
+      <div class="form-row">
+        <label for="subreddit_set"> Subreddit set: </label>
+        <textarea name="subreddit_set" cols="40" rows="10" required value="1000">null</textarea>
+        <p class="help-text">A comma separated list of the subreddits to be harvested</p>
+      </div>
+      <input type="submit" value="SAVE"/>
+    </form>
+  </div>
+  <div id="view-inference">
+    <h2>Current Inference Tasks</h2>
+    <table id="inference-task-table">
+      <thead>
+        <tr>
+          <th>Inference Task</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in iTasks %}
+        <tr>
+          <td>{{task.start}} </td>
+          <td>{{task.status}}</td>
+          <td>Delete</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 {%else %} You need to <a href="{% url 'toxit:login' %}">Log In</a> {% endif %}
 {%endblock content %}
