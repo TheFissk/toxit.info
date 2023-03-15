@@ -6,7 +6,7 @@ app_name = 'toxit'
 
 urlpatterns = [
     path('', views.index, name='index'),
-    path('update_data/<int:snapshot_id>/', views.update_data, name='update_data'),
+    path('get_network_data/<int:snapshot_id>/', views.get_network_data, name='get_network_data'),
     path('test404/', views.test_404, name='test_404'),
 ]
 

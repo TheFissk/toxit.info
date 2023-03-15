@@ -1,10 +1,13 @@
 import os
+import json
+import csv
 from django.http import HttpResponse, JsonResponse, Http404
 from tqdm import tqdm
 from django.template import loader
 from django.shortcuts import render, get_object_or_404
 
 from .models import Inference_task
+from .exporters import JsonExporter, CsvExporter, XmlExporter
 
 
 # custom 404 code based on https://codepen.io/tmrDevelops/embed/aNGKzN/?theme-id=modal#result-box
@@ -15,7 +18,39 @@ def test_404(request):
     raise Http404("This page does not exist")
 
 
-def update_data(request, snapshot_id):
+def export_data(request, snapshot_id):
+    # Get the selected snapshot
+    snapshot = get_object_or_404(Inference_task, id=snapshot_id)
+
+    # Get the data to export
+    queried_subs = snapshot.get_subreddits_for_inference_task()
+    queried_mods = snapshot.get_mod_edges_for_inference_task()
+    queried_authors = snapshot.get_author_edges_for_inference_task()
+
+    # Create the exporter object based on the selected export type
+    export_type = request.GET.get('export_type')
+    if export_type == 'json':
+        exporter = JsonExporter()
+        data = [result.to_dict() for result in queried_subs]
+    elif export_type == 'csv':
+        exporter = CsvExporter()
+        data = [result.to_list() for result in queried_subs]
+    elif export_type == 'xml':
+        exporter = XmlExporter()
+        data = queried_subs
+    else:
+        # Invalid export type
+        return HttpResponse(status=400)
+
+    # Export the data
+    response = HttpResponse(content_type=exporter.content_type)
+    response['Content-Disposition'] = f'attachment; filename="{snapshot_id}.{exporter.file_extension}"'
+    exporter.export(data, response)
+
+    return response
+
+
+def get_network_data (request, snapshot_id):
     # Get the selected snapshot
     snapshot = get_object_or_404(Inference_task, id=snapshot_id)
 

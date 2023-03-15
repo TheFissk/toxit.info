@@ -383,6 +383,29 @@ Array.prototype.forEach.call(draggables, (item => {
 }));
 
 
+/*
+  export factory xml
+*/ 
+function exportData(exportType) {
+  const snapshotId = document.querySelector('#export-data-select').value;
+  const url = `/export-data/${snapshotId}?export_type=${exportType}`;
+  const xhr = new XMLHttpRequest();
+  xhr.open('GET', url);
+  xhr.responseType = 'blob';
+  xhr.onload = function() {
+      const blob = xhr.response;
+      const fileName = `${snapshotId}.${exportType}`;
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = fileName;
+      document.body.appendChild(link);
+      link.click();
+      document.body.removeChild(link);
+  };
+  xhr.send();
+}
+
+
 /* 
   menu-ize visjs config - unfinished
 
