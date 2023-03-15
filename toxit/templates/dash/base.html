@@ -1,0 +1,22 @@
+{% load static %}
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8" />
+    <title>{% block title %}Toxit Dash{% endblock %}</title>
+    <!-- Main website stylesheet -->
+    <link rel="stylesheet" href="{% static 'main.css' %}" />
+    {% block extra_style %}
+    <style>
+      body {
+        margin: 0;
+        padding: 0;
+      }
+    </style>
+    <link rel="stylesheet" href="{% static 'testing.css' %}" />
+    {% endblock extra_style %}
+  </head>
+  <body>
+    {% block content %} {% endblock %}
+  </body>
+</html>

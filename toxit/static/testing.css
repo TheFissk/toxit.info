@@ -1,0 +1,26 @@
+
+#header {
+  background-color: var(--highlight-color);
+  display: flex;
+  width: auto;
+  height: auto;
+  padding: 10px 40px;
+  align-items: center;
+  justify-content: space-between;
+  overflow: hidden;
+}
+@media (max-width: 767px) {
+  #header {
+    padding: 15px;
+  }
+}
+
+@media (max-width: 1024px) {
+  #header {
+    flex-direction: column;
+    justify-content: flex-start;
+  }
+} 
+a, a.visited {
+  color: var(--font-color);
+}

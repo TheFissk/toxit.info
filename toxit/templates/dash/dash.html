@@ -1,0 +1,16 @@
+{% extends 'dash\base.html' %}{%block extra_style %}{{ block.super }}
+<style></style>
+{% endblock extra_style %} {% block content %}{% if user.is_authenticated %}
+
+<div id="header">
+  <div id="site-header"><h1 id="site-name">Toxit Dashboard</h1></div>
+  <div id="user">
+    Welcome: <b>{{user.username}}</b> /
+    <a href="{% url 'toxit:logout' %}">Log Out</a>
+  </div>
+</div>
+
+<div></div>
+
+{%else %} You need to <a href="{% url 'toxit:login' %}">Log In</a> {% endif %}
+{%endblock content %}
