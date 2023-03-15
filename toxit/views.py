@@ -72,13 +72,31 @@ def build_network_data(snapshot_id):
     return data
 
 
-def get_network_data(request, snapshot_id):
+def get_network_data(request, snapshot_id=None):
+    if snapshot_id is None:
+        # If no snapshot_id is specified, get the latest completed snapshot
+        snapshot = Inference_task.objects.filter(
+            status=Inference_task.STATUS_TYPES[2][0]
+        ).order_by('-start_sched').first()
+        if snapshot is None:
+            return Http404('No completed snapshots found')
+        snapshot_id = snapshot.id
     network_data = build_network_data(snapshot_id)
     return JsonResponse(network_data)
 
 
-def export_data(request, snapshot_id, file_type):
-    # Get network data
+def export_data(request, snapshot_id=None, file_type=None):
+    if snapshot_id is None:
+        # If no snapshot_id is specified, get the latest completed snapshot
+        snapshot = Inference_task.objects.filter(
+            status=Inference_task.STATUS_TYPES[2][0]
+        ).order_by('-start_sched').first()
+        if snapshot is None:
+            return Http404('No completed snapshots found')
+        snapshot_id = snapshot.id
+    if file_type is None:
+        return Http404('No file type specified')
+    # Create network data using the snapshot_id
     network_data = build_network_data(snapshot_id)
 
     # Create file using factory
@@ -90,7 +108,7 @@ def export_data(request, snapshot_id, file_type):
     return response
 
 
-def index(request):
+def index(request, snapshot_id=None):
     # get a list of all inference tasks that have the STATUS_TYPE of ('2', 'Completed') defined in the models
     iTasks = Inference_task.objects.filter(
         status=Inference_task.STATUS_TYPES[2][0]

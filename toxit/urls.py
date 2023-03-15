@@ -8,7 +8,6 @@ urlpatterns = [
     path('', views.index, name='index'),
     path('get_network_data/<int:snapshot_id>/', views.get_network_data, name='get_network_data'),
     path('export_data/<int:snapshot_id>/<str:file_type>/', views.export_data, name='export_data'),
-    # path('export_data/<int:snapshot_id>/json/', views.export_data, name='export_data_json'),
     path('test404/', views.test_404, name='test_404'),
 ]
 
