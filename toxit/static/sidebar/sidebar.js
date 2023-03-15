@@ -183,7 +183,7 @@ function populateEdgeButtons(fromNode) {
       }
       
       // Set the button text 
-      button.innerHTML = `${from_data.subname} [ ${from_data.score} ]<br> to <br>${to_data.subname} [ ${to_data.score} ]`;
+      button.innerHTML = `r/${from_data.subname} [ ${from_data.score} ]<br> to <br>r/${to_data.subname} [ ${to_data.score} ]`;
 
       // Set button :before pseudo-element content based on the edge weight and label
       // Get the edge label based on the edge weight
@@ -211,8 +211,9 @@ function populateEdgeButtons(fromNode) {
         network.selectNodes([toNode]);
         populateEdgeButtons(toNode);
 
-        // Update the node info when a new node is selected
-        document.querySelector('.node-info-content').innerHTML = to_data.title; 
+        // Clear then update the node info when a new node is selected
+        resetNodeInfoTab();
+        populateNodeInfoTab(toNode);
       });
       edgeBtnContainer.appendChild(button);
     });
@@ -245,9 +246,19 @@ const populateNodeInfoTab = (fromNode) => {
   const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
   nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
   nodeInfoContent.innerHTML = clickedNode.title; // set the clicked node's title as the inner HTML of .node-info-content
+  
+  const link2reddit = document.querySelector('#link2reddit'); // get the link element
+  link2reddit.innerHTML = ""; // clear previous link
+  link2reddit.innerHTML = "www.reddit.com/r/" + clickedNode.subname + "/"; // set the innerHTML to the link
+  link2reddit.href = "https://" + link2reddit.innerHTML; // set the href attribute to the new link and finish it
 }
 
-
+const resetNodeInfoTab = () => {
+  const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
+  nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
+  const link2reddit = document.querySelector('#link2reddit'); // get the link element
+  link2reddit.innerHTML = ""; // clear previous link
+}
 /*
   add event listener to network object for deselectNode event
 */
@@ -257,7 +268,7 @@ network.on("deselectNode", () => {
   edgeBtnContainer.innerHTML = "";
 
   // clear the info node tab too 
-  document.querySelector('.node-info-content').innerHTML = ""; // clear the contents of .node-info-content
+  resetNodeInfoTab();
 });
 
 

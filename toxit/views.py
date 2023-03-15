@@ -42,7 +42,7 @@ def update_data(request, snapshot_id):
                 f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
                 f'Std: {-1.0 * round(result.std_result, tooltip_precision)}\n'
             ),
-            'subname': f'r/{result.subreddit.display_name}',
+            'subname': f'{result.subreddit.display_name}',
             'score': result.getNodeInfo(node_above_threshold),
         } for result in tqdm(queried_subs, desc='Sub Nodes')
     ]

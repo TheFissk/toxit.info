@@ -241,6 +241,58 @@ select#bg-pic-select {
   display: block;
 }
 
+/* 
+  Generic Button Code
+    - Based on: https://codepen.io/iamtonmoy0/pen/bGvLXJZ
+*/
+.generic-button {
+  border: none;
+  color: var(--font-color);
+  background-color: var(--bg-color);
+  font-size: 1rem;
+  padding: 20px 40px;
+  margin: 1.5rem auto;
+  cursor: pointer;
+  width: min-content;
+  text-decoration: none;
+  display: block;
+  position: relative;
+}
+
+.generic-button:hover {
+  color: var(--highlight-color-D);
+}
+
+.generic-button:hover:before ,.generic-button:hover:after{
+  width:104%;
+  height:110%;
+}
+
+.generic-button:before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -0.75rem;
+  left: -0.75rem;
+  border-top: 0.5rem solid var(--border-color);
+  border-left: 0.5rem solid var(--border-color);
+  transition: all 0.5s;
+  z-index: 3;
+}
+
+.generic-button:after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  bottom: -0.5rem;
+  right: -0.5rem;
+  border-bottom: 0.25rem solid var(--highlight-color-D);
+  border-right: 0.25rem solid var(--highlight-color-D);
+  transition: all 0.5s;
+}
+
 /*
   Flip Radio button code - sourced from: 
     https://codepen.io/mallendeo/pen/QWKrEL
