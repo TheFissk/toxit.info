@@ -14,42 +14,42 @@
 <div id="site-body">
   <div id="add-inference">
     <h2>Add Inference Task</h2>
-    <form action="{% url 'toxit:add_Inference_Task' %}" method="post" id="add-inference-form">
+    <form action="{% url 'toxit:dash' %}" method="post" id="add-inference-form">
       {% csrf_token %}
       <div class="form-row">
-        <label for="start_sched"> Start Time: </label>
-        <input name="start_sched" type="datetime-local" required/></div>
+        {{form.start_sched.errors}}
+        {{form.start_sched.label_tag}}
+        {{form.start_sched}}
+      </div>
       <h3>Configuration</h3>
       <div class="form-row">
-        <label for="time_scale"> Time scale: </label>
-        <select name="time_scale" required>
-          <option value="hour">This Hour</option>
-          <option value="day">Today</option>
-          <option value="week">This Week</option>
-          <option value="month">This Month</option>
-          <option value="year">This Year</option>
-          <option value="all">All Time</option>
-        </select>
+        {{form.time_scale.errors}}
+        {{form.time_scale.label_tag}}
+        {{form.time_scale}}
         <p class="help-text">The period overwhich the comments will be harvested</p>
       </div>
       <div class="form-row">
-        <label for="min_words"> Min Words: </label>
-        <input type="number" name="min_words" required value="20"></input>
+        {{form.min_words.errors}}
+        {{form.min_words.label_tag}}
+        {{form.min_words}}
         <p class="help-text">The minimum number of words to be considered a valid comment</p>
       </div>
       <div class="form-row">
-        <label for="comments_per_post"> Comments per Post: </label>
-        <input type="number" name="comments_per_post" required value="1000"></input>
+        {{form.per_post_n.errors}}
+        {{form.per_post_n.label_tag}}
+        {{form.per_post_n}}
         <p class="help-text">The maximum number of comments per post to be harvested</p>
       </div>
       <div class="form-row">
-        <label for="comments_n"> Comments per Subreddit: </label>
-        <input type="number" name="comments_n" required value="1000"></input>
+        {{form.comments_n.errors}}
+        {{form.comments_n.label_tag}}
+        {{form.comments_n}}
         <p class="help-text">The number of comments to be harvested</p>
       </div>
       <div class="form-row">
-        <label for="subreddit_set"> Subreddit set: </label>
-        <textarea name="subreddit_set" cols="40" rows="10" required value="1000">null</textarea>
+        {{form.subreddit_set.errors}}
+        {{form.subreddit_set.label_tag}}
+        {{form.subreddit_set}}
         <p class="help-text">A comma separated list of the subreddits to be harvested</p>
       </div>
       <input type="submit" value="SAVE"/>

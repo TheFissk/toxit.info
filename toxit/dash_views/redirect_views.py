@@ -1,17 +1,6 @@
 from django.shortcuts import render, redirect, get_object_or_404
 from django.http import HttpResponseRedirect, HttpRequest
-from .models import Inference_task
-
-
-def dash(request) -> HttpRequest:
-    if not request.user.is_authenticated:
-        return redirect('toxit:login')
-    tasks = Inference_task.objects.all().order_by('-start_sched')
-    context = {'iTasks': [
-        {'id': t.id, 'start': t.start_sched,
-            'status': Inference_task.STATUS_TYPES[t.status][1]}
-        for t in tasks]}
-    return render(request, 'dash\dash.html', context)
+from ..models import Inference_task
 
 
 def add_Inference_Task(request) -> HttpResponseRedirect:
@@ -34,10 +23,8 @@ def add_Inference_Task(request) -> HttpResponseRedirect:
 def delete_Inference_Task(request, task_id) -> HttpResponseRedirect:
     if not request.user.is_authenticated:
         return redirect('toxit:login')
-    task = get_object_or_404(Inference_task, id=task_id)
-    task.delete()
+    if request.method == 'POST':
+      print("fire")  
+      task = get_object_or_404(Inference_task, id=task_id)
+      task.delete()
     return redirect('toxit:dash')
-
-
-def inspect_inference_task(request, task_id) -> HttpRequest:
-    pass
