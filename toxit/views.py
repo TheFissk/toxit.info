@@ -100,8 +100,9 @@ def export_data(request, snapshot_id=None, file_type=None):
     network_data = build_network_data(snapshot_id)
 
     # Create file using factory
-    factory = ExporterFactory()
-    file = factory.create_exporter(file_type).export(network_data)
+    exportFactory = ExporterFactory()
+    exportFile = exportFactory.create_exporter(file_type, network_data)
+    file = exportFile.export()
 
     # Return file as a response
     response = FileResponse(file, content_type=file.content_type, as_attachment=True, filename=file.filename)
