@@ -9,7 +9,7 @@ from django.http import HttpResponse
 
 class Exporter:
     def __init__(self, data):
-        self.data = data
+        self = data
 
     def export(self):
         raise NotImplementedError
@@ -17,7 +17,7 @@ class Exporter:
 
 class JsonExporter(Exporter):
     def export(self):
-        data = json.dumps(self.data, indent=2)
+        data = json.dumps(self, indent=2)
         return BytesIO(data.encode('utf-8'))
 
 
@@ -25,7 +25,7 @@ class CsvExporter(Exporter):
     def export(self):
         # Flatten data to a 2D list
         flat_data = []
-        for key, values in self.data.items():
+        for key, values in self.items():
             for value in values:
                 row = [value.get(col, '') for col in key]
                 flat_data.append(row)
@@ -33,7 +33,7 @@ class CsvExporter(Exporter):
         # Write flattened data to CSV file in memory
         csv_file = StringIO()
         writer = csv.writer(csv_file)
-        writer.writerows([key for key in self.data.keys()])
+        writer.writerows([key for key in self.keys()])
         writer.writerows(flat_data)
 
         # Return CSV file as a response
@@ -48,7 +48,7 @@ class XmlExporter(Exporter):
         root = Element('root')
 
         # Add data as child elements
-        for key, values in self.data.items():
+        for key, values in self.items():
             for value in values:
                 child = SubElement(root, 'data')
                 for col in key:
@@ -65,7 +65,7 @@ class ZipExporter(Exporter):
         zip_file = BytesIO()
         with zipfile.ZipFile(zip_file, mode='w', compression=zipfile.ZIP_DEFLATED) as archive:
             # Add each file to the archive
-            for file_type, exporter in self.data.items():
+            for file_type, exporter in self.items():
                 file = exporter.export()
                 archive.writestr(f'export.{file_type}', file.getvalue())
 
