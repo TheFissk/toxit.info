@@ -1,10 +1,11 @@
 from django.shortcuts import render, redirect, get_object_or_404
-from django.http import HttpResponseRedirect, HttpRequest
+from django.http import HttpResponse
+
 from ..models import Inference_task
 from .inference_task_form import inference_task_form
 
 
-def dash(request) -> HttpRequest:
+def dash(request) -> HttpResponse:
     if not request.user.is_authenticated:
         return redirect('toxit:login')
 
@@ -13,7 +14,7 @@ def dash(request) -> HttpRequest:
         form = inference_task_form(request.POST)
         print(form.errors)
         if form.is_valid():
-            print('valid')
+            form.save()
         return redirect('toxit:dash')
     else:
         print("else")
@@ -30,5 +31,9 @@ def dash(request) -> HttpRequest:
     return render(request, 'dash\dash.html', context)
 
 
-def inspect_inference_task(request, task_id) -> HttpRequest:
-    pass
+def inspect_inference_task(request, task_id) -> HttpResponse:
+    task = Inference_task.objects.get(id=task_id)
+    context = {
+        "task": task
+    }
+    return render(request, 'dash\inspector.html', context)
