@@ -1,4 +1,3 @@
-keys.json
 *.ipynb
 __pycache__/
 cloud_sql_proxy/
