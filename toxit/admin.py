@@ -1,5 +1,4 @@
 from django.contrib import admin
-
 from .models import Inference_task, Subreddit_mod, Subreddit_result, Mod_edge, Author_edge, Comment_result, Subreddit
 
 
