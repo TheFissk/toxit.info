@@ -123,8 +123,6 @@ def export_data(request, snapshot_id=None, file_type=None):
     file = exportFile.export()
 
     # Return file as a response
-    # response = FileResponse(file, content_type=file.content_type, as_attachment=True, filename=file.filename)
-
     return file
 
 
