@@ -1,5 +1,81 @@
+/*
+  This file hosts all the static information related to the side menu functionality
+  it handles, opening the menu, iteractions with the menu, and interactions with the
+  menu that interact with visjs. 
+*/
+
+
+
+// factory design pattern javascript handler 
+
+/*
+  export factory javascript and ajax
+    allows only one file of each type to be downloaded at a time
+    utilizes factory design pattern to handle filetype and data conversion
+    
+    all data begins as a python dict object when pulled from models.py and is
+    assembled in views.py for deliver to the factory which then finializes the
+    data into the correct datatype before naming and exporting it to the user
+*/ 
+// variable to track what is exporting 
+let isExporting = {};
+
+function exportData(exportType) {
+  // check if exporting is already in progress for this type
+  if (isExporting[exportType]) {
+    console.log(`Export of ${exportType} is already in progress.`);
+    return;
+  }
+
+  // mark exporting as in progress for this type
+  isExporting[exportType] = true; 
+
+  // Show spinner
+  let spinner = document.querySelector(`span.generic-button[onclick="exportData('${exportType}')"] i.fa-spinner`);
+  spinner.style.display = 'inline-block';
+
+  // initialize snapshotId and Url variables for later use
+  const snapshotId = document.querySelector('#export-data-select').value; // collect the id of the dataset we want to download 
+  const url = `/export_data/${snapshotId}/${exportType}`; // construct the appropriate url for export factory 
+
+  // handle ajax fetch request
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Export failed');
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      // set up the filename and download link 
+      const filename = `Snapshot_${snapshotId}.${exportType}`;
+      // create a fake link element to trigger the download
+      const link = document.createElement('a');
+      // bind the data to contructed link element 
+      link.href = window.URL.createObjectURL(blob);
+      // assign filename
+      link.download = filename;
+      // trigger downloading the file from the artificial element we built
+      link.click();
+    })
+    .catch(error => {
+      // log the error
+      console.error(error);
+    })
+    .finally(() => {
+      // hide export spinner 
+      isExporting[exportType] = false; // mark exporting as complete for this type
+      spinner.style.display = ''; // hide spinner on completion 
+    });
+}
+
+
+
+// basic side nav functionaity 
+
 /* 
   Open Close Side Nav Logic
+    handles toggling the side nav with the side nav toggle button
 */
 // function to toggle the side nav
 const sidebarBtn = $(".sidebar-btn");
@@ -14,10 +90,61 @@ function toggleSideNav() {
   sidebar.toggleClass("show");
 }
 
+/* 
+  Collapse / Display nav modules 
+    this is what makes the side nav submenus able to collapse and open on click
+*/
+$(".main_side").on("click", ".item-text", function() {
+  var id = $(this).attr("id");
+  $(".collapsible.item-show-" + id).toggleClass("show");
+  if(id != 'export-factory') $(".main_side li #" + id + " span").toggleClass("rotate");
+});
+
+/* 
+  Logic to handle toggling dark mode and light mode
+*/
+const darkLightMode = document.getElementById("dark-light-mode");
+const moonIcon = document.getElementById("moon-icon");
+
+// Set the default icon to fa-moon
+moonIcon.classList.add("fa-moon");
+
+darkLightMode.addEventListener("change", () => {
+  if (darkLightMode.checked) {
+    // Light mode
+    document.documentElement.setAttribute("data-theme", "light");
+    moonIcon.classList.remove("fa-moon");
+    moonIcon.classList.add("fa-sun");
+  } else {
+    // Dark mode
+    document.documentElement.setAttribute("data-theme", "dark");
+    moonIcon.classList.remove("fa-sun");
+    moonIcon.classList.add("fa-moon");
+  }
+});
+
+
+
+// minimize animation
 
 /*
   Middle mouse and minimize button fit network 
 */
+
+// animation function for fitting the current visjs network content on screen
+// used by middle mouse and minimize button
+function handleNetworkFit() {
+  network.fit({
+    animation: {
+      duration: 1000,  // 1 second
+      easingFunction: "easeInOutQuad"  // easing function
+    }
+  });
+
+  if ($(".sidebar").hasClass("show")) {
+    toggleSideNav();
+  }
+}
 
 // Middle mouse
 $(".content").on("mousedown", function(event) {
@@ -35,31 +162,14 @@ $(".fa-minimize").on("click", function(event) {
   }
 });
 
-function handleNetworkFit() {
-  network.fit({
-    animation: {
-      duration: 1000,  // 1 second
-      easingFunction: "easeInOutQuad"  // easing function
-    }
-  });
-
-  if ($(".sidebar").hasClass("show")) {
-    toggleSideNav();
-  }
-}
 
 
-/* 
-  Collapse / Display nav modules 
-*/
-$(".main_side").on("click", ".item-text", function() {
-  var id = $(this).attr("id");
-  $(".collapsible.item-show-" + id).toggleClass("show");
-  if(id != 'export-factory') $(".main_side li #" + id + " span").toggleClass("rotate");
-});
+// data manipulation
 
 /*
   Snapshot selection drop down logic
+    Calls ajax to grab new data and handles initial loading of first snapshot
+    ajax for updating the graph is in the visjs javascript static file: toxit\static\networkGraph\subreddit-graph-data.js
 */
 // Call the function to update the graph data for the first choice on page load
 var firstChoiceValue = $('#snapshot-select option:first').val();
@@ -72,8 +182,8 @@ document.getElementById('snapshot-select').addEventListener('change', function()
 });
 
 /*
-  Radio button code
-  allows the user to change the edge weight displayed between moderators and commenters 
+  Edge Weigh selector radio button code
+    alter the visjs edge data between the two different edge weight data
 */
 $('input[type=radio][name=edge-weight]').change(function() {
 
@@ -117,29 +227,6 @@ $('input[type=radio][name=edge-weight]').change(function() {
       };  
       network.moveTo(moveToOptions);
     });
-  }
-});
-
-/* 
-  Logic to handle toggling dark mode and light mode
-*/
-const darkLightMode = document.getElementById("dark-light-mode");
-const moonIcon = document.getElementById("moon-icon");
-
-// Set the default icon to fa-moon
-moonIcon.classList.add("fa-moon");
-
-darkLightMode.addEventListener("change", () => {
-  if (darkLightMode.checked) {
-    // Light mode
-    document.documentElement.setAttribute("data-theme", "light");
-    moonIcon.classList.remove("fa-moon");
-    moonIcon.classList.add("fa-sun");
-  } else {
-    // Dark mode
-    document.documentElement.setAttribute("data-theme", "dark");
-    moonIcon.classList.remove("fa-sun");
-    moonIcon.classList.add("fa-moon");
   }
 });
 
@@ -256,24 +343,17 @@ const populateNodeInfoTab = (fromNode) => {
   link2reddit.href = "https://" + link2reddit.innerHTML; // set the href attribute to the new link and finish it
 }
 
+// helper function to simplify reseting nodeinfo panel dynamic content
 const resetNodeInfoTab = () => {
   const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
   nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
   const link2reddit = document.querySelector('#link2reddit'); // get the link element
   link2reddit.innerHTML = ""; // clear previous link
 }
-/*
-  add event listener to network object for deselectNode event
-*/
-network.on("deselectNode", () => {
-  // clear edge buttons panel 
-  const edgeBtnContainer = document.getElementById("edge-buttons");
-  edgeBtnContainer.innerHTML = "";
 
-  // clear the info node tab too 
-  resetNodeInfoTab();
-});
 
+
+// VisJs OnClick (& deselect / unclick fucntionality)
 
 /* 
   VisJS network on click functionality
@@ -302,10 +382,24 @@ network.on("click", function (event) {
   } 
 });
 
+/*
+  add event listener to network object for deselectNode event
+*/
+network.on("deselectNode", () => {
+  // clear edge buttons panel 
+  const edgeBtnContainer = document.getElementById("edge-buttons");
+  edgeBtnContainer.innerHTML = "";
+
+  // clear the info node tab too 
+  resetNodeInfoTab();
+});
+
+
+
+// drag and drop side menu items
 
 /*
-  draggable test
-  https://codepen.io/PJCHENder/pen/PKBVRO/
+  draggable item code modified from https://codepen.io/PJCHENder/pen/PKBVRO/
 */
 let elementBeingDragged = null;
 let draggables = document.querySelectorAll('.reorderable-list__item');
@@ -386,61 +480,12 @@ Array.prototype.forEach.call(draggables, (item => {
 }));
 
 
-/*
-  export factory javascript and ajax
-*/ 
-// variable to track what is exporting 
-let isExporting = {};
 
-function exportData(exportType) {
-  // check if exporting is already in progress for this type
-  if (isExporting[exportType]) {
-    console.log(`Export of ${exportType} is already in progress.`);
-    return;
-  }
 
-  // mark exporting as in progress for this type
-  isExporting[exportType] = true; 
 
-  // Show spinner
-  let spinner = document.querySelector(`span.generic-button[onclick="exportData('${exportType}')"] i.fa-spinner`);
-  spinner.style.display = 'inline-block';
-
-  // initialize snapshotId and Url variables for later use
-  const snapshotId = document.querySelector('#export-data-select').value; // collect the id of the dataset we want to download 
-  const url = `/export_data/${snapshotId}/${exportType}`; // construct the appropriate url for export factory 
-
-  // handle ajax fetch request
-  fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error('Export failed');
-      }
-      return response.blob();
-    })
-    .then(blob => {
-      // set up the filename and download link 
-      const filename = `Snapshot_${snapshotId}.${exportType}`;
-      // create a fake link element to trigger the download
-      const link = document.createElement('a');
-      // bind the data to contructed link element 
-      link.href = window.URL.createObjectURL(blob);
-      // assign filename
-      link.download = filename;
-      // trigger downloading the file from the artificial element we built
-      link.click();
-    })
-    .catch(error => {
-      // log the error
-      console.error(error);
-    })
-    .finally(() => {
-      // hide export spinner 
-      isExporting[exportType] = false; // mark exporting as complete for this type
-      spinner.style.display = ''; // hide spinner on completion 
-    });
-}
-
+// Originially we planned to have more configuration options but the visjs service provider has been exerpiencing issues
+// The remaining code was left in place to show the jquery that hijacked visjs's default config code to add even more functionality
+// specifically it converted poorly made html into nice and oragnized drop down lists as well as added icons and made everything prettier
 
 /* 
   menu-ize visjs config - unfinished
