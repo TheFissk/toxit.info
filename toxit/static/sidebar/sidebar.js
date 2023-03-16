@@ -406,7 +406,7 @@ function exportData(exportType) {
   isExporting[exportType] = true; 
 
   // Show spinner
-  let spinner = document.querySelector('.generic-button i.fa-spinner');
+  let spinner = document.querySelector(`span.generic-button[onclick="exportData('${exportType}')"] i.fa-spinner`);
   spinner.style.display = 'inline-block';
 
   // initialize snapshotId and Url variables for later use
