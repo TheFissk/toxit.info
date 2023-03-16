@@ -70,13 +70,20 @@ class Inference_task(models.Model):
     status = models.PositiveSmallIntegerField(choices=STATUS_TYPES,
                                     help_text="The status of the task", default=0)
     
+    # used by views.py to package data for ajax call 
     def get_subreddits_for_inference_task(self):
         return Subreddit_result.objects.filter(inference_task=self).select_related('subreddit')
     
     def get_mod_edges_for_inference_task(self):
         return Mod_edge.objects.filter(inference_task=self)
+    
     def get_author_edges_for_inference_task(self):
         return Author_edge.objects.filter(inference_task=self)
+    
+    # used by snapshot select to display count of nodes in a snapshot
+    def subreddit_count(self):
+        return Subreddit_result.objects.filter(inference_task=self).count()
+
     def __str__(self):
         if (self.start_sched):
             return f"Inference job scheduled: {self.start_sched}"
@@ -102,6 +109,9 @@ class Subreddit_result(models.Model):
     timestamp = models.DateTimeField(auto_now_add=True,
                                     help_text="The time when the data was collected")
     edges = models.JSONField(help_text="[DEPRECIATED]")
+
+    def getNodeInfo(self, threshold):
+        return  Comment_result.objects.filter(subreddit_result=self, mhs_score__gt=threshold).count()
 
     def __str__(self):
         return f"Results for {self.subreddit} collected on {self.inference_task.start_sched}"

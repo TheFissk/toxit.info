@@ -48,47 +48,23 @@
   fixes the tooltip for VisJs and allows on hover context tool tips
 */
 .vis-tooltip {
-  position: absolute;
-  /* visibility: visible !important; */
-  width: fit-content;
-  color: var(--font-color);
+  /* position: absolute !important; */
+  width: fit-content !important;
+  white-space: break-spaces !important;
+  color: var(--font-color) !important;
+  background-color: var(--primary-color-L) !important;
+  border: var(--border-weight) ridge var(--border-color) !important;
+  /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
+  pointer-events: none; */
+  padding: 1rem !important;
+  /* z-index: 5; */
+}
+
+.node-info-content {
+  white-space: break-spaces;
+  margin: 0.5rem;
+  padding: 0.5rem;
   background-color: var(--primary-color-L);
-  border: var(--border-weight) ridge var(--border-color);
-  box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
-  pointer-events: none;
-  padding: 1rem;
-  z-index: 5;
+  line-height: 1.2;
+  text-align: center;
 }
-
-/* Set the border color for nodes */
-.vis-network .node {
-  /* border-color: var(--border-color); */
-}
-
-/* Set the highlight color for active edges and nodes */
-.vis-network .edge.active, .vis-network .node.active {
-  /* border-color: var(--highlight-color); */
-}
-
-/* Set the edge color */
-.vis-network .edge {
-  /* line-color: var(--highlight-color-D); */
-}
-
-
-/* this might be needed to get stupid tool tips working for nodes */
-/* ::ng-deep div.vis-tooltip {
-  position: absolute;
-  visibility: hidden;
-  padding: 5px;
-  white-space: nowrap;
-  color: #000000;
-  background-color: #f5f4ed;
-
-  -moz-border-radius: 3px;
-  -webkit-border-radius: 3px;
-  border-radius: 3px;
-  border: 1px solid #808074;
-
-  
-} */

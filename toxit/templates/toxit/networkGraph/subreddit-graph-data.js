@@ -22,32 +22,71 @@ var data = {
 };
 
 var options = {
-  // Define the appearance and behavior of the nodes
   nodes: {
-    shape: "circle",
-    margin: 10,
-    size: 16,
-    borderWidth: 3,
-    // shapeProperties: {
-    //   interpolation: false    // 'true' for intensive zooming
-    // },
-  },
-  // Define the appearance and behavior of the edges
-  edges: {
-    font: {
-      size: 24,
-      align: 'middle'
+    borderWidth: 2,
+    borderWidthSelected: 3,
+    margin: 25,
+    color: {
+      border: "rgba(233,103,36,1)",
+      background: "rgba(40,36,34,1)",
+      highlight: {
+        border: "rgba(233,83,46,1)",
+        background: "rgba(94,76,64,1)",
+      },
+      hover: {
+        border: "rgba(233,206,0,1)",
+        background: "rgba(107,99,93,1)",
+      }
     },
-    hoverWidth: 1,
-    selectionWidth: 1,
-    width: 0.5,
-
+    font: {
+      color: "rgba(255,255,255,1)",
+      size: 15,
+      strokeWidth: 3,
+      strokeColor: "rgba(0,0,0,1)",
+      face: "verdana",
+      align: "center",
+      vadjust: 15,
+    },
+    scaling: {
+      // customScalingFunction: function (min, max, total, value) {
+      //   var length = value.label.length;
+      //   var fontSize = Math.max(10, Math.min(30, 60 / length)); // calculate font size based on length of label
+      //   var nodeWidth = length * (fontSize / 2);
+      //   return nodeWidth / total;
+      // },
+      min: 15,
+      max: 30,
+    },
+    shape: "circle",
+    shapeProperties: {
+      borderRadius: 5,
+    },
+    size: 25
   },
-  // Define the physics properties of the network graph
+  edges: {
+    smooth: {
+      forceDirection: "none",
+    },
+    font: {
+      color: "rgba(255,255,255,1)",
+      size: 20,
+      strokeWidth: 3,
+      strokeColor: "rgba(0,0,0,1)",
+      face: "verdana",
+    },
+  },
+  interaction: {
+    hover: true,
+  },
+  layout: {
+    randomSeed: 69420, /* nice */
+    improvedLayout:true,
+    clusterThreshold: 150,
+  },
   physics: {
     stabilization: {
-      iterations: 2500,  // maximum number of iteration to stabilize the graph
-      fit: true  // fit the graph to the viewport
+      iterations: 2500,
+      fit: true,
     },
     forceAtlas2Based: {
       gravitationalConstant: -200,
@@ -55,29 +94,27 @@ var options = {
       springLength: 200,
       springConstant: 0.03,
       damping: 0.4,
-      avoidOverlap: 1  // prevents node overlap, may make nodes more spread out
+      avoidOverlap: 1,
     },
-    maxVelocity: 50,  // the maximum velocity of nodes during physics simulation
-    minVelocity: 0.1,  // the minimum velocity of nodes during physics simulation
-    solver: 'forceAtlas2Based'  // which solver to use for the physics simulation
+    maxVelocity: 50,
+    minVelocity: 0.1,
+    solver: "forceAtlas2Based",
   },
   configure: {
     enabled: true,
-    filter: true,
+    filter: function (option, path) {
+      if (path.indexOf("nodes") !== -1 || path.indexOf("edges") !== -1 || path.indexOf("physics") !== -1) {
+        return true;
+      }
+      return false;
+    },
     container: document.getElementById('vis-config'),
-    showButton: true
-  },
+    showButton: false,
+  },  
 };
 
 // Create the VisJs network with the data retrieved from the 
 var network = new vis.Network(container, data, options);
-
-// rudimentry function to start with for coloring nodes based on toxicity
-function getColorForScore(score) {
-  var red = Math.max(0, Math.min(255, Math.round((1 - score) * 100)));
-  var green = Math.max(0, Math.min(255, Math.round((score + 1) * 200)));
-  return 'rgb(' + red + ',' + green + ',0)';
-}
 
 /*
   Ajax function using fetch to update the data shown on the graph.
@@ -91,16 +128,24 @@ function getColorForScore(score) {
   network automatically without needing to call an update to the canvas
   or graph or network (the displayed nodes).
 */
+var lastSuccessfulSnapshot = $('#snapshot-select').val(); // store the current value of the dropdown before making the AJAX request
+
 const updateGraphData = (snapshot_id) => {
   // Construct the URL for the data endpoint based on the selected snapshot
   var url = '/update_data/' + snapshot_id + '/';
   var $loader = $('#loader');
 
+  // Initialize controller variable
+  var controller = new AbortController();
+
   // Show the loader while the data is being fetched
   $loader.show();
 
+  // clear the contents of .node-info-content
+  document.querySelector('.node-info-content').innerHTML = ""; 
+
   // Use fetch() to get the data and handle it with Promises
-  fetch(url)
+  fetch(url, { signal: controller.signal })
     .then(response => response.json())
     .then(data => {
       // Hide the loader once the data has been loaded
@@ -122,19 +167,43 @@ const updateGraphData = (snapshot_id) => {
           title: node.title,
           subname: node.subname,
           score: node.score,
-          color: { background: getColorForScore(node.score) }
         };
       }));
 
       mod_edges.add(data.mod_edges_context);
       author_edges.add(data.author_edges_context);
 
+      lastSuccessfulSnapshot = $('#snapshot-select').val(); // update variable for loader cancel 
+
+      // Call the function to set the data after a delay
+      delaySetData(data);
     })
     .catch(error => {
       $loader.hide(); // Hide the loader in case of an error
 
       console.log('Error:', error);
+
+      $('#snapshot-select').val(lastSuccessfulSnapshot); // set the value of the snapshot dropdown to the last successful snapshot
     });
+
+  // Cancel the request if the loader is clicked
+  $loader.click(function() {
+    controller.abort();
+    $loader.hide();
+  });
 };
 
-// text background code
+
+// Function to set the data with a delay
+function delaySetData(data) {
+  setTimeout(function() {
+    network.once("afterDrawing", function() {
+      network.fit({
+        animation: {
+          duration: 1000,  // 1 second
+          easingFunction: "easeInOutQuad"  // easing function
+        }
+      });
+    });
+  }, 250); // 250 milliseconds = 0.25 seconds
+}
