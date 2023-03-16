@@ -13,7 +13,7 @@ urlpatterns = [
     # index 
     path('get_network_data/<int:snapshot_id>/', views.get_network_data, name='get_network_data'),
     path('export_data/<int:snapshot_id>/<str:file_type>/', views.export_data, name='export_data'),
-    path('update_data/<int:snapshot_id>/', views.update_data, name='update_data'),
+    path('update_data/<int:snapshot_id>/', views.get_network_data, name='update_data'),
     # dash admin panel 
     path('dash/', page_views.dash, name='dash'), 
     path('login/', auth_views.LoginView.as_view(template_name='dash/login.html', next_page='/dash'), name='login'), 

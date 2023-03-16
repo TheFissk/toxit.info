@@ -103,7 +103,9 @@ var options = {
   configure: {
     enabled: true,
     filter: function (option, path) {
-      if (path.indexOf("nodes") !== -1 || path.indexOf("edges") !== -1 || path.indexOf("physics") !== -1) {
+      // unpkg is broken
+      // path.indexOf("nodes") !== -1 || path.indexOf("edges") !== -1 ||
+      if (path.indexOf("physics") !== -1) {
         return true;
       }
       return false;

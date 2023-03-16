@@ -53,9 +53,7 @@
 
 <footer>
     <!-- NetworkGraph JS - VisJs network template language portion -->
-    <script type="text/javascript"> 
-        {% include "toxit/networkGraph/subreddit-graph-data.js" %} 
-    </script>
+    <script src="{% static '/networkGraph/subreddit-graph-data.js' %}" ></script>
     <!-- Sidebar JS -->
     <script src="{% static 'sidebar/sidebar.js' %}"></script>
 </footer>
