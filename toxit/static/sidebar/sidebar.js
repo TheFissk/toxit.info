@@ -16,18 +16,21 @@ function toggleSideNav() {
 
 
 /*
-  Middle mouse fit network 
+  Middle mouse and minimize button fit network 
 */
-document.querySelector(".content").addEventListener("mousedown", function(event) {
-  if (event.button === 1) {
-    // Middle mouse button clicked
+
+// Middle mouse
+$(".content").on("mousedown", function(event) {
+  // Middle mouse button clicked
+  if (event.which === 2) {
     handleNetworkFit();
   }
 });
 
-document.querySelector(".fa-minimize").addEventListener("click", function(event) {
+// Minimize button
+$(".fa-minimize").on("click", function(event) {
+  // Left mouse button clicked
   if (event.button === 0) {
-    // Left mouse button clicked
     handleNetworkFit();
   }
 });
