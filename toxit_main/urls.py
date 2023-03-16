@@ -14,7 +14,9 @@ from django.contrib import admin
 from django.urls import include, path
 
 urlpatterns = [
-    path('', include('toxit.urls', namespace='toxit_no_url')), # no url redirect instead of /toxit/
-    path('toxit/', include('toxit.urls', namespace='toxit')),  # namespace necessary to keep each unique and prevent W005 error
+    # no url redirect instead of /toxit/
+    path('', include('toxit.urls', namespace='toxit_no_url')),
+    # namespace necessary to keep each unique and prevent W005 error
+    path('toxit/', include('toxit.urls', namespace='toxit')),
     path('admin/', admin.site.urls),
 ]
