@@ -16,7 +16,7 @@ def test_404(request):
     raise Http404("This page does not exist")
 
 
-def build_network_data(snapshot_id) -> dict[str, list]:
+def build_network_data(snapshot_id):
     # Get the selected snapshot
     snapshot = get_object_or_404(Inference_task, id=snapshot_id)
 
