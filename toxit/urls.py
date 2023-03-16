@@ -10,9 +10,12 @@ app_name = 'toxit'
 urlpatterns = [
     # landing page
     path('', views.index, name='index'),
-    # index 
+    # main content 
+    # url for updated visjs data with ajax call
     path('get_network_data/<int:snapshot_id>/', views.get_network_data, name='get_network_data'),
+    # url for factory export design pattern using ajax
     path('export_data/<int:snapshot_id>/<str:file_type>/', views.export_data, name='export_data'),
+    # support function for gathering data used by other methods
     path('update_data/<int:snapshot_id>/', views.get_network_data, name='update_data'),
     # dash admin panel 
     path('dash/', page_views.dash, name='dash'), 

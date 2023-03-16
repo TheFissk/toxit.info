@@ -2,20 +2,46 @@ import csv
 import json
 import pickle
 from io import StringIO, BytesIO
-
+from abc import abstractmethod
 
 from django.http import HttpResponse, FileResponse
 
+'''
+    Module descripton
+'''
 
 class Exporter:
+    '''
+        Abstract description 
+    '''
+    @abstractmethod
     def __init__(self, data):
         self.exportData = data
 
+    @abstractmethod
     def export(self):
         raise NotImplementedError
+    
+
+class ExporterFactory:
+    '''
+        description 
+    '''
+    def create_exporter(self, file_type, data):
+        if file_type == 'json':
+            return JsonExporter(data)
+        elif file_type == 'csv':
+            return CsvExporter(data)
+        elif file_type == 'pic':
+            return PickleExporter(data)
+        else:
+            raise ValueError(f'Invalid file type: {file_type}')
 
 
 class JsonExporter(Exporter):
+    '''
+        description 
+    '''
     def export(self):
         data = json.dumps(self.exportData, indent=2)
         bytes = BytesIO(data.encode('utf-8'))
@@ -23,6 +49,9 @@ class JsonExporter(Exporter):
 
 
 class CsvExporter(Exporter):
+    '''
+        description 
+    '''
     def export(self):
         # setup the csv writer
         csv_file = StringIO()
@@ -58,19 +87,10 @@ class CsvExporter(Exporter):
 
 
 class PickleExporter(Exporter):
+    '''
+        description 
+    '''
     def export(self):
         data = pickle.dumps(self.exportData)
         bytes = BytesIO(data)
         return FileResponse(bytes)
-
-
-class ExporterFactory:
-    def create_exporter(self, file_type, data):
-        if file_type == 'json':
-            return JsonExporter(data)
-        elif file_type == 'csv':
-            return CsvExporter(data)
-        elif file_type == 'pic':
-            return PickleExporter(data)
-        else:
-            raise ValueError(f'Invalid file type: {file_type}')

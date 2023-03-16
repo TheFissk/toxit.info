@@ -387,13 +387,10 @@ Array.prototype.forEach.call(draggables, (item => {
 
 
 /*
-  export factory jqeury 
+  export factory javascript and ajax
 */ 
-let isExporting = {
-  json: false,
-  csv: false,
-  pic: false
-};
+// variable to track what is exporting 
+let isExporting = {};
 
 function exportData(exportType) {
   // check if exporting is already in progress for this type
@@ -410,9 +407,10 @@ function exportData(exportType) {
   spinner.style.display = 'inline-block';
 
   // initialize snapshotId and Url variables for later use
-  const snapshotId = document.querySelector('#export-data-select').value;
-  const url = `/export_data/${snapshotId}/${exportType}`;
+  const snapshotId = document.querySelector('#export-data-select').value; // collect the id of the dataset we want to download 
+  const url = `/export_data/${snapshotId}/${exportType}`; // construct the appropriate url for export factory 
 
+  // handle ajax fetch request
   fetch(url)
     .then(response => {
       if (!response.ok) {
@@ -421,19 +419,23 @@ function exportData(exportType) {
       return response.blob();
     })
     .then(blob => {
-      const filename = `${snapshotId}.${exportType}`;
+      // set up the filename and download link 
+      const filename = `Snapshot_${snapshotId}.${exportType}`;
+      // create a fake link element to trigger the download
       const link = document.createElement('a');
-      
+      // bind the data to contructed link element 
       link.href = window.URL.createObjectURL(blob);
+      // assign filename
       link.download = filename;
+      // trigger downloading the file from the artificial element we built
       link.click();
-
-      isExporting[exportType] = false; // mark exporting as complete for this type
-      spinner.style.display = '';  // hide spinner on completion 
     })
     .catch(error => {
+      // log the error
       console.error(error);
-      // handle error
+    })
+    .finally(() => {
+      // hide export spinner 
       isExporting[exportType] = false; // mark exporting as complete for this type
       spinner.style.display = ''; // hide spinner on completion 
     });
