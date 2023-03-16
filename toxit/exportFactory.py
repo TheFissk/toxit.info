@@ -1,7 +1,8 @@
 import csv
 import json
+import pickle
 from io import StringIO, BytesIO
-from xml.etree.ElementTree import Element, SubElement, tostring
+
 
 from django.http import HttpResponse, FileResponse
 
@@ -51,26 +52,16 @@ class CsvExporter(Exporter):
             writer.writerows(self.exportData['author_edges_context'])
 
         # Return CSV file as a response
-        # response = HttpResponse(csv_file.getvalue(), content_type='text/csv')
-        # response['Content-Disposition'] = 'attachment; filename="export.csv"'
-        return FileResponse(csv_file)
+        response = HttpResponse(csv_file.getvalue(), content_type='text/csv')
+        response['Content-Disposition'] = 'attachment; filename="export.csv"'
+        return response
 
 
-class XmlExporter(Exporter):
+class PickleExporter(Exporter):
     def export(self):
-        # Create root XML element
-        root = Element('root')
-
-        # Add data as child elements
-        for key, values in self.exportData.items():
-            for value in values:
-                child = SubElement(root, 'data')
-                for col in key:
-                    SubElement(child, col).text = str(value.get(col, ''))
-
-        # Write XML to a BytesIO object
-        data = tostring(root, encoding='utf-8')
-        return BytesIO(data)
+        data = pickle.dumps(self.exportData)
+        bytes = BytesIO(data)
+        return FileResponse(bytes)
 
 
 class ExporterFactory:
@@ -79,7 +70,7 @@ class ExporterFactory:
             return JsonExporter(data)
         elif file_type == 'csv':
             return CsvExporter(data)
-        elif file_type == 'xml':
-            return XmlExporter(data)
+        elif file_type == 'pic':
+            return PickleExporter(data)
         else:
             raise ValueError(f'Invalid file type: {file_type}')
