@@ -112,3 +112,7 @@ th {
   color: var(--font-color);
   text-decoration: none;
 }
+
+.errorlist {
+  background-color: red;
+}

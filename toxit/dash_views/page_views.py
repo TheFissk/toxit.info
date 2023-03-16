@@ -12,14 +12,15 @@ def dash(request) -> HttpResponse:
         return redirect('toxit:login')
 
     # handle a form submission
-    if request.method == 'POST':
+    if request.method != 'POST':
+        form = inference_task_form()
+    else:
         form = inference_task_form(request.POST)
         print(form.errors)
         if form.is_valid():
             form.save()
-        return redirect('toxit:dash')
-    else:
-        form = inference_task_form()
+            return redirect('toxit:dash')
+
 
     tasks = Inference_task.objects.all().order_by('-start_sched')
 
