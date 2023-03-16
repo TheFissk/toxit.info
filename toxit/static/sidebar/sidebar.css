@@ -240,6 +240,62 @@ select#bg-pic-select {
   display: block;
 }
 
+/* 
+  Generic Button Code
+    - Based on: https://codepen.io/iamtonmoy0/pen/bGvLXJZ
+*/
+.generic-button {
+  border: none;
+  color: var(--font-color);
+  background-color: var(--bg-color);
+  font-size: 0.8rem;
+  padding: 1rem 1.25rem;
+  margin: 1.5rem auto;
+  cursor: pointer;
+  width: min-content;
+  text-decoration: none;
+  display: block;
+  position: relative;
+}
+
+.generic-button:empty {
+  display: none;
+}
+
+.generic-button:hover {
+  color: var(--highlight-color-D);
+}
+
+.generic-button:hover:before ,.generic-button:hover:after{
+  width:104%;
+  height:110%;
+}
+
+.generic-button:before {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  top: -0.75rem;
+  left: -0.75rem;
+  border-top: 0.5rem solid var(--border-color);
+  border-left: 0.5rem solid var(--border-color);
+  transition: all 0.5s;
+  z-index: 3;
+}
+
+.generic-button:after {
+  content: "";
+  position: absolute;
+  width: 24px;
+  height: 24px;
+  bottom: -0.5rem;
+  right: -0.5rem;
+  border-bottom: 0.25rem solid var(--highlight-color-D);
+  border-right: 0.25rem solid var(--highlight-color-D);
+  transition: all 0.5s;
+}
+
 /*
   Flip Radio button code - sourced from: 
     https://codepen.io/mallendeo/pen/QWKrEL
@@ -357,8 +413,21 @@ select#bg-pic-select {
 
 
 /*
-  physics slider
+  node info panel
 */
+.node-info-content {
+  white-space: break-spaces;
+  margin: 0.5rem;
+  padding: 0.5rem;
+  background-color: var(--primary-color-L);
+  line-height: 1.2;
+  text-align: center;
+}
+
+.node-info-content:empty {
+  display: none;
+}
+
 
 /*
   edge selection panel
@@ -395,6 +464,39 @@ button.edge-button:before {
   border: var(--border-color) solid 0.1rem;
 }
 
+/* 
+  Export panel
+*/
+select#export-data-select {
+  width: 95%;
+  margin: 2.5%;
+}
+
+select:hover:not(:focus) {
+  color: var(--highlight-color);
+}
+
+.export-data-select-wrapper {
+    background-color: var(--primary-color-L);
+    padding: 0.5rem;
+}
+
+.export-data-select-wrapper label {
+    text-decoration: underline;
+    text-decoration-color: var(--border-color);
+    text-decoration-thickness: 0.2rem;
+    text-decoration-style: double;
+    text-decoration-skip-ink: auto;
+    text-underline-position: under;
+}
+
+.export-type-wrapper .generic-button:not(:first-child):not(:last-child) {
+    margin: 2.5rem auto;
+}
+
+.export-type-wrapper .generic-button {
+    padding: 0.25rem 3.5rem;
+}
 
 /*
   config panel

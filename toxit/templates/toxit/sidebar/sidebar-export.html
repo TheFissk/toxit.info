@@ -3,6 +3,18 @@
         <span class="fa-solid fa-file-arrow-down"></span>
     </a>
     <div class="collapsible item-show-export-factory">
-        Export Factory Function Implementation Goes Here
+        <div class="export-data-select-wrapper">
+            <label for="export-selector">Choose a data set:</label>
+            <select id="export-data-select" name="export-selector">
+                {% for task in iTasks %}
+                <option value="{{ task.id }}">Snapshot #{{ task.id }} - [{{ task.subreddit_count }} nodes] - {{ task.start_sched }}</option>
+                {% endfor %}
+            </select>
+        </div>
+        <div class="export-type-wrapper">
+            <span class="generic-button" onclick="exportData('json')">JSON</span>
+            <span class="generic-button" onclick="exportData('csv')">CSV</span>
+            <span class="generic-button" onclick="exportData('pic')">PIC</span>
+        </div>
     </div>      
 </li>
