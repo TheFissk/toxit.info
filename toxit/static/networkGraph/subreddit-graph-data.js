@@ -128,6 +128,17 @@ var network = new vis.Network(container, data, options);
 var lastSuccessfulSnapshot = $('#snapshot-select').val(); // store the current value of the dropdown before making the AJAX request
 
 const updateGraphData = (snapshot_id) => {
+  // start by clearing data of side menu tabs that need to be cleared
+  
+  // check if the edge selector exists and clear it too if it does
+  $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
+
+  // grab node info items and reset them if they exist 
+  const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
+  nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
+  const link2reddit = document.querySelector('#link2reddit'); // get the link element
+  link2reddit.innerHTML = ""; // clear previous link
+
   // Construct the URL for the data endpoint based on the selected snapshot
   var url = '/get_network_data/' + snapshot_id + '/';
   var $loader = $('#loader');
@@ -152,9 +163,6 @@ const updateGraphData = (snapshot_id) => {
       sub_nodes.clear();
       mod_edges.clear();
       author_edges.clear();
-
-      // check if the edge selector exists and clear it too if it does
-      $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
 
       // Add the new data
       sub_nodes.add(data.sub_nodes_context.map(node => {
