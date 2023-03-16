@@ -1,13 +1,13 @@
 /* 
   Open Close Side Nav Logic
 */
-$(".sidebar-btn").click(function () {
-  toggleSideNav();
-});
-
 // function to toggle the side nav
 const sidebarBtn = $(".sidebar-btn");
 const sidebar = $(".sidebar");
+
+sidebarBtn.click(function () {
+  toggleSideNav();
+});
 
 function toggleSideNav() {
   sidebarBtn.toggleClass("click");
@@ -16,18 +16,21 @@ function toggleSideNav() {
 
 
 /*
-  Middle mouse fit network 
+  Middle mouse and minimize button fit network 
 */
-document.querySelector(".content").addEventListener("mousedown", function(event) {
-  if (event.button === 1) {
-    // Middle mouse button clicked
+
+// Middle mouse
+$(".content").on("mousedown", function(event) {
+  // Middle mouse button clicked
+  if (event.which === 2) {
     handleNetworkFit();
   }
 });
 
-document.querySelector(".fa-minimize").addEventListener("click", function(event) {
+// Minimize button
+$(".fa-minimize").on("click", function(event) {
+  // Left mouse button clicked
   if (event.button === 0) {
-    // Left mouse button clicked
     handleNetworkFit();
   }
 });
@@ -52,7 +55,7 @@ function handleNetworkFit() {
 $(".main_side").on("click", ".item-text", function() {
   var id = $(this).attr("id");
   $(".collapsible.item-show-" + id).toggleClass("show");
-  $(".main_side li #" + id + " span").toggleClass("rotate");
+  if(id != 'export-factory') $(".main_side li #" + id + " span").toggleClass("rotate");
 });
 
 /*
@@ -183,7 +186,7 @@ function populateEdgeButtons(fromNode) {
       }
       
       // Set the button text 
-      button.innerHTML = `${from_data.subname} [ ${from_data.score} ]<br> to <br>${to_data.subname} [ ${to_data.score} ]`;
+      button.innerHTML = `r/${from_data.subname} [ ${from_data.score} ]<br> to <br>r/${to_data.subname} [ ${to_data.score} ]`;
 
       // Set button :before pseudo-element content based on the edge weight and label
       // Get the edge label based on the edge weight
@@ -211,8 +214,9 @@ function populateEdgeButtons(fromNode) {
         network.selectNodes([toNode]);
         populateEdgeButtons(toNode);
 
-        // Update the node info when a new node is selected
-        document.querySelector('.node-info-content').innerHTML = to_data.title; 
+        // Clear then update the node info when a new node is selected
+        resetNodeInfoTab();
+        populateNodeInfoTab(toNode);
       });
       edgeBtnContainer.appendChild(button);
     });
@@ -226,7 +230,6 @@ function populateEdgeButtons(fromNode) {
     // Cache the selectors
     const autoOpenEdgeCheckbox = $("#auto-open-edge");
     const collapsibleDiv = $(".collapsible.item-show-edgeselect");
-    const edgeButtonsDiv = $("#edge-buttons");
 
     // Toggle show if auto show is enabled and buttons (edges) were added
     if (autoOpenEdgeCheckbox.is(":checked") && edgeBtnContainer.hasChildNodes()) {
@@ -236,6 +239,40 @@ function populateEdgeButtons(fromNode) {
     }
   }
 }
+
+
+/*
+  populate node info tab module code
+*/
+const populateNodeInfoTab = (fromNode) => {
+  const clickedNode = sub_nodes.get(fromNode); // get the clicked node
+  const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
+  nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
+  nodeInfoContent.innerHTML = clickedNode.title; // set the clicked node's title as the inner HTML of .node-info-content
+  
+  const link2reddit = document.querySelector('#link2reddit'); // get the link element
+  link2reddit.innerHTML = ""; // clear previous link
+  link2reddit.innerHTML = "www.reddit.com/r/" + clickedNode.subname + "/"; // set the innerHTML to the link
+  link2reddit.href = "https://" + link2reddit.innerHTML; // set the href attribute to the new link and finish it
+}
+
+const resetNodeInfoTab = () => {
+  const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
+  nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
+  const link2reddit = document.querySelector('#link2reddit'); // get the link element
+  link2reddit.innerHTML = ""; // clear previous link
+}
+/*
+  add event listener to network object for deselectNode event
+*/
+network.on("deselectNode", () => {
+  // clear edge buttons panel 
+  const edgeBtnContainer = document.getElementById("edge-buttons");
+  edgeBtnContainer.innerHTML = "";
+
+  // clear the info node tab too 
+  resetNodeInfoTab();
+});
 
 
 /* 
@@ -261,11 +298,8 @@ network.on("click", function (event) {
 
     populateEdgeButtons(fromNode); /* edge buttons and auto open */
 
-    const clickedNode = sub_nodes.get(fromNode); // get the clicked node
-    const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
-    nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
-    nodeInfoContent.innerHTML = clickedNode.title; // set the clicked node's title as the inner HTML of .node-info-content
-  }
+    populateNodeInfoTab(fromNode);
+  } 
 });
 
 
@@ -350,6 +384,34 @@ Array.prototype.forEach.call(draggables, (item => {
   item.addEventListener('dragstart', startDrag);
   item.addEventListener('dragend', stopDrag);
 }));
+
+
+/*
+  export factory jqeury 
+*/ 
+function exportData(exportType) {
+  const snapshotId = document.querySelector('#export-data-select').value;
+  const url = `/export_data/${snapshotId}/${exportType}`;
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error('Export failed');
+      }
+      return response.blob();
+    })
+    .then(blob => {
+      const filename = `${snapshotId}.${exportType}`;
+      const link = document.createElement('a');
+      link.href = window.URL.createObjectURL(blob);
+      link.download = filename;
+      link.click();
+    })
+    .catch(error => {
+      console.error(error);
+      // handle error
+    });
+}
 
 
 /* 

@@ -1,0 +1,109 @@
+{% extends 'dash/dashbase.html' %} {% block content %}
+<div id="site-body">
+  <div id="add-inference">
+    <h2>Add Inference Task</h2>
+    <div id="add-inference-form">
+      <div class="form-row">
+        <label for="start_sched"> Start Time: </label>
+        <input
+          name="start_sched"
+          type="text"
+          readonly
+          value="{{task.start_sched}}"
+        />
+      </div>
+      <h3>Configuration</h3>
+      <div class="form-row">
+        <label for="time_scale"> Time scale: </label>
+        <input
+          type="text"
+          name="time_scale"
+          readonly
+          value="{{task.time_scale}}"
+        />
+        <p class="help-text">
+          The period overwhich the comments will be harvested
+        </p>
+      </div>
+      <div class="form-row">
+        <label for="min_words"> Min Words: </label>
+        <input
+          type="number"
+          name="min_words"
+          readonly
+          value="{{task.min_words}}"
+        />
+        <p class="help-text">
+          The minimum number of words to be considered a valid comment
+        </p>
+      </div>
+      <div class="form-row">
+        <label for="comments_per_post"> Comments per Post: </label>
+        <input
+          type="number"
+          name="comments_per_post"
+          readonly
+          value="{{task.per_post_n}}"
+        />
+        <p class="help-text">
+          The maximum number of comments per post to be harvested
+        </p>
+      </div>
+      <div class="form-row">
+        <label for="comments_n"> Comments per Subreddit: </label>
+        <input
+          type="number"
+          name="comments_n"
+          readonly
+          value="{{task.comments_n}}"
+        />
+        <p class="help-text">The number of comments to be harvested</p>
+      </div>
+      <div class="form-row">
+        <label for="subreddit_set"> Subreddit set: </label>
+        <textarea name="subreddit_set" cols="40" rows="10" readonly>{{task.subreddit_set}}</textarea>
+        <p class="help-text">
+          A comma separated list of the subreddits to be harvested
+        </p>
+      </div>
+    </div>
+  </div>
+  <script type="text/javascript">
+    const url = '{% url 'toxit:get_sub_data' task.id %}';
+
+    const insertData = (row, data) => {
+      const r = row.insertCell(-1);
+      r.innerHTML = data;
+    }
+
+    fetch(url)
+      .then(response => response.json())
+      .then(data => {
+        const table = document.getElementById("subredditViewTable");
+        data.subs.forEach((row) => {
+          const tableRow = table.insertRow();
+          insertData(tableRow, row.name);
+          insertData(tableRow, Math.round(row.min*1000)/1000);
+          insertData(tableRow, Math.round(row.max*1000)/1000);
+          insertData(tableRow, Math.round(row.mean*1000)/1000);
+          insertData(tableRow, Math.round(row.std*1000)/1000);
+        });
+      })
+  </script>
+  <div id="view-subreddit">
+    <table id="subredditViewTable">
+      <thead>
+        <tr>
+          <th>Subreddit</th>
+          <th>Min</th>
+          <th>Max</th>
+          <th>Mean</th>
+          <th>Standard Deviation</th>
+        </tr>
+      </thead>
+      <tbody></tbody>
+    </table>
+  </div>
+</div>
+
+{% endblock content %}

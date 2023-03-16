@@ -1,6 +1,22 @@
 from django.db import models
 from django.core.validators import MaxValueValidator, MinValueValidator
+'''
+DONE:
+- Check ERD for correctness, https://drawsql.app/teams/kyllo-brooks-digital-services/diagrams/reddit-mhs-erd-2
+- Update all classes to ERD spec
+- Test migrations (PASSED in SqLite)
+- Queries to push to the database should serve as adequate testing
+- Freeze this code and push from gather service into test db using these classes
+TODO:
+- Run test queries and iterate
 
+LAST: 
+- Docstrings
+- Database Wipe
+- Prod Migration
+- Push Data to prod
+- Lock ORM Models
+'''
 
 class Subreddit(models.Model):
     class Meta:
@@ -52,7 +68,7 @@ class Inference_task(models.Model):
     subreddit_set = models.JSONField(
                                     help_text="A set of the subreddits to be harvested")
     status = models.PositiveSmallIntegerField(choices=STATUS_TYPES,
-                                    help_text="The status of the task")
+                                    help_text="The status of the task", default=0)
     
     # used by views.py to package data for ajax call 
     def get_subreddits_for_inference_task(self):

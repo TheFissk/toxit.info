@@ -1,0 +1,75 @@
+{% extends 'dash/dashbase.html' %}
+
+{% block content %}{{ block.super }}
+{% if user.is_authenticated %}
+<div id="site-body">
+  <div id="add-inference">
+    <h2>Add Inference Task</h2>
+    <form action="{% url 'toxit:dash' %}" method="post" id="add-inference-form">
+      {% csrf_token %}
+      <div class="form-row">
+        {{form.start_sched.label_tag}}
+        {{form.start_sched}}
+        {{form.start_sched.errors}}
+      </div>
+      <h3>Configuration</h3>
+      <div class="form-row">
+        {{form.time_scale.label_tag}}
+        {{form.time_scale}}
+        <p class="help-text">The period overwhich the comments will be harvested</p>
+        {{form.time_scale.errors}}
+      </div>
+      <div class="form-row">
+        {{form.min_words.label_tag}}
+        {{form.min_words}}
+        <p class="help-text">The minimum number of words to be considered a valid comment</p>
+        {{form.min_words.errors}}
+      </div>
+      <div class="form-row">
+        {{form.per_post_n.label_tag}}
+        {{form.per_post_n}}
+        <p class="help-text">The maximum number of comments per post to be harvested</p>
+        {{form.per_post_n.errors}}
+      </div>
+      <div class="form-row">
+        {{form.comments_n.label_tag}}
+        {{form.comments_n}}
+        <p class="help-text">The number of comments to be harvested</p>
+        {{form.comments_n.errors}}
+      </div>
+      <div class="form-row">
+        {{form.subreddit_set.label_tag}}
+        {{form.subreddit_set}}
+        <p class="help-text">A comma separated list of the subreddits to be harvested</p>
+        {{form.subreddit_set.errors}}
+      </div>
+      <input type="submit" value="SAVE"/>
+    </form>
+  </div>
+  <div id="view-inference">
+    <h2>Current Inference Tasks</h2>
+    <table id="inference-task-table">
+      <thead>
+        <tr>
+          <th>Inference Task</th>
+          <th>Status</th>
+          <th></th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for task in iTasks %}
+        <tr>
+          <td><a href='{% url 'toxit:taskInspector' task.id %}'>  {{task.start}}</a> </td>
+          <td>{{task.status}}</td>
+          <td>
+            {% if task.status != "In Progress"%}{% endif %}
+            <a href='{% url 'toxit:delete_Inference_Task' task.id %}' class='del fas fa-trash'></a>
+          </td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+{%else %} You need to <a href="{% url 'toxit:login' %}">Log In</a> {% endif %}
+{%endblock content %}

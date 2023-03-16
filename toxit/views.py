@@ -1,20 +1,22 @@
 import os
-from django.http import HttpResponse, JsonResponse, Http404
+from django.http import JsonResponse, Http404, FileResponse
 from tqdm import tqdm
-from django.template import loader
 from django.shortcuts import render, get_object_or_404
+
 from .models import Inference_task
+from .exportFactory import ExporterFactory
 
 
 # custom 404 code based on https://codepen.io/tmrDevelops/embed/aNGKzN/?theme-id=modal#result-box
 def custom_404(request, exception):
     return render(request, '404.html', status=404)
 
+
 def test_404(request):
     raise Http404("This page does not exist")
 
 
-def update_data(request, snapshot_id):
+def build_network_data(snapshot_id):
     # Get the selected snapshot
     snapshot = get_object_or_404(Inference_task, id=snapshot_id)
 
@@ -23,39 +25,29 @@ def update_data(request, snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-    # this number was chosen as it is halfway between the [-1,1] 
-    # normalized value from the mhs corpus dataset value for neutral and group bias.
-    # for example -0.06 is neutral and 0.1 is bias so 0.02 was chosen
-    node_above_threshold = 0.02
-    tooltip_precision = 4  # number of decimal places to round to
+    node_above_threshold = -0.05
+
+    sub_nodes = [
+        {'id': result.id,
+         'name': result.subreddit.display_name,
+         'flaggedComments': result.getNodeInfo(node_above_threshold),
+         'min': result.min_result,
+         'max': result.max_result,
+         'mean': result.mean_result,
+         'std': result.std_result, }
+        for result in tqdm(queried_subs, desc='Sub Nodes')
+    ]
 
     # if you get any errors make sure tqdm is installed
-    sub_nodes_context = [
-        {
-            'id': result.id,
-            'label': f'r/{result.subreddit.display_name}'.center(22) + f'\n\n{result.getNodeInfo(node_above_threshold)}',
-            # title = on hover visjs node tooltip
-            'title': (
-                f'r/{result.subreddit.display_name}\n'
-                f'{"~".center(24, "~")}\n\n'
-                f'Flagged Comments: {result.getNodeInfo(node_above_threshold)}\n\n'
-                f'Min: {-1.0 * round(result.max_result, tooltip_precision)}\n'
-                f'Max: {-1.0 * round(result.min_result, tooltip_precision)}\n'
-                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
-                f'Std: {round(result.std_result, tooltip_precision)}\n'
-            ),
-            'subname': f'r/{result.subreddit.display_name}',
-            'score': result.getNodeInfo(node_above_threshold),
-        } for result in tqdm(queried_subs, desc='Sub Nodes')
-    ]
-    mod_edges_context = [
+
+    mod_edges = [
         {
             'from': result.from_sub_id,
             'to': result.to_sub_id,
             'label': str(result.weight),
         } for result in tqdm(queried_mods, desc='Mod Edges')
     ]
-    author_edges_context = [
+    author_edges = [
         {
             'from': result.from_sub_id,
             'to': result.to_sub_id,
@@ -64,16 +56,77 @@ def update_data(request, snapshot_id):
     ]
 
     data = {
+        'sub_nodes_context': sub_nodes,
+        'mod_edges_context': mod_edges,
+        'author_edges_context': author_edges,
+    }
+    return data
+
+
+def get_network_data(request, snapshot_id=None):
+    if snapshot_id is None:
+        # If no snapshot_id is specified, get the latest completed snapshot
+        snapshot = Inference_task.objects.filter(
+            status=Inference_task.STATUS_TYPES[2][0]
+        ).order_by('-start_sched').first()
+        if snapshot is None:
+            return Http404('No completed snapshots found')
+        snapshot_id = snapshot.id
+    network_data = build_network_data(snapshot_id)
+
+    tooltip_precision = 6
+    sub_nodes_context = [
+        {
+            'id': result["id"],
+            'label': f'r/{result["name"]}'.center(22) + f'\n\n{result["flaggedComments"]}',
+            # title = on hover visjs node tooltip
+            'title': (
+                f'r/{result["name"]}\n'
+                f'{"~".center(24, "~")}\n\n'
+                f'Comments Above 0.05: {result["flaggedComments"]}\n\n'
+                f'Min: {-1.0 * round(result["min"], tooltip_precision)}\n'
+                f'Max: {-1.0 * round(result["max"], tooltip_precision)}\n'
+                f'Mean: {-1.0 * round(result["mean"], tooltip_precision)}\n'
+                f'Std: {-1.0 * round(result["std"], tooltip_precision)}\n'
+            ),
+            'subname': result['name'],
+            'score': result['flaggedComments'],
+        } for result in network_data['sub_nodes_context']
+    ]
+
+    data = {
         'sub_nodes_context': sub_nodes_context,
-        'mod_edges_context': mod_edges_context,
-        'author_edges_context': author_edges_context,
+        'mod_edges_context': network_data['mod_edges_context'],
+        'author_edges_context': network_data['author_edges_context'],
     }
 
-    # Return the data as a JSON response
     return JsonResponse(data)
 
 
-def index(request):
+def export_data(request, snapshot_id=None, file_type=None):
+    if snapshot_id is None:
+        # If no snapshot_id is specified, get the latest completed snapshot
+        snapshot = Inference_task.objects.filter(
+            status=Inference_task.STATUS_TYPES[2][0]
+        ).order_by('-start_sched').first()
+        if snapshot is None:
+            return Http404('No completed snapshots found')
+        snapshot_id = snapshot.id
+    if file_type is None:
+        return Http404('No file type specified')
+    # Create network data using the snapshot_id
+    network_data = build_network_data(snapshot_id)
+
+    # Create file using factory
+    exportFactory = ExporterFactory()
+    exportFile = exportFactory.create_exporter(file_type, network_data)
+    file = exportFile.export()
+
+    # Return file as a response
+    return file
+
+
+def index(request, snapshot_id=None):
     # get a list of all inference tasks that have the STATUS_TYPE of ('2', 'Completed') defined in the models
     iTasks = Inference_task.objects.filter(
         status=Inference_task.STATUS_TYPES[2][0]

@@ -102,10 +102,17 @@ var options = {
   },
   configure: {
     enabled: true,
-    filter: true,
+    filter: function (option, path) {
+      // unpkg is broken
+      // path.indexOf("nodes") !== -1 || path.indexOf("edges") !== -1 ||
+      if (path.indexOf("physics") !== -1) {
+        return true;
+      }
+      return false;
+    },
     container: document.getElementById('vis-config'),
-    showButton: true,
-  },
+    showButton: false,
+  },  
 };
 
 // Create the VisJs network with the data retrieved from the 
@@ -127,7 +134,7 @@ var lastSuccessfulSnapshot = $('#snapshot-select').val(); // store the current v
 
 const updateGraphData = (snapshot_id) => {
   // Construct the URL for the data endpoint based on the selected snapshot
-  var url = '/update_data/' + snapshot_id + '/';
+  var url = '/get_network_data/' + snapshot_id + '/';
   var $loader = $('#loader');
 
   // Initialize controller variable
@@ -181,8 +188,8 @@ const updateGraphData = (snapshot_id) => {
       $('#snapshot-select').val(lastSuccessfulSnapshot); // set the value of the snapshot dropdown to the last successful snapshot
     });
 
-  // Cancel the request if the loader is clicked
-  $loader.click(function() {
+    // Cancel the request if the loader is clicked
+    $loader.click(function() {
     controller.abort();
     $loader.hide();
   });
