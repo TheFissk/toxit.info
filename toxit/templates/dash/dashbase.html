@@ -1,0 +1,19 @@
+{% extends 'base.html' %}
+
+{% load static %}
+
+{% block extra_style %} {{ block.super }}
+<link rel="stylesheet" href="{% static '/dash.css' %}" />
+{% endblock extra_style %}
+
+{% block title %}Toxit Dash{% endblock title %}
+
+{% block content %}
+<div id="header">
+  <div id="site-header"><h1 id="site-name">Toxit Dashboard</h1></div>
+  <div id="user">
+    Welcome: <b>{{user.username}}</b> /
+    <a id="logout" href="{% url 'toxit:logout' %}">Log Out</a>
+  </div>
+</div>
+{% endblock content %}

@@ -1,8 +1,7 @@
-{% extends 'dash/base.html' %}{%block extra_style %}{{ block.super }}
-<style>
+{% extends 'dash/dashbase.html' %}
 
-</style>
-{% endblock extra_style %} {% block content %}{% if user.is_authenticated %}
+{% block content %}{{ block.super }}
+{% if user.is_authenticated %}
 <div id="site-body">
   <div id="add-inference">
     <h2>Add Inference Task</h2>

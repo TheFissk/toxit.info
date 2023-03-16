@@ -16,21 +16,12 @@
       href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css"
     />
 
-    <title>{% block title %}Toxit Dash{% endblock %}</title>
+    <title>{% block title %}Toxit{% endblock %}</title>
     <!-- Main website stylesheet -->
     <link rel="stylesheet" href="{% static 'main.css' %}" />
-    <link rel="stylesheet" href="{% static 'dash.css' %}" />
     {% block extra_style %} {% endblock extra_style %}
   </head>
   <body>
-    {% block header %}
-    <div id="header">
-      <div id="site-header"><h1 id="site-name">Toxit Dashboard</h1></div>
-      <div id="user">
-        Welcome: <b>{{user.username}}</b> /
-        <a id="logout" href="{% url 'toxit:logout' %}">Log Out</a>
-      </div>
-    </div>
-    {% endblock header %} {% block content %} {% endblock %}
+   {% block content %} {% endblock content%}
   </body>
 </html>
