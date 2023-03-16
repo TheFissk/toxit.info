@@ -16,7 +16,7 @@ def test_404(request):
     raise Http404("This page does not exist")
 
 
-def build_network_data(snapshot_id):
+def build_network_data(snapshot_id) -> dict[str, list]:
     # Get the selected snapshot
     snapshot = get_object_or_404(Inference_task, id=snapshot_id)
 
@@ -26,35 +26,28 @@ def build_network_data(snapshot_id):
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
     node_above_threshold = -0.05
-    tooltip_precision = 6  # number of decimal places to round to
+
+    sub_nodes = [
+        {'id': result.id,
+         'name': result.subreddit.display_name,
+         'flaggedComments': result.getNodeInfo(node_above_threshold),
+         'min': result.min_result,
+         'max': result.max_result,
+         'mean': result.mean_result,
+         'std': result.std_result, }
+        for result in tqdm(queried_subs, desc='Sub Nodes')
+    ]
 
     # if you get any errors make sure tqdm is installed
-    sub_nodes_context = [
-        {
-            'id': result.id,
-            'label': f'r/{result.subreddit.display_name}'.center(22) + f'\n\n{result.getNodeInfo(node_above_threshold)}',
-            # title = on hover visjs node tooltip
-            'title': (
-                f'r/{result.subreddit.display_name}\n'
-                f'{"~".center(24, "~")}\n\n'
-                f'Comments Above 0.05: {result.getNodeInfo(node_above_threshold)}\n\n'
-                f'Min: {-1.0 * round(result.min_result, tooltip_precision)}\n'
-                f'Max: {-1.0 * round(result.max_result, tooltip_precision)}\n'
-                f'Mean: {-1.0 * round(result.mean_result, tooltip_precision)}\n'
-                f'Std: {-1.0 * round(result.std_result, tooltip_precision)}\n'
-            ),
-            'subname': f'{result.subreddit.display_name}',
-            'score': result.getNodeInfo(node_above_threshold),
-        } for result in tqdm(queried_subs, desc='Sub Nodes')
-    ]
-    mod_edges_context = [
+
+    mod_edges = [
         {
             'from': result.from_sub_id,
             'to': result.to_sub_id,
             'label': str(result.weight),
         } for result in tqdm(queried_mods, desc='Mod Edges')
     ]
-    author_edges_context = [
+    author_edges = [
         {
             'from': result.from_sub_id,
             'to': result.to_sub_id,
@@ -63,12 +56,10 @@ def build_network_data(snapshot_id):
     ]
 
     data = {
-        'sub_nodes_context': sub_nodes_context,
-        'mod_edges_context': mod_edges_context,
-        'author_edges_context': author_edges_context,
+        'sub_nodes_context': sub_nodes,
+        'mod_edges_context': mod_edges,
+        'author_edges_context': author_edges,
     }
-
-    # Return the data as a JSON response
     return data
 
 
@@ -82,7 +73,34 @@ def get_network_data(request, snapshot_id=None):
             return Http404('No completed snapshots found')
         snapshot_id = snapshot.id
     network_data = build_network_data(snapshot_id)
-    return JsonResponse(network_data)
+
+    tooltip_precision = 6
+    sub_nodes_context = [
+        {
+            'id': result["id"],
+            'label': f'r/{result["name"]}'.center(22) + f'\n\n{result["flaggedComments"]}',
+            # title = on hover visjs node tooltip
+            'title': (
+                f'r/{result["name"]}\n'
+                f'{"~".center(24, "~")}\n\n'
+                f'Comments Above 0.05: {result["flaggedComments"]}\n\n'
+                f'Min: {-1.0 * round(result["min"], tooltip_precision)}\n'
+                f'Max: {-1.0 * round(result["max"], tooltip_precision)}\n'
+                f'Mean: {-1.0 * round(result["mean"], tooltip_precision)}\n'
+                f'Std: {-1.0 * round(result["std"], tooltip_precision)}\n'
+            ),
+            'subname': result['name'],
+            'score': result['flaggedComments'],
+        } for result in network_data['sub_nodes_context']
+    ]
+
+    data = {
+        'sub_nodes_context': sub_nodes_context,
+        'mod_edges_context': network_data['mod_edges_context'],
+        'author_edges_context': network_data['author_edges_context'],
+    }
+
+    return JsonResponse(data)
 
 
 def export_data(request, snapshot_id=None, file_type=None):
@@ -106,7 +124,7 @@ def export_data(request, snapshot_id=None, file_type=None):
 
     # Return file as a response
     # response = FileResponse(file, content_type=file.content_type, as_attachment=True, filename=file.filename)
-    
+
     return file
 
 

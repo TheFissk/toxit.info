@@ -23,23 +23,37 @@ class JsonExporter(Exporter):
 
 class CsvExporter(Exporter):
     def export(self):
-        # Flatten data to a 2D list
-        flat_data = []
-        for key, values in self.exportData.items():
-            for value in values:
-                row = [value.get(col, '') for col in key]
-                flat_data.append(row)
-
-        # Write flattened data to CSV file in memory
+        # setup the csv writer
         csv_file = StringIO()
-        writer = csv.writer(csv_file)
-        writer.writerows([key for key in self.exportData.keys()])
-        writer.writerows(flat_data)
+        writer = csv.DictWriter(
+            csv_file, fieldnames=self.exportData['sub_nodes_context'][0].keys())
+        # write the nodes header
+        writer.writeheader()
+        # write the nodes data
+        writer.writerows(self.exportData['sub_nodes_context'])
+        # reintialize the writer, but with the edges fieldnames
+        # check to see if there are any mod edges
+        try:
+            writer = csv.DictWriter(
+                csv_file, fieldnames=self.exportData['mod_edges_context'][0].keys())
+        except IndexError:
+            pass
+        else:
+            writer.writeheader()
+            writer.writerows(self.exportData['mod_edges_context'])
+        try:
+            writer = csv.DictWriter(
+                csv_file, fieldnames=self.exportData['author_edges_context'][0].keys())
+        except IndexError:
+            pass
+        else:
+            writer.writeheader()
+            writer.writerows(self.exportData['author_edges_context'])
 
         # Return CSV file as a response
-        response = HttpResponse(csv_file.getvalue(), content_type='text/csv')
-        response['Content-Disposition'] = 'attachment; filename="export.csv"'
-        return response
+        # response = HttpResponse(csv_file.getvalue(), content_type='text/csv')
+        # response['Content-Disposition'] = 'attachment; filename="export.csv"'
+        return FileResponse(csv_file)
 
 
 class XmlExporter(Exporter):
