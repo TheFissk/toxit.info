@@ -498,6 +498,27 @@ select:hover:not(:focus) {
     padding: 0.25rem 3.5rem;
 }
 
+/* icon stuff for export */
+/* general icon settings */
+.export-type-wrapper .generic-button i {
+  display: block;
+  position: absolute;
+  top: 50%;
+  transform: translateY(-50%);
+}
+/* download icon */
+.export-type-wrapper .generic-button i:first-child {
+  left: 20%;
+}
+/* spinner */
+.export-type-wrapper .generic-button i:last-child {
+  right: 20%;
+  top: 40%;
+  animation: spin 2s linear infinite;
+  display: none;
+}
+
+
 /*
   config panel
 */

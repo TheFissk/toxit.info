@@ -389,7 +389,27 @@ Array.prototype.forEach.call(draggables, (item => {
 /*
   export factory jqeury 
 */ 
+let isExporting = {
+  json: false,
+  csv: false,
+  pic: false
+};
+
 function exportData(exportType) {
+  // check if exporting is already in progress for this type
+  if (isExporting[exportType]) {
+    console.log(`Export of ${exportType} is already in progress.`);
+    return;
+  }
+
+  // mark exporting as in progress for this type
+  isExporting[exportType] = true; 
+
+  // Show spinner
+  let spinner = document.querySelector(`span.generic-button[onclick="exportData('${exportType}')"] i.fa-spinner`);
+  spinner.style.display = 'inline-block';
+
+  // initialize snapshotId and Url variables for later use
   const snapshotId = document.querySelector('#export-data-select').value;
   const url = `/export_data/${snapshotId}/${exportType}`;
 
@@ -403,13 +423,19 @@ function exportData(exportType) {
     .then(blob => {
       const filename = `${snapshotId}.${exportType}`;
       const link = document.createElement('a');
+      
       link.href = window.URL.createObjectURL(blob);
       link.download = filename;
       link.click();
+
+      isExporting[exportType] = false; // mark exporting as complete for this type
+      spinner.style.display = '';  // hide spinner on completion 
     })
     .catch(error => {
       console.error(error);
       // handle error
+      isExporting[exportType] = false; // mark exporting as complete for this type
+      spinner.style.display = ''; // hide spinner on completion 
     });
 }
 

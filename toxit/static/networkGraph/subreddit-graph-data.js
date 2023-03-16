@@ -102,14 +102,9 @@ var options = {
   },
   configure: {
     enabled: true,
-    filter: function (option, path) {
-      // unpkg is broken
-      // path.indexOf("nodes") !== -1 || path.indexOf("edges") !== -1 ||
-      if (path.indexOf("physics") !== -1) {
-        return true;
-      }
-      return false;
-    },
+     // unpckg updated and broke color picker for nodes and edges
+     // filter: 'nodes,edges,physics',
+     filter: 'physics',
     container: document.getElementById('vis-config'),
     showButton: false,
   },  
