@@ -1,8 +1,8 @@
 from django.urls import path
-
 from django.contrib.auth import views as auth_views
 
 from .dash_views import page_views, redirect_views
+
 from . import views
 
 app_name = 'toxit'

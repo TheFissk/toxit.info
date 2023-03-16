@@ -2,6 +2,7 @@ import os
 from django.http import JsonResponse, Http404, FileResponse
 from tqdm import tqdm
 from django.shortcuts import render, get_object_or_404
+
 from .models import Inference_task
 from .exportFactory import ExporterFactory
 
@@ -24,8 +25,7 @@ def build_network_data(snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-
-    node_above_threshold = 0.02
+    node_above_threshold = -0.05
 
     sub_nodes = [
         {'id': result.id,
