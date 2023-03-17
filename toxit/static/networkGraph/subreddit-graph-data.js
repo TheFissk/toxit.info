@@ -1,10 +1,14 @@
 /*
-  subreddit-graph-data.js
-
-  Holds all the javascript logic for the VisJs network
-    - Event listener for changing inference task
-    - Ajax for loading subreddit nodes and moderator + commentor edge weights
-    - loading icon and cancel logic
+  This JavaScript file provides functionality for a VisJS network graph of subreddits, 
+  displaying relationships between them based on shared moderators and comment authors. 
+  The graph is populated with data retrieved through an AJAX call using the fetch() method.
+  The file defines variables for the subreddits as nodes and shared moderators/comment 
+  authors as edges, and initializes an observable VisJS network with customizable options 
+  for node/edge appearance and physics simulation. The file also includes an observer 
+  pattern implementation for edge button and node information tab updates. The updateGraphData 
+  function updates the graph with new data when called, and clears the side menu tabs that 
+  need to be reset. Finally, the function also includes functionality for showing a loader 
+  while the data is being fetched and handling aborted requests.
 */
 
 // define variables to be populated with updateGraphData ajax call 
@@ -16,17 +20,35 @@ var author_edges = new vis.DataSet(); /* all shared comment authors between sub_
 // const network = new vis.Network(container, data, options);
 const network = InitilaizeObservableNetwork();
 
+
+
+
+
 /*
-  observer shit that finally works!
+  This code block creates instances of the EdgeButtonObserver and NodeInfoTabObserver 
+  classes, which are defined in the observer.js file. These observers are designed to 
+  listen for specific events within the network and update themselves accordingly.
 */
 const edgeButtonObserver = new EdgeButtonObserver();
 const nodeInfoTabObserver = new NodeInfoTabObserver();
-
+/*
+  The code block then adds these observers to the network object's list of observers, 
+  allowing them to receive updates from the network. This design pattern follows the 
+  observer pattern, in which objects (observers) are notified of changes in another 
+  object (the network) and update themselves accordingly.
+*/
 network.addObserver(edgeButtonObserver);
 network.addObserver(nodeInfoTabObserver);
 
+
+
+
+
 /*
-  thi make the netwerk
+  This function initializes the VisJS network graph by defining the container element, 
+  data for the graph, and options for nodes and edges. The ObservableNetwork method is 
+  used instead of the standard Network method to enable proper update functionality with 
+  the Observer Pattern.
 */
 function InitilaizeObservableNetwork() {
   // Get the container element for the network graph
@@ -121,35 +143,14 @@ function InitilaizeObservableNetwork() {
     },  
   };
 
+  /*    
+    Using ObservableNetwork instead of the standard Network method enables the Observer 
+    Pattern to be used with VisJS, allowing for proper update functionality of each 
+    observer. This is because ObservableNetwork is designed to work specifically with the 
+    Observer Pattern, whereas Network is not.
+  */
   return new ObservableNetwork(container, data, options);
 }
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
 
 
 
@@ -238,8 +239,11 @@ const updateGraphData = (snapshot_id) => {
   });
 };
 
-
-// Function to set the data with a delay
+/*
+  The "afterDrawing" function of VisJS is slightly flawed and sometimes fires
+  off just a bit too fast before data loads, adding a quarter second delay resolves
+  the issue with negligable impact to user experience.
+*/
 function delaySetData(data) {
   setTimeout(function() {
     network.once("afterDrawing", function() {
@@ -255,10 +259,16 @@ function delaySetData(data) {
 
 
 
-
+/*
+  Here, the Observer pattern is used to attach the observer objects to the VisJS network 
+  object created to render the network graph. Therefore, this file is placed in 
+  the toxit\static\networkGraph directory, as it is required for the proper functioning 
+  of the network graph's interactive features.
+*/
 
 /*
-add event listener to network object for deselectNode event
+  When a node is deselected this function clears the edge buttons panel and resets the 
+  node info tab as there is no longer a selected node and data should not persist.
 */
 network.on("deselectNode", () => {
   // clear edge buttons panel 
@@ -269,7 +279,9 @@ network.on("deselectNode", () => {
   resetNodeInfoTab();
 });
 
-
+/*
+  click function description and how it works with teh observer design pattern
+*/
 network.on("click", function (event) {
   const fromNode = event.nodes[0];
 
@@ -291,5 +303,3 @@ network.on("click", function (event) {
       network.notifyObservers(nodeClickEvent);
   }
 });
-
-
