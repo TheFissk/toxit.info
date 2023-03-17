@@ -4,6 +4,8 @@
 
 #Toxit-SubredditGraph {
   height: 100%;
+  --node-bkg-img: url('/static/toxit/BG-Pic/bg_dark.png');
+  background-size: cover;
 }
 
 .loader {

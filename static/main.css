@@ -3,6 +3,9 @@
   /* sets the base font size for the entire document */
   font-size: 1rem;
 
+  /* background image for dark mode / default */
+  --background-image: url('/BG-Pic/bg_dark.png');
+
   /* width and placement of side nav */
   --sidenav-width: 25rem;
   --sidenav-width-hide: -25rem;
@@ -34,6 +37,7 @@
 
 /* light theme - currenntly unimplemented */
 [data-theme="light"] {
+  --node-bkg-img: url('/static/toxit/BG-Pic/bg_lightbutnotreally.png');
   --font-color: #000;
   --bg-color: #998a82; /* #938c88 */
   --primary-color-L: hsl(20deg 100% 90%);
