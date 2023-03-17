@@ -132,13 +132,8 @@ def index(request, snapshot_id=None):
         status=Inference_task.STATUS_TYPES[2][0]
     ).order_by('-start_sched')
 
-    # get a list of all image filenames in the BG-Pic directory
-    path = 'toxit/static/BG-Pic'
-    images = os.listdir(path)
-
     context = {
         'iTasks': iTasks,
-        'images': images,
     }
 
     return render(request, 'toxit/index.html', context)
