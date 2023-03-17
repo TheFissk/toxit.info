@@ -137,3 +137,7 @@ def index(request, snapshot_id=None):
     }
 
     return render(request, 'toxit/index.html', context)
+
+# humble landing page
+def landing(request):
+    return render(request, 'toxit/landing.html')

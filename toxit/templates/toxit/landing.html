@@ -1,0 +1,67 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block extra_style %}
+<!--  Sidebar CSS -->
+<link rel="stylesheet" href="{% static 'sidebar/sidebar.css' %}" />
+<!--  Landing CSS -->
+<link rel="stylesheet" href="{% static 'landing/landing.css' %}" />
+{% endblock extra_style %}
+
+{% block content %}
+<div>
+    <h1>toxit.info</h1>
+    <div class="container">
+        <div class="column">
+            <a href="{% url 'toxit:index' %}">
+                <img id="gif-demo-player" src="{% static 'landing/demo1.gif' %}" />
+            </a>
+            <a class="generic-button" href="/index">Start Exploring</a>
+        </div>
+        <div class="column">
+            <h2>About us</h2>
+            <p>
+                The danger of hate speech when broadcast over social media has been well
+                documented. Social media brings together like minded individuals and
+                creates echo chambers of opinion which can lead to more extreme
+                opinions. We see this in Reddit where toxicity in a subreddit encourages
+                other users of that subreddit to post more toxic content. To date
+                efforts have focused on either censorship by removing subreddits or
+                research to understand toxicity. We aim to empower users to create
+                change by letting them view comment toxicity in individual subreddits,
+                and visualize known correlations to toxicity between subreddits such as
+                moderators and commenters.
+            </p>
+        </div>
+    </div>
+</div>
+{% endblock content %}
+
+{% block footer %}
+<script>
+    const demoList = [
+        "/static/landing/demo2.gif",
+        "/static/landing/demo3.gif",
+        "/static/landing/demo4.gif",
+        "/static/landing/demo5.gif",
+        "/static/landing/demo1.gif"
+        // add more demos here
+    ];
+    const transitionGif = "{% static 'landing/transistion-fixed.gif' %}";
+
+    const gifPlayer = document.getElementById("gif-demo-player");
+    let currentDemoIndex = 0;
+
+    function switchDemo() {
+        currentDemoIndex = (currentDemoIndex + 1) % demoList.length;
+        gifPlayer.src = demoList[currentDemoIndex];
+    }
+
+    setInterval(() => {
+        gifPlayer.src = transitionGif;
+        setTimeout(switchDemo, 500); // transition for half a second
+    }, 10000); // play each demo for 10 seconds
+
+    switchDemo(); // start with the first demo
+</script>
+{% endblock footer %}

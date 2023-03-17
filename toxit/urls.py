@@ -9,8 +9,10 @@ app_name = 'toxit'
 
 urlpatterns = [
     # landing page
-    path('', views.index, name='index'),
-    # main content 
+    path('', views.landing, name='landing'),
+    
+    # VisJS Graph (with factory + observer)
+    path('index', views.index, name='index'),
     # url for updated visjs data with ajax call
     path('get_network_data/<int:snapshot_id>/', views.get_network_data, name='get_network_data'),
     # url for factory export design pattern using ajax
