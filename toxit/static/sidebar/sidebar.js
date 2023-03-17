@@ -188,7 +188,11 @@ document.getElementById('snapshot-select').addEventListener('change', function()
 $('input[type=radio][name=edge-weight]').change(function() {
 
   // Store the ID of the currently selected node, if any
-  var selectedNode = network.getSelectedNodes()[0];
+  let selectedNode = network.getSelectedNodes()[0];
+
+  var data = {
+    nodes: sub_nodes,
+  };
 
   if (this.value == 'mods') {
       document.getElementById("mods-radio").checked = true;

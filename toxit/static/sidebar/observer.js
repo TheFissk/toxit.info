@@ -139,20 +139,6 @@ const resetNodeInfoTab = () => {
 
 
 class ObservableNetwork extends vis.Network {
-    subscribe(events, callback, id) {
-        // call the subscribe method of the superclass
-        super.subscribe(events, callback, id);
-
-        // add your own observer to the array of observers
-        const observer = {
-            callback: callback,
-            eventType: events,
-            id: id
-        };
-
-        this.observers.push(observer);
-    }
-
     constructor(container, data, options) {
         super(container, data, options);
         this.observers = [];

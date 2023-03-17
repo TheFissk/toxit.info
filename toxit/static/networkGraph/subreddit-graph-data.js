@@ -12,107 +12,148 @@ var sub_nodes = new vis.DataSet();    /* all subreddits as nodes */
 var mod_edges = new vis.DataSet();    /* all shared moderators between sub_nodes as edges */
 var author_edges = new vis.DataSet(); /* all shared comment authors between sub_nodes as edges */
 
-// Get the container element for the network graph
-var container = document.getElementById("Toxit-SubredditGraph");
 
-// define data for network graph; default edge weight is moderators
-var data = {
-  nodes: sub_nodes,
-  edges: mod_edges,
-};
-
-var options = {
-  nodes: {
-    borderWidth: 2,
-    borderWidthSelected: 3,
-    margin: 25,
-    color: {
-      border: "rgba(233,103,36,1)",
-      background: "rgba(40,36,34,1)",
-      highlight: {
-        border: "rgba(233,83,46,1)",
-        background: "rgba(94,76,64,1)",
-      },
-      hover: {
-        border: "rgba(233,206,0,1)",
-        background: "rgba(107,99,93,1)",
-      }
-    },
-    font: {
-      color: "rgba(255,255,255,1)",
-      size: 15,
-      strokeWidth: 3,
-      strokeColor: "rgba(0,0,0,1)",
-      face: "verdana",
-      align: "center",
-      vadjust: 15,
-    },
-    scaling: {
-      // customScalingFunction: function (min, max, total, value) {
-      //   var length = value.label.length;
-      //   var fontSize = Math.max(10, Math.min(30, 60 / length)); // calculate font size based on length of label
-      //   var nodeWidth = length * (fontSize / 2);
-      //   return nodeWidth / total;
-      // },
-      min: 15,
-      max: 30,
-    },
-    shape: "circle",
-    shapeProperties: {
-      borderRadius: 5,
-    },
-    size: 25
-  },
-  edges: {
-    smooth: {
-      forceDirection: "none",
-    },
-    font: {
-      color: "rgba(255,255,255,1)",
-      size: 20,
-      strokeWidth: 3,
-      strokeColor: "rgba(0,0,0,1)",
-      face: "verdana",
-    },
-  },
-  interaction: {
-    hover: true,
-  },
-  layout: {
-    randomSeed: 69420, /* nice */
-    improvedLayout:true,
-    clusterThreshold: 150,
-  },
-  physics: {
-    stabilization: {
-      iterations: 2500,
-      fit: true,
-    },
-    forceAtlas2Based: {
-      gravitationalConstant: -200,
-      centralGravity: 0.01,
-      springLength: 200,
-      springConstant: 0.03,
-      damping: 0.4,
-      avoidOverlap: 1,
-    },
-    maxVelocity: 50,
-    minVelocity: 0.1,
-    solver: "forceAtlas2Based",
-  },
-  configure: {
-    enabled: true,
-     // unpckg updated and broke color picker for nodes and edges
-     // filter: 'nodes,edges,physics',
-     filter: 'physics',
-    container: document.getElementById('vis-config'),
-    showButton: false,
-  },  
-};
 
 // Create the VisJs network with the data retrieved from the 
 // const network = new vis.Network(container, data, options);
-const network = new ObservableNetwork(container, data, options);
+const network = InitilaizeObservableNetwork();
+
+/*
+  observer shit that finally works!
+*/
+const edgeButtonObserver = new EdgeButtonObserver();
+const nodeInfoTabObserver = new NodeInfoTabObserver();
+
+network.addObserver(edgeButtonObserver);
+network.addObserver(nodeInfoTabObserver);
+
+/*
+  thi make the netwerk
+*/
+function InitilaizeObservableNetwork() {
+  // Get the container element for the network graph
+  var container = document.getElementById("Toxit-SubredditGraph");
+
+  // define data for network graph; default edge weight is moderators
+  var data = {
+    nodes: sub_nodes,
+    edges: mod_edges,
+  };
+
+  var options = {
+    nodes: {
+      borderWidth: 2,
+      borderWidthSelected: 3,
+      margin: 25,
+      color: {
+        border: "rgba(233,103,36,1)",
+        background: "rgba(40,36,34,1)",
+        highlight: {
+          border: "rgba(233,83,46,1)",
+          background: "rgba(94,76,64,1)",
+        },
+        hover: {
+          border: "rgba(233,206,0,1)",
+          background: "rgba(107,99,93,1)",
+        }
+      },
+      font: {
+        color: "rgba(255,255,255,1)",
+        size: 15,
+        strokeWidth: 3,
+        strokeColor: "rgba(0,0,0,1)",
+        face: "verdana",
+        align: "center",
+        vadjust: 15,
+      },
+      scaling: {
+        min: 15,
+        max: 30,
+      },
+      shape: "circle",
+      shapeProperties: {
+        borderRadius: 5,
+      },
+      size: 25
+    },
+    edges: {
+      smooth: {
+        forceDirection: "none",
+      },
+      font: {
+        color: "rgba(255,255,255,1)",
+        size: 20,
+        strokeWidth: 3,
+        strokeColor: "rgba(0,0,0,1)",
+        face: "verdana",
+      },
+    },
+    interaction: {
+      hover: true,
+    },
+    layout: {
+      randomSeed: 69420, /* nice */
+      improvedLayout:true,
+      clusterThreshold: 150,
+    },
+    physics: {
+      stabilization: {
+        iterations: 2500,
+        fit: true,
+      },
+      forceAtlas2Based: {
+        gravitationalConstant: -200,
+        centralGravity: 0.01,
+        springLength: 200,
+        springConstant: 0.03,
+        damping: 0.4,
+        avoidOverlap: 1,
+      },
+      maxVelocity: 50,
+      minVelocity: 0.1,
+      solver: "forceAtlas2Based",
+    },
+    configure: {
+      enabled: true,
+      // unpckg updated and broke color picker for nodes and edges
+      // filter: 'nodes,edges,physics',
+      filter: 'physics',
+      container: document.getElementById('vis-config'),
+      showButton: false,
+    },  
+  };
+
+  return new ObservableNetwork(container, data, options);
+}
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 /*
   Ajax function using fetch to update the data shown on the graph.
@@ -254,8 +295,3 @@ network.on("click", function (event) {
 });
 
 
-const edgeButtonObserver = new EdgeButtonObserver();
-const nodeInfoTabObserver = new NodeInfoTabObserver();
-
-network.addObserver(edgeButtonObserver);
-network.addObserver(nodeInfoTabObserver);
