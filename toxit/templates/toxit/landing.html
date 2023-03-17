@@ -9,9 +9,11 @@
   <div class="container">
     <div class="column">
       <a href="{% url 'toxit:index' %}">
-        <img id="gif-demo-player"/>
+        <img id="gif-demo-player" />
       </a>
-      <a class="generic-button" href="/index">Start Exploring</a>
+      <a class="generic-button" href="{% url 'toxit:index' %}"
+        >Start Exploring</a
+      >
     </div>
     <div class="column">
       <h2>About us</h2>
@@ -50,7 +52,7 @@
     setTimeout(switchDemo, 500); // transition for half a second
   }, 10000); // play each demo for 10 seconds
 
-  switchDemo()
+  switchDemo();
 
   function switchDemo() {
     currentDemoIndex = (currentDemoIndex + 1) % demoList.length;
