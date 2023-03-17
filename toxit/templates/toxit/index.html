@@ -30,6 +30,16 @@
     <!--  Sidebar CSS -->
     <link rel="stylesheet" href="{% static 'sidebar/sidebar.css' %}">
 
+
+    <style>
+        :root {
+            /* background image for dark mode / default */
+            --node-bkg-img: url("{% static 'bg_dark.png' %}");
+        }
+        [data-theme="light"] {
+            --node-bkg-img: url("{% static 'bg_lightbutnotreally.png' %}");
+        }
+    </style>
     <!-- Tab Display Text -->
     <title>Toxit</title>
 </head>
