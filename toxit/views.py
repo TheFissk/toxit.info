@@ -25,7 +25,10 @@ def build_network_data(snapshot_id):
     queried_mods = snapshot.get_mod_edges_for_inference_task()
     queried_authors = snapshot.get_author_edges_for_inference_task()
 
-    node_above_threshold = -0.05
+    # this value was chosen as it is the [-1, 1] normalized 
+    # mean of the neutral and bias levels of hate speech detection
+
+    node_above_threshold = 0.02
 
     sub_nodes = [
         {'id': result.id,
@@ -83,11 +86,11 @@ def get_network_data(request, snapshot_id=None):
             'title': (
                 f'r/{result["name"]}\n'
                 f'{"~".center(24, "~")}\n\n'
-                f'Comments Above 0.05: {result["flaggedComments"]}\n\n'
-                f'Min: {-1.0 * round(result["min"], tooltip_precision)}\n'
-                f'Max: {-1.0 * round(result["max"], tooltip_precision)}\n'
+                f'Flagged Comments: {result["flaggedComments"]}\n\n'
+                f'Min: {-1.0 * round(result["max"], tooltip_precision)}\n'
+                f'Max: {-1.0 * round(result["min"], tooltip_precision)}\n'
                 f'Mean: {-1.0 * round(result["mean"], tooltip_precision)}\n'
-                f'Std: {-1.0 * round(result["std"], tooltip_precision)}\n'
+                f'Std: {round(result["std"], tooltip_precision)}\n'
             ),
             'subname': result['name'],
             'score': result['flaggedComments'],
