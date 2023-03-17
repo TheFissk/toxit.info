@@ -11,3 +11,4 @@ cloud_sql_proxy_x64
 cloud_sql_proxy_x64.exe
 *.code-workspace
 *.bat
+.vscode
