@@ -9,17 +9,14 @@
                 <div class="basically-li">
                     <h4>Welcome!</h4>
                     <p>
-                        Welcome to toxit <span class="fa-solid fa-door-open"></span>
+                        Welcome to toxit.info <span class="fa-solid fa-door-open"></span>
                     </p>
                     <p>
-                        Toxit is an explorative data science esque web application that centers around the
-                        exploration of an undirected weighted graph of various communities gathered from reddit.com
-                        By configuring our gather bot service to go and collect snapshots for us we are able to create
-                        different snapshots of data that consist of a set of subreddit commnities, and the common moderators
-                        and commentors between those communities. Each of these communities shows a single value under the 
-                        name indicating the number of comments flagged by our AI when generating its average toxiticy 
-                        score. This allows users to navigate through different snapshots of data and explore the connections
-                        between communities to reveal intersting trends or to just have fun playing with the physics of the graph.
+                        Toxit is a data exploration platform that centers around a weighted undirected graph representation of Reddit.com community connections.
+
+                        Graph edges are weighted by set intersection cardinality of either moderators or commentators for the snapshot inder investigation.  
+                        Comments are passed to a natural language processing model which returns the hate speech scoring of the comment.
+                        Our NLP model was trained on <span href="https://aclanthology.org/2022.nlperspectives-1.11">The Measuring Hate Speech Corpus</span> to within 0.1132 MAE over [-1,1].
                     </p>
                 </div>
                 <div class="basically-li">
@@ -27,16 +24,13 @@
                     <p>
                         Click <span class="fa-solid fa-arrow-pointer"></span><span class="fa-solid fa-computer-mouse"></span>
                         a node to select it.  By default, for easy navigation, this opens the navigation tab with information about its
-                        relations to other nodes. You can also drag and drop nodes to move them around. Hover over a node to view its detailed toxicity data.
+                        relations to other nodes. You can also drag and drop nodes to move them around. Hover over a node to view its statistics.
                     </p>
                 </div>
                 <div class="basically-li">
                     <h4>Middle Mouse button & <span class="fa-solid fa-minimize"></span></h4>
                     <p>
-                        When middle mouse button is clicked or the <span class="fa-solid fa-minimize"></span>
-                        button at the top right corner of the screen is clicked (left mouse click) the currently
-                        loaded graph will zoom the node to make it fit nicely in the screen, making a nice reset
-                        feature if you ever need to return the graph to a more neutral state.
+                        When middle mouse or <span class="fa-solid fa-minimize"></span> is clicked the graph will reset.
                     </p>
                 </div>
                 <div class="basically-li">
@@ -57,8 +51,7 @@
               <div class="basically-li">
                 <h4>Snapshot Selection</h4>
                 <p>
-                    Since subreddits change over time, we compare them against each other at
-                     a particular moment in time.  You can explore different snapshots using the dropdown.
+                    Data samples change over time, You can explore different snapshots using the dropdown.
                     You can also toggle between common moderators and commenters when viewing connections.
                 </p>
             </div>
@@ -72,20 +65,19 @@
             <div class="basically-li">
                 <h4>Node Information</h4>
                 <p>
-                    Provides toxicity data of a node selected by clicking on it as well as a link to the subreddit.
-                    Contains stastically information like average value, min and max values, as well as standard deviation.
+                    Provides descriptive statistics of a node selected by clicking on it as well as a link to the subreddit.
                 </p>
             </div>
             <div class="basically-li">
                 <h4>Physics</h4>
                 <p>
-                    Provides the abilitiy to customize node graph appearance.
+                    Customize graph physics.
                 </p>
             </div>
             <div class="basically-li">
                 <h4>Export</h4>
                 <p>
-                    Download the the selected snapshot data in the specified format; The options are Json, CSV, and Pickle or PIC.
+                    Download as JSON, CSV, or Pickle.
                 </p>
             </div>
           </div>
