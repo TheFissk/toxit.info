@@ -30,7 +30,7 @@ def dash(request) -> HttpResponse:
              'status': Inference_task.STATUS_TYPES[t.status][1]}
             for t in tasks],
         'form': form}
-    return render(request, 'dash\dash.html', context)
+    return render(request, 'dash/dash.html', context)
 
 
 def get_subreddit_data(request, task_id) -> JsonResponse:
@@ -51,4 +51,4 @@ def inspect_inference_task(request, task_id) -> HttpResponse:
     context = {
         "task": task
     }
-    return render(request, 'dash\inspector.html', context)
+    return render(request, 'dash/inspector.html', context)
