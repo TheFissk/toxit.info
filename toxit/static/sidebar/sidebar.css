@@ -217,6 +217,17 @@ li:has(.show) {
 
 
 /* 
+  help panel tweaks
+*/
+.basically-ul h4 {
+  text-decoration: underline;
+}
+
+.basically-li p {
+  padding: 0 1rem 1rem 1rem;
+}
+
+/* 
   minimize icon for zooming out of graph and closing menu 
 */
 .fa-solid.fa-minimize {
@@ -655,8 +666,3 @@ div.vis-arrow {
 .vis-configuration-wrapper [class*=vis-config-s].vis-config-s4:has(> :only-child) {
   margin: 0 0 0 2rem ;
 }
-
-/*
-  Radio button code - sourced from: 
-    https://codepen.io/victorfreire/pen/XXzqEr?editors=1100
-*/

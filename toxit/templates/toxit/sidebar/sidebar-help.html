@@ -1,11 +1,27 @@
 <li class="reorderable-list__item dropzone" draggable="true" >
-    <a href="#" class="item-text" id="helpinfo">Help & Information
+    <a href="" class="item-text" id="helpinfo">Help & Information
         <span class="fa-solid fa-grip-lines-vertical"></span>
     </a>
     <div class="collapsible item-show-helpinfo">
         <div class="help-info-content">
             <h3>Controls / Operation</h3>
             <div class="basically-ul">
+                <div class="basically-li">
+                    <h4>Welcome!</h4>
+                    <p>
+                        Welcome to toxit <span class="fa-solid fa-door-open"></span>
+                    </p>
+                    <p>
+                        Toxit is an explorative data science esque web application that centers around the
+                        exploration of an undirected weighted graph of various communities gathered from reddit.com
+                        By configuring our gather bot service to go and collect snapshots for us we are able to create
+                        different snapshots of data that consist of a set of subreddit commnities, and the common moderators
+                        and commentors between those communities. Each of these communities shows a single value under the 
+                        name indicating the number of comments flagged by our AI when generating its average toxiticy 
+                        score. This allows users to navigate through different snapshots of data and explore the connections
+                        between communities to reveal intersting trends or to just have fun playing with the physics of the graph.
+                    </p>
+                </div>
                 <div class="basically-li">
                     <h4>Graph Exploration <span class="fa-solid fa-code-merge"></span> Controls</h4>
                     <p>
@@ -49,17 +65,19 @@
             <div class="basically-li">
                 <h4>Theme & style</h4>
                 <p>
-                    Toggle between light and dark mode.
+                    Change the website styling to use a dark color theme or bright color theme with orange
+                    accents. The default styling is for darkmode.
                 </p>
             </div>
             <div class="basically-li">
                 <h4>Node Information</h4>
                 <p>
-                    Provides toxicity data of selected node as well as a link to the subreddit.
+                    Provides toxicity data of a node selected by clicking on it as well as a link to the subreddit.
+                    Contains stastically information like average value, min and max values, as well as standard deviation.
                 </p>
             </div>
             <div class="basically-li">
-                <h4>Configuration & Physics</h4>
+                <h4>Physics</h4>
                 <p>
                     Provides the abilitiy to customize node graph appearance.
                 </p>
@@ -67,7 +85,7 @@
             <div class="basically-li">
                 <h4>Export</h4>
                 <p>
-                    Export snapshot data in various formats.
+                    Download the the selected snapshot data in the specified format; The options are Json, CSV, and Pickle or PIC.
                 </p>
             </div>
           </div>
