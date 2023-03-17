@@ -1,44 +1,5 @@
 // VisJs OnClick (& deselect / unclick fucntionality)
 
-/* 
-  VisJS network on click functionality
-*/
-network.on("click", function (event) {
-    const fromNode = event.nodes[0];
-
-    // Only zoom to node if a node was clicked
-    if (fromNode !== undefined) {
-        // Move to the clicked node position with a new animation
-        const toNodePosition = network.getPositions([fromNode])[fromNode];
-        const moveToOptions = {
-            position: toNodePosition,
-            scale: 1.5,
-            offset: { x: 0, y: 0 },
-            animation: {
-                duration: 1100, // New animation duration
-                easingFunction: "easeInOutQuad", // New animation easing function
-            },
-        };
-        network.moveTo(moveToOptions);
-
-        populateEdgeButtons(fromNode); /* edge buttons and auto open */
-
-        populateNodeInfoTab(fromNode);
-    }
-});
-
-/*
-add event listener to network object for deselectNode event
-*/
-network.on("deselectNode", () => {
-    // clear edge buttons panel 
-    const edgeBtnContainer = document.getElementById("edge-buttons");
-    edgeBtnContainer.innerHTML = "";
-
-    // clear the info node tab too 
-    resetNodeInfoTab();
-});
-
 /*
   Function that creates a button for each edge showing from to node pair
   and handles
@@ -48,7 +9,9 @@ network.on("deselectNode", () => {
     + Logic for auto open selector 
     + before and after tag manipulation of edge buttons
 */
-function populateEdgeButtons(fromNode) {
+function populateEdgeButtons(nodeObject) {
+    const fromNode = nodeObject.fromNode;
+
     // get the div element and the network object
     const edgeBtnContainer = document.getElementById("edge-buttons");
 
@@ -58,6 +21,8 @@ function populateEdgeButtons(fromNode) {
     // if the node exists and has data
     if (fromNode) {
         const from_data = sub_nodes.get(fromNode);
+        // console.log(fromNode);
+        // console.log(from_data);
 
         // get the edges connected to the clicked node
         const connectedNodes = network.getConnectedEdges(fromNode);
@@ -108,11 +73,15 @@ function populateEdgeButtons(fromNode) {
                 };
                 network.moveTo(moveToOptions);
                 network.selectNodes([toNode]);
-                populateEdgeButtons(toNode);
+
+                // build toNode into nodeObject with fromnode item because observers are dumb
+                const toNodeObject = new NodeClickEvent(toNode);
+
+                populateEdgeButtons(toNodeObject);
 
                 // Clear then update the node info when a new node is selected
                 resetNodeInfoTab();
-                populateNodeInfoTab(toNode);
+                populateNodeInfoTab(toNodeObject);
             });
             edgeBtnContainer.appendChild(button);
         });
@@ -136,13 +105,14 @@ function populateEdgeButtons(fromNode) {
     }
 }
 
-
 /*
   populate node info tab module code
     when a node is clicked fill info panel tab with node information
     also create a link so the user is able to go to the subreddit
 */
-const populateNodeInfoTab = (fromNode) => {
+const populateNodeInfoTab = (nodeObject) => {
+    const fromNode = nodeObject.fromNode;
+
     const clickedNode = sub_nodes.get(fromNode); // get the clicked node
     const nodeInfoContent = document.querySelector('.node-info-content'); // get the .node-info-content element
     nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
@@ -160,4 +130,67 @@ const resetNodeInfoTab = () => {
     nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
     const link2reddit = document.querySelector('#link2reddit'); // get the link element
     link2reddit.innerHTML = ""; // clear previous link
+}
+
+
+
+
+
+
+
+class ObservableNetwork extends vis.Network {
+    subscribe(events, callback, id) {
+        // call the subscribe method of the superclass
+        super.subscribe(events, callback, id);
+
+        // add your own observer to the array of observers
+        const observer = {
+            callback: callback,
+            eventType: events,
+            id: id
+        };
+
+        this.observers.push(observer);
+    }
+
+    constructor(container, data, options) {
+        super(container, data, options);
+        this.observers = [];
+    }
+
+    addObserver(observer) {
+        this.observers.push(observer);
+    }
+
+    removeObserver(observer) {
+        this.observers = this.observers.filter((obs) => obs !== observer);
+    }
+
+    notifyObservers(event) {
+        this.observers.forEach((obs) => obs.update(event));
+    }
+}
+
+
+class NodeClickObserver {
+    update(node) { }
+}
+
+class EdgeButtonObserver extends NodeClickObserver {
+    update(node) {
+        populateEdgeButtons(node);
+    }
+}
+
+class NodeInfoTabObserver extends NodeClickObserver {
+    update(node) {
+        populateNodeInfoTab(node);
+    }
+}
+
+
+class NodeClickEvent {
+    constructor(node) {
+        this.fromNode = node;
+    }
 }

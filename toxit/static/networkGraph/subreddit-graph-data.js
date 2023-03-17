@@ -111,7 +111,8 @@ var options = {
 };
 
 // Create the VisJs network with the data retrieved from the 
-var network = new vis.Network(container, data, options);
+// const network = new vis.Network(container, data, options);
+const network = new ObservableNetwork(container, data, options);
 
 /*
   Ajax function using fetch to update the data shown on the graph.
@@ -129,7 +130,7 @@ var lastSuccessfulSnapshot = $('#snapshot-select').val(); // store the current v
 
 const updateGraphData = (snapshot_id) => {
   // start by clearing data of side menu tabs that need to be cleared
-  
+
   // check if the edge selector exists and clear it too if it does
   $("#edge-buttons").html() ? $("#edge-buttons").html('') : null;
 
@@ -212,3 +213,49 @@ function delaySetData(data) {
     });
   }, 250); // 250 milliseconds = 0.25 seconds
 }
+
+
+
+
+
+/*
+add event listener to network object for deselectNode event
+*/
+network.on("deselectNode", () => {
+  // clear edge buttons panel 
+  const edgeBtnContainer = document.getElementById("edge-buttons");
+  edgeBtnContainer.innerHTML = "";
+
+  // clear the info node tab too 
+  resetNodeInfoTab();
+});
+
+
+network.on("click", function (event) {
+  const fromNode = event.nodes[0];
+
+  if (fromNode !== undefined) {
+      const toNodePosition = network.getPositions([fromNode])[fromNode];
+      const moveToOptions = {
+          position: toNodePosition,
+          scale: 1.5,
+          offset: { x: 0, y: 0 },
+          animation: {
+              duration: 1100,
+              easingFunction: "easeInOutQuad",
+          },
+      };
+
+      network.moveTo(moveToOptions);
+
+      const nodeClickEvent = new NodeClickEvent(fromNode);
+      network.notifyObservers(nodeClickEvent);
+  }
+});
+
+
+const edgeButtonObserver = new EdgeButtonObserver();
+const nodeInfoTabObserver = new NodeInfoTabObserver();
+
+network.addObserver(edgeButtonObserver);
+network.addObserver(nodeInfoTabObserver);
