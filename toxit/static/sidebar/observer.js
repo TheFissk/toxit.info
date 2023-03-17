@@ -1,4 +1,103 @@
+/*
+    This is the functional component to our Observer Design Pattern.
+    It acts like a .cpp file for a C++ class, we define the observers with the
+    VisJS network as we define and construct the network itself. From there the
+    observers are able to reference this file when the necessary implementation
+    for the respecitive observe update functions is needed. 
+*/
+
+/*
+    Here we define our observer class that extends the VisJS Network library to 
+    instill our own custom observer for onclick functionality. Practically this
+    makes zero sense, because you can just register event listeners to onclick events.
+    However this is necessary for the project and to an extent, still improves maintainability.
+
+    It simply contains the basic functionality that an observer design pattern expects. 
+    This must be done in javascript because of how it interfaces with out front end, thus
+    we cannot create a python file to handle this. 
+
+    ObservableNetwork is effectively our subject, we have no interface for the subject 
+    due to the nature of javascript and that there exists no built in interface keyword 
+    or conept of interface. We do recreate an abstract / interface object later to 
+    better immitate the design patter for observer. 
+*/
+class ObservableNetwork extends vis.Network {
+    // concrete subject
+    constructor(container, data, options) {
+        super(container, data, options);
+        // create an empty array to store observers
+        this.observers = [];
+    }
+
+    addObserver(observer) {
+        // add an observer to the array of observers
+        this.observers.push(observer);
+    }
+
+    removeObserver(observer) {
+        // remove an observer from the array of observers
+        this.observers = this.observers.filter((obs) => obs !== observer);
+    }
+
+    notifyObservers(event) {
+        // loop through observers and trigger an update event
+        this.observers.forEach((obs) => obs.update(event));
+    }
+}
+
+
+
+/*
+    Abstract and interface both do not exist in javascript, but this
+    replicates the behaviour of an interface for observer, specifically
+    it creates an onlcick interace observer 
+*/
+class NodeClickObserver {
+    update(node) { 
+        // this is what makes this an interface / abstract 
+        throw new Error('Cannot instansiate an interface.');
+    }
+}
+
+// concrete observer 1
+class EdgeButtonObserver extends NodeClickObserver {
+    update(node) {
+        populateEdgeButtons(node);
+    }
+}
+
+// concrete observer 2
+class NodeInfoTabObserver extends NodeClickObserver {
+    update(node) {
+        populateNodeInfoTab(node);
+    }
+}
+
+
+
+/*
+    This is a javascript event object used to construct node objects
+    to be used inside of the observer and pass data to the concrete observers.
+
+    this is another biproduct of using javascript, because this is a web app,
+    instead of having a getState function that the subject pulls the states in from
+    the update passes the state.
+
+    The observer diagram we looked at in class represented more of an "active filter" 
+    behaviour from the getState() function that pulls the data in from the observers.
+    In our case, we had to build it in reverse (b/c javascript) and our system is more
+    of a "passive filter" setup where the observers send their data to the subject.
+*/
+class NodeClickEvent {
+    constructor(node) {
+        this.fromNode = node;
+    }
+}
+
+
+
 // VisJs OnClick (& deselect / unclick fucntionality)
+// these are the function defintions for the observers established in toxit\static\networkGraph\subreddit-graph-data.js
 
 /*
   Function that creates a button for each edge showing from to node pair
@@ -10,6 +109,7 @@
     + before and after tag manipulation of edge buttons
 */
 function populateEdgeButtons(nodeObject) {
+    // unpackage the data sent from subject
     const fromNode = nodeObject.fromNode;
 
     // get the div element and the network object
@@ -21,8 +121,6 @@ function populateEdgeButtons(nodeObject) {
     // if the node exists and has data
     if (fromNode) {
         const from_data = sub_nodes.get(fromNode);
-        // console.log(fromNode);
-        // console.log(from_data);
 
         // get the edges connected to the clicked node
         const connectedNodes = network.getConnectedEdges(fromNode);
@@ -75,6 +173,7 @@ function populateEdgeButtons(nodeObject) {
                 network.selectNodes([toNode]);
 
                 // build toNode into nodeObject with fromnode item because observers are dumb
+                // we rebuild the data into a format that replicates the format of the subject
                 const toNodeObject = new NodeClickEvent(toNode);
 
                 populateEdgeButtons(toNodeObject);
@@ -105,12 +204,15 @@ function populateEdgeButtons(nodeObject) {
     }
 }
 
+
+
 /*
   populate node info tab module code
     when a node is clicked fill info panel tab with node information
     also create a link so the user is able to go to the subreddit
 */
 const populateNodeInfoTab = (nodeObject) => {
+    // unpackage the data sent from subject
     const fromNode = nodeObject.fromNode;
 
     const clickedNode = sub_nodes.get(fromNode); // get the clicked node
@@ -130,53 +232,4 @@ const resetNodeInfoTab = () => {
     nodeInfoContent.innerHTML = ""; // clear the contents of .node-info-content
     const link2reddit = document.querySelector('#link2reddit'); // get the link element
     link2reddit.innerHTML = ""; // clear previous link
-}
-
-
-
-
-
-
-
-class ObservableNetwork extends vis.Network {
-    constructor(container, data, options) {
-        super(container, data, options);
-        this.observers = [];
-    }
-
-    addObserver(observer) {
-        this.observers.push(observer);
-    }
-
-    removeObserver(observer) {
-        this.observers = this.observers.filter((obs) => obs !== observer);
-    }
-
-    notifyObservers(event) {
-        this.observers.forEach((obs) => obs.update(event));
-    }
-}
-
-
-class NodeClickObserver {
-    update(node) { }
-}
-
-class EdgeButtonObserver extends NodeClickObserver {
-    update(node) {
-        populateEdgeButtons(node);
-    }
-}
-
-class NodeInfoTabObserver extends NodeClickObserver {
-    update(node) {
-        populateNodeInfoTab(node);
-    }
-}
-
-
-class NodeClickEvent {
-    constructor(node) {
-        this.fromNode = node;
-    }
 }

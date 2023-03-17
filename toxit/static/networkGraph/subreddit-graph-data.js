@@ -12,8 +12,6 @@ var sub_nodes = new vis.DataSet();    /* all subreddits as nodes */
 var mod_edges = new vis.DataSet();    /* all shared moderators between sub_nodes as edges */
 var author_edges = new vis.DataSet(); /* all shared comment authors between sub_nodes as edges */
 
-
-
 // Create the VisJs network with the data retrieved from the 
 // const network = new vis.Network(container, data, options);
 const network = InitilaizeObservableNetwork();
