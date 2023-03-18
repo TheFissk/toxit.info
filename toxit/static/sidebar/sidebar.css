@@ -230,12 +230,12 @@ li:has(.show) {
 /* 
   minimize icon for zooming out of graph and closing menu 
 */
-.fa-solid.fa-minimize {
+.content .fa-solid.fa-minimize {
   content: '\f78c';
   position: fixed;
   top: 0;
   right: 0;
-  color: var(--secondary-color);
+  color: white;
   margin: 1rem;
   font-size: 1.75rem;
 }

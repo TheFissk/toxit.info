@@ -1,11 +1,38 @@
-{% extends 'base.html' %} {% load static %} {% block extra_style %}
+{% extends 'base.html' %}
+{% load static %} 
+
+
+
+{% block extra_style %}
 <!--  Sidebar CSS -->
 <link rel="stylesheet" href="{% static 'sidebar/sidebar.css' %}" />
 <!--  Landing CSS -->
 <link rel="stylesheet" href="{% static 'landing/landing.css' %}" />
-{% endblock extra_style %} {% block content %}
+<style>
+  /* make period look like the logo */
+  img {
+    height: clamp(0.15rem, 3vw, 1.2rem);
+    padding-left: 0.2rem;
+  }
+
+  .column a video {
+    background-image: url("{% static 'landing/transition-frame.png' %}");
+    height: auto;
+    width: auto;
+  }
+
+  .column a video {
+    background-image: url("/static/landing/transition-frame.png");
+    height: 270px;
+  }
+</style>
+{% endblock extra_style %}
+
+
+
+{% block content %}
 <div>
-  <h1>toxit.info</h1>
+  <h1>toxit<span class="logodot"><img src="{% static 'logo/toxit-logo.png' %}" ></img></span>info</h1>
   <div class="container">
     <div class="column">
       <a href="{% url 'toxit:index' %}">
@@ -25,7 +52,11 @@
     </div>
   </div>
 </div>
-{% endblock content %} {% block footer %}
+{% endblock content %} 
+
+
+
+{% block footer %}
 <script>
   const demoList = [
     "{% static 'landing/demo1-hd.webm' %}",
