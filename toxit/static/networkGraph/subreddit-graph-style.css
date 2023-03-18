@@ -59,5 +59,6 @@
   /* box-shadow: 3px 3px 10px rgba(0, 0, 0, 0.2);
   pointer-events: none; */
   padding: 1rem !important;
+  font-family: 'Poppins', sans-serif !important;
   /* z-index: 5; */
 }
