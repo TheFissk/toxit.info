@@ -9,7 +9,9 @@
   <div class="container">
     <div class="column">
       <a href="{% url 'toxit:index' %}">
-        <img id="gif-demo-player" />
+        <video playsinline autoplay muted loop id="video-player">
+          <source id="video-source" type="video/webm" />
+        </video>
       </a>
       <a class="generic-button" href="{% url 'toxit:index' %}"
         >Start Exploring</a
@@ -35,28 +37,37 @@
 {% endblock content %} {% block footer %}
 <script>
   const demoList = [
-    "{% static 'landing/demo2.gif' %}",
-    "{% static 'landing/demo3.gif' %}",
-    "{% static 'landing/demo4.gif' %}",
-    "{% static 'landing/demo5.gif' %}",
-    "{% static 'landing/demo1.gif' %}",
+    "{% static 'landing/demo1-hd.webm' %}",
+    "{% static 'landing/demo2-hd.webm' %}",
+    "{% static 'landing/demo3-hd.webm' %}",
+    "{% static 'landing/demo4-hd.webm' %}",
+    "{% static 'landing/demo5-hd.webm' %}",
     // add more demos here
   ];
 
-  const transitionGif = "{% static 'landing/transistion-fixed.gif' %}";
-  const gifPlayer = document.getElementById("gif-demo-player");
+  const transitionVideo = "{% static 'landing/transition-hd.webm' %}";
+  const videoSource = document.getElementById("video-source");
+  const videoPlayer = document.getElementById("video-player");
   let currentDemoIndex = -1;
 
   setInterval(() => {
-    gifPlayer.src = transitionGif;
+    switchVideo(videoPlayer, videoSource, transitionVideo);
     setTimeout(switchDemo, 500); // transition for half a second
   }, 10000); // play each demo for 10 seconds
 
   switchDemo();
 
+  //switch the video to the new video
+  function switchVideo(video, source, newURL) {
+    video.pause();
+    source.setAttribute("src", newURL);
+    video.load();
+    video.play();
+  }
+
   function switchDemo() {
     currentDemoIndex = (currentDemoIndex + 1) % demoList.length;
-    gifPlayer.src = demoList[currentDemoIndex];
+    switchVideo(videoPlayer, videoSource, demoList[currentDemoIndex]);
   }
 </script>
 {% endblock footer %}
