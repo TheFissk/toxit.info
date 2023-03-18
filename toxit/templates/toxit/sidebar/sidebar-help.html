@@ -14,8 +14,8 @@
                     <p>
                         Toxit is a data exploration platform that centers around a weighted undirected graph representation of Reddit.com community connections.
 
-                        Graph edges are weighted by set intersection cardinality of either moderators or commentators for the snapshot inder investigation.  
-                        Comments are passed to a natural language processing model which returns the hate speech scoring of the comment.
+                        Graph edges are weighted by set intersection cardinality of either moderators or commentators for a dataset under investigation.  
+                        Comments are passed to a natural language processing model which returns the toxicity scoring of the comment.  The number of comments above a threshold are counted and displayed in the centre of each node.
                         Our NLP model was trained on <a href="https://aclanthology.org/2022.nlperspectives-1.11">The Measuring Hate Speech Corpus</a> to within 0.1132 MAE over [-1,1].
                     </p>
                 </div>
@@ -23,14 +23,14 @@
                     <h4>Graph Exploration <span class="fa-solid fa-code-merge"></span> Controls</h4>
                     <p>
                         Click <span class="fa-solid fa-arrow-pointer"></span><span class="fa-solid fa-computer-mouse"></span>
-                        a node to select it.  By default, for easy navigation, this opens the navigation tab with information about its
-                        relations to other nodes. You can also drag and drop nodes to move them around. Hover over a node to view its statistics.
+                        a node to select it.  By default, this opens the navigation tab with information about its
+                        relations to other nodes. You can also drag and interact with nodes and hover to view node information.
                     </p>
                 </div>
                 <div class="basically-li">
-                    <h4>Middle Mouse button & <span class="fa-solid fa-minimize"></span></h4>
+                    <h4>Middle Mouse button <span class="fa-solid fa-minimize"></span></h4>
                     <p>
-                        When middle mouse or <span class="fa-solid fa-minimize"></span> is clicked the graph will reset.
+                        When middle mouse <span class="fa-solid fa-minimize"></span> is clicked the graph will reset.
                     </p>
                 </div>
                 <div class="basically-li">
@@ -58,14 +58,13 @@
             <div class="basically-li">
                 <h4>Theme & style</h4>
                 <p>
-                    Change the website styling to use a dark color theme or bright color theme with orange
-                    accents. The default styling is for darkmode.
+                    Change the website styling to use a dark or light theme.
                 </p>
             </div>
             <div class="basically-li">
                 <h4>Node Information</h4>
                 <p>
-                    Provides descriptive statistics of a node selected by clicking on it as well as a link to the subreddit.
+                    Provides aggregate descriptive statistics of the selected node as well as a link to the subreddit.  'Flagged comments' is a count of comments with a toxicity score above a threshold value.
                 </p>
             </div>
             <div class="basically-li">
@@ -77,7 +76,7 @@
             <div class="basically-li">
                 <h4>Export</h4>
                 <p>
-                    Download as JSON, CSV, or Pickle.
+                    Download as JSON, CSV, or Python Binary Pickle File
                 </p>
             </div>
           </div>
