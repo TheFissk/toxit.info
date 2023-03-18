@@ -82,7 +82,7 @@ function InitilaizeObservableNetwork() {
         size: 15,
         strokeWidth: 3,
         strokeColor: "rgba(0,0,0,1)",
-        face: "verdana",
+        face: "arial",
         align: "center",
         vadjust: 15,
       },
@@ -97,13 +97,14 @@ function InitilaizeObservableNetwork() {
       size: 25
     },
     edges: {
+      width: 3,
       smooth: {
         forceDirection: "none",
       },
       font: {
         color: "rgba(255,255,255,1)",
         size: 20,
-        strokeWidth: 3,
+        strokeWidth: 4,
         strokeColor: "rgba(0,0,0,1)",
         face: "verdana",
       },

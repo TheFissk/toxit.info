@@ -87,6 +87,7 @@ def get_network_data(request, snapshot_id=None):
                 f'r/{result["name"]}\n'
                 f'{"~".center(24, "~")}\n\n'
                 f'Flagged Comments: {result["flaggedComments"]}\n\n'
+                f'Comment Toxicity Stats:\n'
                 f'Min: {-1.0 * round(result["max"], tooltip_precision)}\n'
                 f'Max: {-1.0 * round(result["min"], tooltip_precision)}\n'
                 f'Mean: {-1.0 * round(result["mean"], tooltip_precision)}\n'
