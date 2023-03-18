@@ -7,26 +7,28 @@ from abc import abstractmethod
 from django.http import HttpResponse, FileResponse
 
 '''
-    Module descripton
+    Define the Factory used in our program as per the project requirements
 '''
+
 
 class Exporter:
     '''
-        Abstract description 
+        Abstract Exporter definition
     '''
-    @abstractmethod
-    def __init__(self, data):
+
+    def __init__(self, data):  # Abstract initializer method that sets the data to be exported
         self.exportData = data
 
     @abstractmethod
-    def export(self):
+    def export(self):  # Abstract method to export the data in a particular format
         raise NotImplementedError
-    
+
 
 class ExporterFactory:
     '''
-        description 
+        A factory class to create instances of different Exporter subclasses 
     '''
+
     def create_exporter(self, file_type, data):
         if file_type == 'json':
             return JsonExporter(data)
@@ -40,21 +42,24 @@ class ExporterFactory:
 
 class JsonExporter(Exporter):
     '''
-        description 
+        Defines the JSON exporter
     '''
+
     def export(self):
+        # convert the data to JSON
         data = json.dumps(self.exportData, indent=2)
-        bytes = BytesIO(data.encode('utf-8'))
-        return FileResponse(bytes)
+        bytes = BytesIO(data.encode('utf-8'))  # serialize the JSON
+        return FileResponse(bytes)  # return as a FileResponse
 
 
 class CsvExporter(Exporter):
     '''
-        description 
+        Defines the csv exporter
     '''
+
     def export(self):
         # setup the csv writer
-        csv_file = StringIO()
+        csv_file = StringIO()  # use a StringIO to serialize the csv
         writer = csv.DictWriter(
             csv_file, fieldnames=self.exportData['sub_nodes_context'][0].keys())
         # write the nodes header
@@ -66,7 +71,7 @@ class CsvExporter(Exporter):
         try:
             writer = csv.DictWriter(
                 csv_file, fieldnames=self.exportData['mod_edges_context'][0].keys())
-        except IndexError:
+        except IndexError:  # no mod edges so we continue on to the author edges
             pass
         else:
             writer.writeheader()
@@ -74,7 +79,7 @@ class CsvExporter(Exporter):
         try:
             writer = csv.DictWriter(
                 csv_file, fieldnames=self.exportData['author_edges_context'][0].keys())
-        except IndexError:
+        except IndexError:  # no author edges so we continue to export
             pass
         else:
             writer.writeheader()
@@ -88,9 +93,10 @@ class CsvExporter(Exporter):
 
 class PickleExporter(Exporter):
     '''
-        description 
+        Defines the pickle exporter 
     '''
+
     def export(self):
-        data = pickle.dumps(self.exportData)
-        bytes = BytesIO(data)
-        return FileResponse(bytes)
+        data = pickle.dumps(self.exportData) # convert the data to Pickle
+        bytes = BytesIO(data) # serialize into bytes
+        return FileResponse(bytes) #output as File Response
