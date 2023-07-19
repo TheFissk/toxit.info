@@ -6,3 +6,4 @@ The data collection service is a containerized python implementation of minimali
 ![image](https://user-images.githubusercontent.com/29678626/226511864-34f66597-bd80-49ba-b091-4608223771d7.png)
 
 
+.
